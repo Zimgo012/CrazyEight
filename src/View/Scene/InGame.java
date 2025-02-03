@@ -4,13 +4,11 @@ import View.Area.*;
 import View.Components.Cards.OpenStackCard;
 import View.Components.Cards.PlayerCard;
 import View.Components.GameButtons;
+import View.Components.Popups.SettingPopUp;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -31,8 +29,15 @@ public class InGame {
         Image tablecloth = new Image(getClass().getResource("/com/zimgo/crazyeight/tablecloth1.png").toExternalForm());
         mainTable.setFill(new ImagePattern(tablecloth));
 
-    // Add the table to the AnchorPane first
+        // Add the table to the AnchorPane first
         table.getChildren().add(mainTable);
+
+        Pane settingsPane = SettingPopUp.createSettingsPopup();
+
+        // Anchor setting for popup
+        AnchorPane.setRightAnchor(settingsPane, 350.0);
+        AnchorPane.setTopAnchor(settingsPane, 50.0);
+
 
         //Quit Button
         Button quitButton = GameButtons.QuitButton(stage);
@@ -46,11 +51,11 @@ public class InGame {
         AnchorPane.setBottomAnchor(settingButton, 30.0);
 
 
-//        StackPane cardsStackFaceDown = CardsStackFaceDown.CardsStackFaceDown();
+        StackPane cardsStackFaceDown = CardsStackFaceDown.CardsStackFaceDown();
 
-        // Anchor Card Deck facing Down
-//        AnchorPane.setLeftAnchor(cardsStackFaceDown, 450.0);
-//        AnchorPane.setBottomAnchor(cardsStackFaceDown, 400.0);
+//         Anchor Card Deck facing Down
+        AnchorPane.setLeftAnchor(cardsStackFaceDown, 450.0);
+        AnchorPane.setBottomAnchor(cardsStackFaceDown, 400.0);
 
         //Player 1 Table
         PlayerTable playerTable = new PlayerTable();
@@ -148,10 +153,11 @@ public class InGame {
 
         //Add all stuffs in anchor
         table.getChildren().add(chatBox);
-//        table.getChildren().add(cardsStackFaceDown);
+        table.getChildren().add(cardsStackFaceDown);
         table.getChildren().addAll(quitButton,settingButton);
         table.getChildren().addAll(PTNode,PT2Node,PT3Node,PT4Node);
         table.getChildren().add(OSNode);
+        table.getChildren().add(settingsPane);
 
 // Base
         BorderPane base = new BorderPane();

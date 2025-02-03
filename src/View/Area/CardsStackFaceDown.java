@@ -29,7 +29,7 @@ public class CardsStackFaceDown {
         StackPane.setMargin(cardStackFaceDown3, new Insets(0, 0, 0, 30)); // 150px from the left
         StackPane.setMargin(cardStackFaceDown4, new Insets(0, 0, 0, 40)); // 200px from the left
         StackPane.setMargin(cardStackFaceDown5, new Insets(0, 0, 0, 50)); // 200px from the left
-        Image image = new Image(CardsStackFaceDown.class.getResource("/com/zimgo/crazyeight/CardAssets2/otherCards/3.png").toExternalForm());
+        Image image = new Image(CardsStackFaceDown.class.getResource("/com/zimgo/crazyeight/CardAssets2/OtherCards/3.png").toExternalForm());
         cardStackFaceDown.setFill(new ImagePattern(image));
         cardStackFaceDown1.setFill(new ImagePattern(image));
         cardStackFaceDown2.setFill(new ImagePattern(image));

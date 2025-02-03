@@ -132,7 +132,7 @@ DEL java_files_list.txt
 :: Step 4: Run the JAR file
 ECHO 4. Running Jar ....................
 ECHO "%ARTIFACTDIR%\%JARNAME%"
-START "" /B "%JAVA_HOME%\bin\javaw.exe" -jar "%ARTIFACTDIR%\%JARNAME%" >nul 2>&1
+"%JAVA_CMD%" -jar "%ARTIFACTDIR%\%JARNAME%"
 
 ECHO [END OF SCRIPT -------------------]
 ECHO

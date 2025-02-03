@@ -20,22 +20,12 @@ public class ChatArea {
 
         StackPane chatBox = new StackPane();
 
-
-
         //Background
         Rectangle mainBackground = new Rectangle(300, 900);
         Image tablecloth = new Image(ChatArea.class.getResource("/com/zimgo/crazyeight/chatOverlay.png").toExternalForm());
         mainBackground.setFill(new ImagePattern(tablecloth));
 
         AnchorPane anchorPane = new AnchorPane();
-
-
-        //Supposed to be chat scrollpane
-        Rectangle upperRec = new Rectangle(250, 250);
-        upperRec.setFill(Color.GREEN);
-        AnchorPane.setRightAnchor(upperRec,20.0);
-        AnchorPane.setTopAnchor(upperRec,350.0);
-
 
 
         //Text Field
@@ -64,8 +54,7 @@ public class ChatArea {
 
 
         //Adding to Anchor Pane
-        anchorPane.getChildren().addAll(upperRec, textField);
-        anchorPane.getChildren().add(sendButton);
+        anchorPane.getChildren().addAll(textField,sendButton);
 
         //Adding to chat area
         chatBox.getChildren().add(mainBackground);

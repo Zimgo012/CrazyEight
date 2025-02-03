@@ -30,7 +30,6 @@ public class OpenStack {
     // Remove card to the table
     public void removeNode(){
 
-
         //ToDo: Shift previous cards to left
     }
 

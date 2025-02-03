@@ -1,19 +1,19 @@
 package View.Scene;
 
-
 import View.Components.GameButtons;
+import View.Components.Popups.SettingPopUp;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Menu {
     public Menu(Stage stage) {
-
 
         // Main Area
         AnchorPane table = new AnchorPane();
@@ -31,13 +31,15 @@ public class Menu {
         Button startButton = GameButtons.StartButton(stage);
         Button joinButton = GameButtons.JoinButton();
         Button createButton = GameButtons.CreateButton();
-//        Button quitButton = GameButtons.QuitButton(stage);
+        Button exitButton = GameButtons.ExitButton();
         Button settingButton = GameButtons.SettingButton();
 
 
-        //Anchor Button
-//        AnchorPane.setRightAnchor(quitButton, 750.0);
-//        AnchorPane.setBottomAnchor(quitButton, 100.0);
+        Pane settingsPane = SettingPopUp.createSettingsPopup();
+
+        // Anchor settings for Button
+        AnchorPane.setRightAnchor(exitButton, 750.0);
+        AnchorPane.setBottomAnchor(exitButton, 100.0);
 
         AnchorPane.setRightAnchor(settingButton, 180.0);
         AnchorPane.setBottomAnchor(settingButton, 30.0);
@@ -51,11 +53,20 @@ public class Menu {
         AnchorPane.setRightAnchor(startButton, 700.0);
         AnchorPane.setBottomAnchor(startButton, 350.0);
 
+        // Anchor setting for popup
+        AnchorPane.setRightAnchor(settingsPane, 350.0);
+        AnchorPane.setTopAnchor(settingsPane, 50.0);
+
 
         //Add all stuffs in anchor
         table.getChildren().addAll(
-                settingButton,joinButton,createButton,startButton);
-// Base
+                settingButton,joinButton,createButton,startButton,exitButton);
+
+        //adding setting pop up on top
+        table.getChildren().add(settingsPane);
+
+
+        // Base
         BorderPane base = new BorderPane();
         base.setCenter(table);
 
