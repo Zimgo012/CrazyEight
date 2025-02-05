@@ -1,3 +1,18 @@
+/**
+ * Student Name: JOHN RYCCA BELCINA
+ * Student Number: 041128039
+ * Course: CST 8221 – JAP, Lab Section: 300/303
+ * Professor: Cormier, Daniel | Singh, Ramanjeet
+ * Date: 2025-02-05
+ * Compiler: IntelliJ IDEA
+ * Purpose:
+ * This project involves developing a software version of the Crazy Eights card game using a standard deck of playing cards.
+ * The game will follow the first three variation rules listed on Wikipedia, along with additional custom rules.
+ * Understanding these variations is essential for proper implementation.
+ * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
+ * Copyright © 2025 John Rycca Belcina. All rights reserved.
+ */
+
 package View.Scene;
 
 import View.Area.*;
@@ -13,6 +28,13 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+/**
+ * Class name: InGame
+ * Purpose:
+ * - In game scene for to play the game
+ * @author John Rycca Belcina
+ * @since 1.8
+ */
 public class InGame {
 
     public InGame(Stage stage){
@@ -53,7 +75,7 @@ public class InGame {
 
         StackPane cardsStackFaceDown = CardsStackFaceDown.CardsStackFaceDown();
 
-//         Anchor Card Deck facing Down
+        //  Anchor Card Deck facing Down
         AnchorPane.setLeftAnchor(cardsStackFaceDown, 450.0);
         AnchorPane.setBottomAnchor(cardsStackFaceDown, 400.0);
 
@@ -101,7 +123,7 @@ public class InGame {
         //Anchor PTNode2
         PT2Node.setRotate(90);
         AnchorPane.setLeftAnchor(PT2Node, 10.0);
-        AnchorPane.setBottomAnchor(PT2Node, 400.0);
+        AnchorPane.setBottomAnchor(PT2Node, 600.0);
 
         //Player 2 Table
         Player2Table playerTable3 = new Player2Table();
@@ -120,7 +142,7 @@ public class InGame {
         //Anchor PTNode4
         PT3Node.setRotate(90);
         AnchorPane.setRightAnchor(PT3Node, 10.0);
-        AnchorPane.setBottomAnchor(PT3Node, 400.0);
+        AnchorPane.setBottomAnchor(PT3Node, 600.0);
 
         //Player 4 Table
         Player2Table playerTable4 = new Player2Table();
@@ -159,12 +181,12 @@ public class InGame {
         table.getChildren().add(OSNode);
         table.getChildren().add(settingsPane);
 
-// Base
+        // Base
         BorderPane base = new BorderPane();
         base.setCenter(table);
         base.setRight(chatBox);
 
-
+        //Adding Scene
         Scene scene = new Scene(base, 1600, 900);
         stage.setScene(scene);
         stage.setTitle("Crazy Eight");

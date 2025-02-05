@@ -1,3 +1,17 @@
+/**
+ * Student Name: JOHN RYCCA BELCINA
+ * Student Number: 041128039
+ * Course: CST 8221 – JAP, Lab Section: 300/303
+ * Professor: Cormier, Daniel | Singh, Ramanjeet
+ * Date: 2025-02-05
+ * Compiler: IntelliJ IDEA
+ * Purpose:
+ * This project involves developing a software version of the Crazy Eights card game using a standard deck of playing cards.
+ * The game will follow the first three variation rules listed on Wikipedia, along with additional custom rules.
+ * Understanding these variations is essential for proper implementation.
+ * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
+ * Copyright © 2025 John Rycca Belcina. All rights reserved.
+ */
 package View.Area;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -5,10 +19,23 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Class name: CardsStackFaceDown
+ * Purpose: Represents section of unused card (where we want to draw from, Facing down).
+ * @author John Rycca Belcina
+ * @since 1.8
+ */
 public class CardsStackFaceDown {
 
+    /**
+     * Default Constructor
+     */
     public CardsStackFaceDown() {};
 
+    /**
+     * - Static method that can be used to represent unused cards
+     * @return an area filled with unused cards (facing down)
+     */
     public static StackPane CardsStackFaceDown (){
 
         Rectangle cardStackFaceDown = new Rectangle();
