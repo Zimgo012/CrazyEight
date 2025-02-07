@@ -19,6 +19,7 @@ import View.Area.*;
 import View.Components.Cards.OpenStackCard;
 import View.Components.Cards.PlayerCard;
 import View.Components.GameButtons;
+import View.Components.Notification;
 import View.Components.Popups.SettingPopUp;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -83,6 +84,8 @@ public class InGame {
         PlayerTable playerTable = new PlayerTable();
         Pane PTNode = playerTable.getCurrentUserTable();
 
+
+        //temp
         playerTable.addCard(new PlayerCard("Diamond",1));
         playerTable.addCard(new PlayerCard("Hearts",1));
         playerTable.addCard(new PlayerCard("Spade",4));
@@ -95,21 +98,19 @@ public class InGame {
         playerTable.addCard(new PlayerCard("Hearts",6));
         playerTable.addCard(new PlayerCard("Diamond",11));
         playerTable.addCard(new PlayerCard("Hearts",12));
-        playerTable.addCard(new PlayerCard("Spade",8));
-        playerTable.addCard(new PlayerCard("Clubs",12));
-        playerTable.addCard(new PlayerCard("Diamond",7));
-        playerTable.addCard(new PlayerCard("Hearts",6));
-        playerTable.addCard(new PlayerCard("Spade",13));
-        playerTable.addCard(new PlayerCard("Clubs",12));
 
         //Anchor PTNode
-        AnchorPane.setLeftAnchor(PTNode, 80.0);
+        AnchorPane.setLeftAnchor(PTNode, 280.0);
         AnchorPane.setBottomAnchor(PTNode, 20.0);
 
         //Player 2 Table
         Player2Table playerTable2 = new Player2Table();
         Pane PT2Node = playerTable2.getCurrentUserTable();
 
+        //temp;
+        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
+        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
+        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
@@ -123,12 +124,16 @@ public class InGame {
         //Anchor PTNode2
         PT2Node.setRotate(90);
         AnchorPane.setLeftAnchor(PT2Node, 10.0);
-        AnchorPane.setBottomAnchor(PT2Node, 600.0);
+        AnchorPane.setBottomAnchor(PT2Node, 400.0);
 
         //Player 2 Table
         Player2Table playerTable3 = new Player2Table();
         Pane PT3Node = playerTable3.getCurrentUserTable();
 
+        //temp
+        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
+        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
+        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
@@ -142,12 +147,16 @@ public class InGame {
         //Anchor PTNode4
         PT3Node.setRotate(90);
         AnchorPane.setRightAnchor(PT3Node, 10.0);
-        AnchorPane.setBottomAnchor(PT3Node, 600.0);
+        AnchorPane.setBottomAnchor(PT3Node, 400.0);
 
         //Player 4 Table
         Player2Table playerTable4 = new Player2Table();
         Pane PT4Node = playerTable4.getCurrentUserTable();
 
+        //temp
+        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
+        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
+        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
         playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
@@ -172,6 +181,10 @@ public class InGame {
         AnchorPane.setRightAnchor(OSNode, 500.0);
         AnchorPane.setBottomAnchor(OSNode, 400.0);
 
+        StackPane tempNotif = Notification.notification();
+
+        AnchorPane.setLeftAnchor(tempNotif, 360.0);
+        AnchorPane.setBottomAnchor(tempNotif, 170.0);
 
         //Add all stuffs in anchor
         table.getChildren().add(chatBox);
@@ -179,6 +192,7 @@ public class InGame {
         table.getChildren().addAll(quitButton,settingButton);
         table.getChildren().addAll(PTNode,PT2Node,PT3Node,PT4Node);
         table.getChildren().add(OSNode);
+        table.getChildren().add(tempNotif);
         table.getChildren().add(settingsPane);
 
         // Base

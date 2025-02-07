@@ -16,8 +16,6 @@
 
 /**
  * Class name: Main
- * Methods list:
- * Constants list:
  * Purpose:
  * - This class serves as the main entry point for the Crazy Eights card game.
  * - It initializes the JavaFX application by calling `Application.launch(App.class, args)`.

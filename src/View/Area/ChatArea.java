@@ -14,13 +14,15 @@
  */
 package View.Area;
 
-
+import View.Components.Chat;
+import View.Components.Log;
 import View.Components.GameButtons;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -31,7 +33,6 @@ import javafx.scene.text.Font;
  * @author John Rycca Belcina
  * @since 1.8
  */
-
 public class ChatArea {
 
     /**
@@ -50,18 +51,33 @@ public class ChatArea {
         AnchorPane anchorPane = new AnchorPane();
 
 
-        //Text Field
+        ScrollPane logScrollPane = Log.logScrollPane();
+        VBox vBox = new VBox();
+        vBox.getChildren().add(logScrollPane);
 
+        AnchorPane.setTopAnchor(vBox, 30.0);
+        AnchorPane.setRightAnchor(vBox, 20.0);
+
+
+        ScrollPane chatScrollPane = Chat.chatScrollPane();
+        VBox vBox2 = new VBox();
+        vBox2.getChildren().add(chatScrollPane);
+
+
+        AnchorPane.setBottomAnchor(vBox2, 90.0);
+        AnchorPane.setRightAnchor(vBox2, 20.0);
+
+        //Text Field
         TextField textField = new TextField();
 
         //Text Field Properties
-        textField.setStyle("-fx-background-color: #f38731; " // Change background
-                + "-fx-border-color: #803946; "         // Change border color
-                + "-fx-border-width: 4px; "         // Border thickness
-                + "-fx-border-radius: 0px; "       // Rounded corners
+        textField.setStyle("-fx-background-color: #f38731; "
+                + "-fx-border-color: #803946; "
+                + "-fx-border-width: 4px; "
+                + "-fx-border-radius: 0px; "
                 + "-fx-background-radius: 0px; "
-                + "-fx-prompt-text-fill: rgba(34,34,34,0.48); "   // Placeholder text color
-                + "-fx-text-fill: #020202;");       // Text color
+                + "-fx-prompt-text-fill: rgba(34,34,34,0.48); "
+                + "-fx-text-fill: #020202;");
         textField.setPromptText("Enter text here...");
         textField.setMinWidth(200);
         textField.setMinHeight(30);
@@ -74,9 +90,7 @@ public class ChatArea {
         AnchorPane.setRightAnchor(sendButton,15.0);
         AnchorPane.setBottomAnchor(sendButton,20.0);
 
-
-        //Adding to Anchor Pane
-        anchorPane.getChildren().addAll(textField,sendButton);
+        anchorPane.getChildren().addAll(textField,sendButton,vBox2,vBox);
 
         //Adding to chat area
         chatBox.getChildren().add(mainBackground);

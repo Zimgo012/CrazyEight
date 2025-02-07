@@ -38,8 +38,8 @@ public class OpenStackCard extends RegularCards {
     /**
      * - Card Maker without random rotations to represent card  facing up and stacking.
      * - Dummy Card for now.
-     * @param suit
-     * @param value
+     * @param suit  1-4 (Represents spades,hearts,diamonds,clovers)
+     * @param value 1-13 (represents ace to king)
      * @param isRotated rotate flag
      */
     public OpenStackCard(String suit, int value,boolean isRotated) {
