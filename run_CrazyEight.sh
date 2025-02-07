@@ -29,6 +29,12 @@ echo "==============================================="
 echo "  ALGONQUIN COLLEGE - JAVA APPLICATION PROGRAMMING - FALL 2024"
 echo "==============================================="
 echo "ATTENTION : PLEASE USE JAVA 8 ONLY"
+echo ""
+echo "========================================================"
+echo "ATTENTION: PLEASE USE JAVA 8 ONLY"
+echo "JDK folder should be like C:\Program Files\Java\jdk-1.8"
+echo "========================================================"
+echo ""
 echo "Do you want to use the system's default JDK? (y/n)"
 read -r use_default
 

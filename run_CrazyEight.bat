@@ -29,7 +29,12 @@ SET "MAINCLASSBIN=Main"
 ECHO ===============================================
 ECHO   ALGONQUIN COLLEGE - JAVA APPLICATION PROGRAMMING - FALL 2024
 ECHO ===============================================
+ECHO
+ECHO ========================================================
 ECHO ATTENTION: PLEASE USE JAVA 8 ONLY
+ECHO JDK folder should be like C:\Program Files\Java\jdk-1.8
+ECHO ========================================================
+ECHO
 ECHO Do you want to use the system's default JDK? (y/n)
 SET /P use_default=
 
