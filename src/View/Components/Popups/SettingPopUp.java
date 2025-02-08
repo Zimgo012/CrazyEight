@@ -33,7 +33,7 @@ import javafx.scene.shape.Rectangle;
 public class SettingPopUp {
     private static Pane settingsPopup = null;
 
-    public static Pane createSettingsPopup() {
+    public Pane createSettingsPopup() {
         if (settingsPopup == null) {
 
             settingsPopup = new Pane();

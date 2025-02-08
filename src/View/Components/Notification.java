@@ -37,7 +37,7 @@ public class Notification {
      *  This represent notification banner
      * @return StackPane that represent the notification
      */
-    public static StackPane notification(){
+    public  StackPane getNotification(){
 
         StackPane notification = new StackPane();
         Rectangle background = new Rectangle(550, 70);

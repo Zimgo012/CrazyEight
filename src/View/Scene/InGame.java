@@ -17,7 +17,6 @@ package View.Scene;
 
 import View.Area.*;
 import View.Components.Cards.OpenStackCard;
-import View.Components.Cards.PlayerCard;
 import View.Components.GameButtons;
 import View.Components.Notification;
 import View.Components.Popups.SettingPopUp;
@@ -38,41 +37,102 @@ import javafx.stage.Stage;
  */
 public class InGame {
 
+    private Stage stage;
+    private AnchorPane table;
+    private StackPane chatBox;
+    private PlayerTable playerTable;
+    private StackPane cardsStack;
+    private Notification notification;
+
+    /**
+     * Initialize Stage
+     * @param stage stage
+     */
     public InGame(Stage stage){
+        this.stage = stage;
+        initGame();
+    }
 
-    //Chat
-        StackPane chatBox = ChatArea.ChatArea();
+    /**
+     * Initialize UI
+     */
+    private void initGame(){
+        table = new AnchorPane();
 
-    // Main Area (Center)
-        AnchorPane table = new AnchorPane();
+        setupGameBoard();
+        setupPlayerTables();
+        setupButtons();
+        setupOtherComp();
+        setupScene();
+    }
 
-    // Table (Background)
-        Rectangle mainTable = new Rectangle(1300, 900);
-    // Background Image for table
-        Image tablecloth = new Image(getClass().getResource("/com/zimgo/crazyeight/tablecloth1.png").toExternalForm());
-        mainTable.setFill(new ImagePattern(tablecloth));
+    /**
+     * Set ups other components
+     */
+    private void setupOtherComp(){
+        ChatArea chatArea = new ChatArea();
+        chatBox = chatArea.getChatArea();
+        table.getChildren().add(chatBox);
 
-        // Add the table to the AnchorPane first
-        table.getChildren().add(mainTable);
+        SettingPopUp settingPopUp = new SettingPopUp();
+        Pane settingsPane = settingPopUp.createSettingsPopup();
 
-        Pane settingsPane = SettingPopUp.createSettingsPopup();
+        notification = new Notification();
+        StackPane tempNotification = notification.getNotification();
 
         // Anchor setting for popup
         AnchorPane.setRightAnchor(settingsPane, 350.0);
         AnchorPane.setTopAnchor(settingsPane, 50.0);
 
+        //Notification positioning
+        AnchorPane.setLeftAnchor(tempNotification, 360.0);
+        AnchorPane.setBottomAnchor(tempNotification, 170.0);
 
-        //Quit Button
+        //Notification positioning
+        AnchorPane.setLeftAnchor(tempNotification, 360.0);
+        AnchorPane.setBottomAnchor(tempNotification, 170.0);
+
+        //Adding to table
+        table.getChildren().add(tempNotification);
+        table.getChildren().add(settingsPane);
+    }
+
+    /**
+     * Set ups game board
+     */
+    private void setupGameBoard(){
+
+        // Table (Background)
+        Rectangle mainTable = new Rectangle(1300, 900);
+        // Background Image for table
+        Image tablecloth = new Image(getClass().getResource("/com/zimgo/crazyeight/tablecloth1.png").toExternalForm());
+        mainTable.setFill(new ImagePattern(tablecloth));
+
+        // Add the table to the AnchorPane first
+        table.getChildren().add(mainTable);
+    }
+
+    /**
+     * Set ups Buttons
+     */
+    private void setupButtons(){
         Button quitButton = GameButtons.QuitButton(stage);
         Button settingButton = GameButtons.SettingButton();
 
 
-        //Anchor Button
         AnchorPane.setRightAnchor(quitButton, 60.0);
         AnchorPane.setBottomAnchor(quitButton, 90.0);
         AnchorPane.setRightAnchor(settingButton, 45.0);
         AnchorPane.setBottomAnchor(settingButton, 30.0);
 
+        table.getChildren().addAll(quitButton, settingButton);
+    }
+
+    /**
+     * Sets up tables
+     */
+    private void setupPlayerTables(){
+        playerTable = new PlayerTable();
 
         StackPane cardsStackFaceDown = CardsStackFaceDown.CardsStackFaceDown();
 
@@ -85,20 +145,6 @@ public class InGame {
         Pane PTNode = playerTable.getCurrentUserTable();
 
 
-        //temp
-        playerTable.addCard(new PlayerCard("Diamond",1));
-        playerTable.addCard(new PlayerCard("Hearts",1));
-        playerTable.addCard(new PlayerCard("Spade",4));
-        playerTable.addCard(new PlayerCard("Clubs",5));
-        playerTable.addCard(new PlayerCard("Diamond",11));
-        playerTable.addCard(new PlayerCard("Hearts",12));
-        playerTable.addCard(new PlayerCard("Spade",13));
-        playerTable.addCard(new PlayerCard("Clubs",12));
-        playerTable.addCard(new PlayerCard("Diamond",7));
-        playerTable.addCard(new PlayerCard("Hearts",6));
-        playerTable.addCard(new PlayerCard("Diamond",11));
-        playerTable.addCard(new PlayerCard("Hearts",12));
-
         //Anchor PTNode
         AnchorPane.setLeftAnchor(PTNode, 280.0);
         AnchorPane.setBottomAnchor(PTNode, 20.0);
@@ -106,20 +152,6 @@ public class InGame {
         //Player 2 Table
         Player2Table playerTable2 = new Player2Table();
         Pane PT2Node = playerTable2.getCurrentUserTable();
-
-        //temp;
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable2.addCard(new OpenStackCard("OtherCards",3,false));
 
         //Anchor PTNode2
         PT2Node.setRotate(90);
@@ -130,21 +162,7 @@ public class InGame {
         Player2Table playerTable3 = new Player2Table();
         Pane PT3Node = playerTable3.getCurrentUserTable();
 
-        //temp
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable3.addCard(new OpenStackCard("OtherCards",3,false));
-
-        //Anchor PTNode4
+        //Anchor PTNode3
         PT3Node.setRotate(90);
         AnchorPane.setRightAnchor(PT3Node, 10.0);
         AnchorPane.setBottomAnchor(PT3Node, 400.0);
@@ -152,20 +170,6 @@ public class InGame {
         //Player 4 Table
         Player2Table playerTable4 = new Player2Table();
         Pane PT4Node = playerTable4.getCurrentUserTable();
-
-        //temp
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
-        playerTable4.addCard(new OpenStackCard("OtherCards",3,false));
 
         //Anchor PTNode4
         AnchorPane.setRightAnchor(PT4Node, 490.0);
@@ -181,20 +185,16 @@ public class InGame {
         AnchorPane.setRightAnchor(OSNode, 500.0);
         AnchorPane.setBottomAnchor(OSNode, 400.0);
 
-        StackPane tempNotif = Notification.notification();
-
-        AnchorPane.setLeftAnchor(tempNotif, 360.0);
-        AnchorPane.setBottomAnchor(tempNotif, 170.0);
-
-        //Add all stuffs in anchor
-        table.getChildren().add(chatBox);
         table.getChildren().add(cardsStackFaceDown);
-        table.getChildren().addAll(quitButton,settingButton);
         table.getChildren().addAll(PTNode,PT2Node,PT3Node,PT4Node);
         table.getChildren().add(OSNode);
-        table.getChildren().add(tempNotif);
-        table.getChildren().add(settingsPane);
 
+    }
+
+    /**
+     * Sets up Scene
+     */
+    private void setupScene(){
         // Base
         BorderPane base = new BorderPane();
         base.setCenter(table);
@@ -206,7 +206,6 @@ public class InGame {
         stage.setTitle("Crazy Eight");
         stage.setResizable(false);
         stage.show();
-
     }
 
 }

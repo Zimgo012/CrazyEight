@@ -14,7 +14,9 @@
  */
 
 package View.Scene;
+import View.Area.PlayerTable;
 import View.Components.GameButtons;
+import View.Components.Notification;
 import View.Components.Popups.SettingPopUp;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -37,12 +40,38 @@ import javafx.stage.Stage;
 
 public class Menu {
 
+    private Stage stage;
+    private AnchorPane table;
+    private StackPane chatBox;
+    private PlayerTable playerTable;
+    private StackPane cardsStack;
+    private Notification notification;
 
+    /**
+     * Initialize stage
+     * @param stage stage
+     */
     public Menu(Stage stage) {
+        this.stage = stage;
+        initMenu();
+    }
 
-        // Main Area
-        AnchorPane table = new AnchorPane();
+    /**
+     * Initialize UI
+     */
+    private void initMenu(){
+        table = new AnchorPane();
 
+        setupBackground();
+        setupButtons();
+        setupOtherComp();
+        setupScene();
+    }
+
+    /**
+     * Set ups background
+     */
+    private void setupBackground(){
         // Table (Background)
         Rectangle mainTable = new Rectangle(1600, 900);
         // Background Image for table
@@ -51,6 +80,27 @@ public class Menu {
 
         // Add the table to the AnchorPane first
         table.getChildren().add(mainTable);
+    }
+
+    /**
+     * Setting other components
+     */
+    private void setupOtherComp() {
+        SettingPopUp settingPopUp = new SettingPopUp();
+        Pane settingsPane = settingPopUp.createSettingsPopup();
+
+        // Anchor setting for popup
+        AnchorPane.setRightAnchor(settingsPane, 350.0);
+        AnchorPane.setTopAnchor(settingsPane, 50.0);
+
+        //adding setting pop up on top
+        table.getChildren().add(settingsPane);
+    }
+
+    /**
+     * Setting up button
+     */
+    private void setupButtons(){
 
         //Quit Button
         Button startButton = GameButtons.StartButton(stage);
@@ -58,9 +108,6 @@ public class Menu {
         Button createButton = GameButtons.CreateButton();
         Button exitButton = GameButtons.ExitButton();
         Button settingButton = GameButtons.SettingButton();
-
-
-        Pane settingsPane = SettingPopUp.createSettingsPopup();
 
         // Anchor settings for Button
         AnchorPane.setRightAnchor(exitButton, 750.0);
@@ -78,30 +125,25 @@ public class Menu {
         AnchorPane.setRightAnchor(startButton, 700.0);
         AnchorPane.setBottomAnchor(startButton, 350.0);
 
-        // Anchor setting for popup
-        AnchorPane.setRightAnchor(settingsPane, 350.0);
-        AnchorPane.setTopAnchor(settingsPane, 50.0);
-
 
         //Add all stuffs in anchor
-        table.getChildren().addAll(
-                settingButton,joinButton,createButton,startButton,exitButton);
+        table.getChildren().addAll(settingButton,joinButton,createButton,startButton,exitButton);
+    }
 
-        //adding setting pop up on top
-        table.getChildren().add(settingsPane);
-
-
+    /**
+     * Set ups scene
+     */
+    private void setupScene(){
         // Base
         BorderPane base = new BorderPane();
         base.setCenter(table);
+        base.setRight(chatBox);
 
-        //Scene
+        //Adding Scene
         Scene scene = new Scene(base, 1600, 900);
         stage.setScene(scene);
         stage.setTitle("Crazy Eight");
         stage.setResizable(false);
         stage.show();
-
-
     }
 }

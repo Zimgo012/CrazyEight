@@ -39,7 +39,7 @@ public class ChatArea {
      * Creates a section of chat
      * @return the stackPane of this section
      */
-    public static StackPane ChatArea(){
+    public StackPane getChatArea(){
 
         StackPane chatBox = new StackPane();
 
