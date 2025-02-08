@@ -15,8 +15,10 @@
 
 package View.Scene;
 
+import Controller.DeckController;
 import View.Area.*;
 import View.Components.Cards.OpenStackCard;
+import View.Components.Cards.RegularCards;
 import View.Components.GameButtons;
 import View.Components.Notification;
 import View.Components.Popups.SettingPopUp;
@@ -41,8 +43,10 @@ public class InGame {
     private AnchorPane table;
     private StackPane chatBox;
     private PlayerTable playerTable;
-    private StackPane cardsStack;
     private Notification notification;
+    private CardsStackFaceDown cardsStackFaceDown;
+    private DeckController deckController;
+    private OpenStack openStack;
 
     /**
      * Initialize Stage
@@ -132,18 +136,21 @@ public class InGame {
      * Sets up tables
      */
     private void setupPlayerTables(){
-        playerTable = new PlayerTable();
+        //Player 1 Table
+        openStack = new OpenStack();
+        playerTable = new PlayerTable(openStack);
 
-        StackPane cardsStackFaceDown = CardsStackFaceDown.CardsStackFaceDown();
+
+        deckController = new DeckController(playerTable);
+        cardsStackFaceDown = new CardsStackFaceDown(deckController);
+        StackPane deck = cardsStackFaceDown.getCardsStackFaceDown();
 
         //  Anchor Card Deck facing Down
-        AnchorPane.setLeftAnchor(cardsStackFaceDown, 450.0);
-        AnchorPane.setBottomAnchor(cardsStackFaceDown, 400.0);
+        AnchorPane.setLeftAnchor(deck, 450.0);
+        AnchorPane.setBottomAnchor(deck, 400.0);
 
-        //Player 1 Table
-        PlayerTable playerTable = new PlayerTable();
+
         Pane PTNode = playerTable.getCurrentUserTable();
-
 
         //Anchor PTNode
         AnchorPane.setLeftAnchor(PTNode, 280.0);
@@ -163,7 +170,7 @@ public class InGame {
         Pane PT3Node = playerTable3.getCurrentUserTable();
 
         //Anchor PTNode3
-        PT3Node.setRotate(90);
+        PT3Node.setRotate(-90);
         AnchorPane.setRightAnchor(PT3Node, 10.0);
         AnchorPane.setBottomAnchor(PT3Node, 400.0);
 
@@ -175,17 +182,14 @@ public class InGame {
         AnchorPane.setRightAnchor(PT4Node, 490.0);
         AnchorPane.setTopAnchor(PT4Node, 40.0);
 
-        OpenStack openStack = new OpenStack();
+
         Pane OSNode = openStack.getCurrentOpenStack();
-        openStack.addCard(new OpenStackCard("Hearts",6));
-        openStack.addCard(new OpenStackCard("Clubs",12));
-        openStack.addCard(new OpenStackCard("Diamond",11));
 
         //Anchor OSNode
         AnchorPane.setRightAnchor(OSNode, 500.0);
         AnchorPane.setBottomAnchor(OSNode, 400.0);
 
-        table.getChildren().add(cardsStackFaceDown);
+        table.getChildren().add(deck);
         table.getChildren().addAll(PTNode,PT2Node,PT3Node,PT4Node);
         table.getChildren().add(OSNode);
 
@@ -209,3 +213,4 @@ public class InGame {
     }
 
 }
+

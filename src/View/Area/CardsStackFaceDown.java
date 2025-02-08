@@ -13,6 +13,7 @@
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
 package View.Area;
+import Controller.DeckController;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -26,17 +27,21 @@ import javafx.scene.shape.Rectangle;
  * @since 1.8
  */
 public class CardsStackFaceDown {
+    DeckController deckController;
 
+    public CardsStackFaceDown(){}
     /**
      * Default Constructor
      */
-    public CardsStackFaceDown() {};
+    public CardsStackFaceDown(DeckController deckControl) {
+        deckController = deckControl;
+    };
 
     /**
-     * - Static method that can be used to represent unused cards
+     * -method that can be used to represent unused cards
      * @return an area filled with unused cards (facing down)
      */
-    public static StackPane CardsStackFaceDown (){
+    public StackPane getCardsStackFaceDown (){
 
         Rectangle cardStackFaceDown = new Rectangle();
         cardStackFaceDown = new Rectangle(108, 154);
@@ -72,6 +77,10 @@ public class CardsStackFaceDown {
         stackPane.getChildren().add(cardStackFaceDown3);
         stackPane.getChildren().add(cardStackFaceDown4);
         stackPane.getChildren().add(cardStackFaceDown5);
+
+        stackPane.setOnMouseClicked(e->{
+            deckController.addCard();
+        });
 
 
        return stackPane;

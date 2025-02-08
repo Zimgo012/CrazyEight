@@ -18,6 +18,8 @@ import View.Components.Cards.RegularCards;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+import java.util.*;
+
 /**
  * Class name: OpenStack
  * Purpose: A section of used cards facing up.
@@ -28,7 +30,9 @@ import javafx.scene.shape.Rectangle;
 public class OpenStack {
 
     private Pane openStackDeck;
-    private int numOfCards = 0;
+    private List<RegularCards> listOfCards = new ArrayList<>();
+    private int numberOfCards = 0;
+    private int index = 0;
 
     /**
      * Creates open stack area
@@ -51,9 +55,24 @@ public class OpenStack {
      * @param card that will be added on this section
      */
     public void addCard(RegularCards card){
-        Rectangle cardNode = card.getCard();
-        openStackDeck.getChildren().add(cardNode);
-        numOfCards++;
+
+            Rectangle cardNode = card.getCard();
+            openStackDeck.getChildren().add(cardNode);
+            listOfCards.add(card);
+            numberOfCards++;
+
+            if(numberOfCards > 5){
+                listOfCards.remove(index);
+                openStackDeck.getChildren().remove(0);
+            }
+            /*
+            *
+            *   If it isn't just grab a sublist from the end, to end-handsize
+            *   -regice202
+            *
+            * */
+
+
     }
 
     /**
@@ -61,7 +80,6 @@ public class OpenStack {
      */
     public void removeNode(){
 
-        //ToDo: Shift previous cards to left
     }
 
 }

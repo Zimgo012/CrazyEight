@@ -20,15 +20,17 @@ import javafx.scene.shape.Rectangle;
 
 public class PlayerTable {
 
+
     private Pane currentUserTable;
     private int cardSpacing = 0;
     private int numOfCards = 0;
+    private OpenStack openStack;
 
     /**
      * Creates the section
      */
-    public PlayerTable(){
-
+    public PlayerTable(OpenStack oStack){
+        openStack = oStack;
         currentUserTable = new Pane();
         currentUserTable.setMaxSize(1020.00, 260.00);
 
@@ -48,21 +50,51 @@ public class PlayerTable {
      * @param card that will be added on this section
      */
     public void addCard(RegularCards card){
-        Rectangle cardNode = card.getCard();
-        cardNode.setLayoutX(cardSpacing);
-        cardSpacing += 50;
-        currentUserTable.getChildren().add(cardNode);
-        numOfCards++;
+
+        if(numOfCards == 13){
+            System.out.println("Cannot Add!");
+        }else{
+
+            Rectangle cardNode = card.getCard();
+            cardNode.setLayoutX(cardSpacing);
+            cardSpacing += 50;
+            currentUserTable.getChildren().add(cardNode);
+            this.numOfCards++;
+
+            cardNode.setOnMouseClicked(e -> {
+                removeCard(card);
+            });
+        }
+
 
     }
 
     /**
      * To remove a card on this section
      */
-    public void removeNode(){
+    public void removeCard(RegularCards card){
+        currentUserTable.getChildren().remove(card.getCard());
+
+        this.cardSpacing -= 50;
+        this.numOfCards--;
+
+        double newSpacing = 0;
+        for (int i = 0; i < currentUserTable.getChildren().size(); i++) {
+            currentUserTable.getChildren().get(i).setLayoutX(newSpacing);
+            newSpacing += 50;
+        }
 
 
-        //ToDo: Shift previous cards to left
+        card.getCard().setLayoutX(0);
+        card.getCard().setLayoutY(0);
+        card.getCard().setOnMousePressed(null);
+        card.getCard().setOnMouseEntered(null);
+        card.getCard().setOnMouseExited(null);
+        card.getCard().setOnMouseReleased(null);
+        card.getCard().setOnMouseClicked(null);
+        card.getCard().setRotate(Math.random() * 90 + (-45));
+
+        openStack.addCard(card);
     }
 
 }
