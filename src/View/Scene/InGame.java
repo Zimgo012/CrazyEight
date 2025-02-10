@@ -17,8 +17,6 @@ package View.Scene;
 
 import Controller.DeckController;
 import View.Area.*;
-import View.Components.Cards.OpenStackCard;
-import View.Components.Cards.RegularCards;
 import View.Components.GameButtons;
 import View.Components.Notification;
 import View.Components.Popups.SettingPopUp;

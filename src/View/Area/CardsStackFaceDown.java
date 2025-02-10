@@ -27,7 +27,8 @@ import javafx.scene.shape.Rectangle;
  * @since 1.8
  */
 public class CardsStackFaceDown {
-    DeckController deckController;
+    private DeckController deckController;
+    private StackPane stackPane;
 
     public CardsStackFaceDown(){}
     /**
@@ -42,6 +43,22 @@ public class CardsStackFaceDown {
      * @return an area filled with unused cards (facing down)
      */
     public StackPane getCardsStackFaceDown (){
+        setupDeck();
+
+
+        stackPane.setOnMouseClicked(e->{
+            deckController.addCard();
+        });
+
+
+       return stackPane;
+    }
+
+    /**
+     * Setup stack of cards facing down
+     */
+    private void setupDeck(){
+        stackPane = new StackPane();
 
         Rectangle cardStackFaceDown = new Rectangle();
         cardStackFaceDown = new Rectangle(108, 154);
@@ -70,19 +87,12 @@ public class CardsStackFaceDown {
         cardStackFaceDown5.setFill(new ImagePattern(image));
 
 
-        StackPane stackPane = new StackPane();
+
         stackPane.getChildren().add(cardStackFaceDown);
         stackPane.getChildren().add(cardStackFaceDown1);
         stackPane.getChildren().add(cardStackFaceDown2);
         stackPane.getChildren().add(cardStackFaceDown3);
         stackPane.getChildren().add(cardStackFaceDown4);
         stackPane.getChildren().add(cardStackFaceDown5);
-
-        stackPane.setOnMouseClicked(e->{
-            deckController.addCard();
-        });
-
-
-       return stackPane;
     }
 }

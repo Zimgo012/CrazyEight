@@ -52,7 +52,6 @@ public class PlayerTable {
     public void addCard(RegularCards card){
 
         if(numOfCards == 13){
-            System.out.println("Cannot Add!");
         }else{
 
             Rectangle cardNode = card.getCard();
