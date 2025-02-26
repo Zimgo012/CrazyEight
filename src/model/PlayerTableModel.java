@@ -24,6 +24,7 @@ public class PlayerTableModel {
     private String playerName;
     private List<CardModel> hand;
     private List<PlayerTableObserver> observers = new ArrayList<>();
+    private boolean isForeign;
 
     /**
      * Create new deck for a player
@@ -91,6 +92,14 @@ public class PlayerTableModel {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
         notifyObservers();
+    }
+
+    public void setIsForeign(boolean isForeign) {
+        this.isForeign = isForeign;
+    }
+
+    public boolean getIsForeign() {
+        return this.isForeign;
     }
 
     /**

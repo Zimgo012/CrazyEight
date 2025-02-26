@@ -17,6 +17,8 @@ package view.scene;
 
 //import controller.CardController;
 import controller.CardController;
+import controller.PlayerTableController;
+import model.GameModel;
 import model.PlayerTableModel;
 import view.area.*;
 //import view.Area.Deck.CardsStackFaceDown;
@@ -34,6 +36,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 
 /**
  * Class name: InGame
@@ -48,11 +52,7 @@ public class InGame {
     private AnchorPane table;
     private StackPane chatBox;
     private Notification notification;
-    private PlayerTable playerTable;
-    private CardController cardController;
-    private OpenStack openStack;
-    private PlayerTableModel playerTableModel;
-    private CardsStackFaceDown cardsStackFaceDown;
+
 
     /**
      * Initialize Stage
@@ -70,7 +70,6 @@ public class InGame {
         table = new AnchorPane();
 
         setupGameBoard();
-        setupPlayerTables();
         setupButtons();
         setupOtherComp();
         setupScene();
@@ -111,15 +110,34 @@ public class InGame {
      * Set ups game board
      */
     private void setupGameBoard(){
+        table = new AnchorPane();
 
-        // Table (Background)
         Rectangle mainTable = new Rectangle(1300, 900);
-        // Background Image for table
         Image tablecloth = new Image(getClass().getResource("/com/zimgo/crazyeight/tablecloth1.png").toExternalForm());
         mainTable.setFill(new ImagePattern(tablecloth));
 
-        // Add the table to the AnchorPane first
         table.getChildren().add(mainTable);
+
+        // Use GameModel for game state
+        GameModel gameModel = new GameModel();
+
+        // Now, gameModel contains all necessary models and controllers
+        List<PlayerTable> playerTables = gameModel.getPlayerTables();
+        OpenStack openStack = gameModel.getOpenStack();
+        StackPane deck = gameModel.getCardsStackFaceDown().getCardsStackFaceDown();
+        Pane OSNode = openStack.getCurrentOpenStack();
+
+        // Position dealer's deck
+        AnchorPane.setLeftAnchor(deck, 450.0);
+        AnchorPane.setBottomAnchor(deck, 400.0);
+        AnchorPane.setRightAnchor(OSNode, 500.0);
+        AnchorPane.setBottomAnchor(OSNode, 400.0);
+
+        table.getChildren().add(deck);
+        table.getChildren().add(OSNode);
+
+        // Position player tables
+        positionPlayerTables(playerTables);
     }
 
     /**
@@ -141,67 +159,27 @@ public class InGame {
     /**
      * Sets up tables
      */
-    private void setupPlayerTables(){
-        //Player 1 Table
+    private void positionPlayerTables(List<PlayerTable> playerTables) {
+        Pane PT1 = playerTables.get(0).getCurrentUserTable();
+        Pane PT2 = playerTables.get(1).getCurrentUserTable();
+        Pane PT3 = playerTables.get(2).getCurrentUserTable();
+        Pane PT4 = playerTables.get(3).getCurrentUserTable();
 
-        playerTableModel = new PlayerTableModel();
-        openStack = new OpenStack();
-        playerTable = new PlayerTable(playerTableModel,openStack);
+        AnchorPane.setLeftAnchor(PT1, 280.0);
+        AnchorPane.setBottomAnchor(PT1, 20.0);
 
+        PT2.setRotate(90);
+        AnchorPane.setLeftAnchor(PT2, 10.0);
+        AnchorPane.setBottomAnchor(PT2, 400.0);
 
-        cardController = new CardController(playerTable);
+        PT3.setRotate(-90);
+        AnchorPane.setRightAnchor(PT3, 10.0);
+        AnchorPane.setBottomAnchor(PT3, 400.0);
 
-        cardsStackFaceDown = new CardsStackFaceDown(cardController);
-        StackPane deck = cardsStackFaceDown.getCardsStackFaceDown();
+        AnchorPane.setRightAnchor(PT4, 490.0);
+        AnchorPane.setTopAnchor(PT4, 40.0);
 
-        //  Anchor Card Deck facing Down
-        AnchorPane.setLeftAnchor(deck, 450.0);
-        AnchorPane.setBottomAnchor(deck, 400.0);
-
-
-        Pane PTNode = playerTable.getCurrentUserTable();
-
-        //Anchor PTNode
-        AnchorPane.setLeftAnchor(PTNode, 280.0);
-        AnchorPane.setBottomAnchor(PTNode, 20.0);
-
-        //Player 2 Table
-        PlayerTable playerTable2 = new PlayerTable(new PlayerTableModel(),openStack);
-        Pane PT2Node = playerTable2.getCurrentUserTable();
-
-        //Anchor PTNode2
-        PT2Node.setRotate(90);
-        AnchorPane.setLeftAnchor(PT2Node, 10.0);
-        AnchorPane.setBottomAnchor(PT2Node, 400.0);
-
-        //Player 2 Table
-        PlayerTable playerTable3 = new PlayerTable(new PlayerTableModel(),openStack);
-        Pane PT3Node = playerTable3.getCurrentUserTable();
-
-        //Anchor PTNode3
-        PT3Node.setRotate(-90);
-        AnchorPane.setRightAnchor(PT3Node, 10.0);
-        AnchorPane.setBottomAnchor(PT3Node, 400.0);
-
-        //Player 4 Table
-        PlayerTable playerTable4 = new PlayerTable(new PlayerTableModel(),openStack);
-        Pane PT4Node = playerTable4.getCurrentUserTable();
-
-        //Anchor PTNode4
-        AnchorPane.setRightAnchor(PT4Node, 490.0);
-        AnchorPane.setTopAnchor(PT4Node, 40.0);
-
-
-        Pane OSNode = openStack.getCurrentOpenStack();
-
-        //Anchor OSNode
-        AnchorPane.setRightAnchor(OSNode, 500.0);
-        AnchorPane.setBottomAnchor(OSNode, 400.0);
-
-        table.getChildren().add(deck);
-        table.getChildren().addAll(PTNode,PT2Node,PT3Node,PT4Node);
-        table.getChildren().add(OSNode);
-
+        table.getChildren().addAll(PT1, PT2, PT3, PT4);
     }
 
     /**

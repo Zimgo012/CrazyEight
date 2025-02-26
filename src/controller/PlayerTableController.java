@@ -8,13 +8,11 @@ public class PlayerTableController {
 
     PlayerTableModel tableModel;
     PlayerTable tableView;
-    CardController cardController;
 
 
-    public PlayerTableController(PlayerTableModel tableModel, PlayerTable tableView, CardController cardController) {
+    public PlayerTableController(PlayerTableModel tableModel, PlayerTable tableView) {
         this.tableModel = tableModel;
         this.tableView = tableView;
-        this.cardController = cardController;
     }
 
 

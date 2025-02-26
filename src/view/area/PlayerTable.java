@@ -14,6 +14,7 @@
  */
 package view.area;
 
+import controller.PlayerTableController;
 import javafx.scene.shape.Rectangle;
 import model.CardModel;
 import model.PlayerTableModel;
@@ -31,14 +32,17 @@ public class PlayerTable implements PlayerTableObserver {
     private int numOfCards = 0;
     private OpenStack openStack;
     private PlayerTableModel model;
+    private PlayerTableController controller;
     private LinkedHashMap<RegularCards, CardModel> cardMapping = new LinkedHashMap<>();
 
 
     public PlayerTable(PlayerTableModel model, OpenStack openStack) {
         this.model = model;
         this.openStack = openStack;
-        currentUserTable = new Pane();
-        currentUserTable.setMaxSize(1020.00, 260.00);
+        controller = new PlayerTableController(model,this);
+
+        setPane();
+        model.addObserver(this);
     }
 
     public Pane getCurrentUserTable() {
@@ -51,19 +55,14 @@ public class PlayerTable implements PlayerTableObserver {
      */
     public void addCardView(RegularCards card, CardModel newCard) {
 
-
-
-        if(numOfCards == 13){
-            return;
-        }else{
-
+        if(numOfCards != 13){
             Rectangle cardNode = card.getCard();
             cardNode.setLayoutX(cardSpacing);
             cardSpacing += 50;
             currentUserTable.getChildren().add(cardNode);
             this.numOfCards++;
 
-            model.addCard(newCard);
+            controller.addCardToTable(newCard);
             cardMapping.put(card, newCard);
 
             cardNode.setOnMouseClicked(e -> {
@@ -119,9 +118,14 @@ public class PlayerTable implements PlayerTableObserver {
 
         return valuesIsEight || sameValueFromRecent;
     }
+    private void setPane(){
+        currentUserTable = new Pane();
+        currentUserTable.setMaxSize(1020.00, 260.00);
+    }
 
     @Override
     public void updateTable(PlayerTableModel table) {
         //Some notifications here
+
     }
 }

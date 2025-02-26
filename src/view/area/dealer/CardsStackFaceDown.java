@@ -40,7 +40,7 @@ public class CardsStackFaceDown {
     };
 
     /**
-     * -method that can be used to represent unused cards
+     * Method that can is used to represent unused cards
      * @return an area filled with unused cards (facing down)
      */
     public StackPane getCardsStackFaceDown (){
