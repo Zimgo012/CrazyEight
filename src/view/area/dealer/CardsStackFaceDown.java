@@ -12,7 +12,7 @@
  * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
-package view.Area;
+package view.area.dealer;
 import controller.CardController;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -31,6 +31,7 @@ public class CardsStackFaceDown {
     private StackPane stackPane;
 
     public CardsStackFaceDown(){}
+
     /**
      * Default Constructor
      */
@@ -47,11 +48,11 @@ public class CardsStackFaceDown {
 
 
         stackPane.setOnMouseClicked(e->{
-            cardController.addCard();
+            cardController.addCardToTable();
         });
 
 
-       return stackPane;
+        return stackPane;
     }
 
     /**

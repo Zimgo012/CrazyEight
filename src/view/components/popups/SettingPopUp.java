@@ -13,9 +13,9 @@
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
 
-package view.Components.Popups;
+package view.components.popups;
 
-import view.Components.GameButtons;
+import view.components.GameButtons;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;

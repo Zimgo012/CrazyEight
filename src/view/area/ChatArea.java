@@ -12,11 +12,11 @@
  * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
-package view.Area;
+package view.area;
 
-import view.Components.Chat;
-import view.Components.Log;
-import view.Components.GameButtons;
+import view.components.Chat;
+import view.components.Log;
+import view.components.GameButtons;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;

@@ -12,10 +12,10 @@
  * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
-package view.Area;
+package view.area.dealer;
 
 import model.CardModel;
-import view.Components.Cards.RegularCards;
+import view.components.cards.RegularCards;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -42,9 +42,6 @@ public class OpenStack {
     public OpenStack() {
         openStackDeck = new Pane();
         openStackDeck.setMaxSize(400,260);
-
-        //TODO: Delete this temporary
-        addCard(new RegularCards("Diamond",3),new CardModel("Diamond",3));
     }
 
     /**

@@ -13,17 +13,17 @@
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
 
-package view.Components;
+package view.components;
 
-import view.Scene.InGame;
-import view.Scene.Menu;
+import view.scene.InGame;
+import view.scene.Menu;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import view.Components.Popups.SettingPopUp;
+import view.components.popups.SettingPopUp;
 
 public class GameButtons {
 
@@ -62,6 +62,7 @@ public class GameButtons {
 
         });
 
+        
         startButton.setOnMouseClicked(e->{
         new InGame(stage);
         });

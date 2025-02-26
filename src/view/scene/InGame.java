@@ -13,14 +13,19 @@
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
 
-package view.Scene;
+package view.scene;
 
+//import controller.CardController;
 import controller.CardController;
 import model.PlayerTableModel;
-import view.Area.*;
-import view.Components.GameButtons;
-import view.Components.Notification;
-import view.Components.Popups.SettingPopUp;
+import view.area.*;
+//import view.Area.Deck.CardsStackFaceDown;
+//import view.Area.Deck.OpenStack;
+import view.area.dealer.CardsStackFaceDown;
+import view.area.dealer.OpenStack;
+import view.components.GameButtons;
+import view.components.Notification;
+import view.components.popups.SettingPopUp;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -28,6 +33,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
 
 /**
  * Class name: InGame
@@ -41,13 +47,12 @@ public class InGame {
     private Stage stage;
     private AnchorPane table;
     private StackPane chatBox;
-    private PlayerTable playerTable;
     private Notification notification;
-    private CardsStackFaceDown cardsStackFaceDown;
+    private PlayerTable playerTable;
     private CardController cardController;
     private OpenStack openStack;
     private PlayerTableModel playerTableModel;
-
+    private CardsStackFaceDown cardsStackFaceDown;
 
     /**
      * Initialize Stage
@@ -141,7 +146,7 @@ public class InGame {
 
         playerTableModel = new PlayerTableModel();
         openStack = new OpenStack();
-        playerTable = new PlayerTable(openStack,playerTableModel);
+        playerTable = new PlayerTable(playerTableModel,openStack);
 
 
         cardController = new CardController(playerTable);
@@ -161,7 +166,7 @@ public class InGame {
         AnchorPane.setBottomAnchor(PTNode, 20.0);
 
         //Player 2 Table
-        PlayerTable playerTable2 = new PlayerTable(openStack,new PlayerTableModel());
+        PlayerTable playerTable2 = new PlayerTable(new PlayerTableModel(),openStack);
         Pane PT2Node = playerTable2.getCurrentUserTable();
 
         //Anchor PTNode2
@@ -170,7 +175,7 @@ public class InGame {
         AnchorPane.setBottomAnchor(PT2Node, 400.0);
 
         //Player 2 Table
-        PlayerTable playerTable3 = new PlayerTable(openStack,new PlayerTableModel());
+        PlayerTable playerTable3 = new PlayerTable(new PlayerTableModel(),openStack);
         Pane PT3Node = playerTable3.getCurrentUserTable();
 
         //Anchor PTNode3
@@ -179,7 +184,7 @@ public class InGame {
         AnchorPane.setBottomAnchor(PT3Node, 400.0);
 
         //Player 4 Table
-        PlayerTable playerTable4 = new PlayerTable(openStack,new PlayerTableModel());
+        PlayerTable playerTable4 = new PlayerTable(new PlayerTableModel(),openStack);
         Pane PT4Node = playerTable4.getCurrentUserTable();
 
         //Anchor PTNode4

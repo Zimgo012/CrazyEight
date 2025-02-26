@@ -13,10 +13,10 @@
  * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
-package view.Components;
+package view.components;
 
 
-import view.Components.Popups.SettingPopUp;
+import view.components.popups.SettingPopUp;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;

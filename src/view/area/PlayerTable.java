@@ -12,17 +12,19 @@
  * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
-package view.Area;
+package view.area;
 
+import javafx.scene.shape.Rectangle;
 import model.CardModel;
 import model.PlayerTableModel;
-import view.Components.Cards.RegularCards;
+import observers.PlayerTableObserver;
+import view.area.dealer.OpenStack;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
+import view.components.cards.RegularCards;
 
 import java.util.LinkedHashMap;
-public class PlayerTable {
 
+public class PlayerTable implements PlayerTableObserver {
 
     private Pane currentUserTable;
     private int cardSpacing = 0;
@@ -32,26 +34,16 @@ public class PlayerTable {
     private LinkedHashMap<RegularCards, CardModel> cardMapping = new LinkedHashMap<>();
 
 
-
-    /**
-     * Creates the section
-     */
-    public PlayerTable(OpenStack oStack, PlayerTableModel model) {
+    public PlayerTable(PlayerTableModel model, OpenStack openStack) {
         this.model = model;
-        this.openStack = oStack;
+        this.openStack = openStack;
         currentUserTable = new Pane();
         currentUserTable.setMaxSize(1020.00, 260.00);
-
     }
 
-    /**
-     * Get current player's section
-     * @return the pane of the current player
-     */
     public Pane getCurrentUserTable() {
         return currentUserTable;
     }
-
 
     /**
      * To add a card on this section
@@ -120,12 +112,16 @@ public class PlayerTable {
     }
 
     private boolean cardChecker(String cardSuite,int cardValue){
-      CardModel cardFromMap = openStack.getCardList().get(openStack.getCardList().size()-1);
+        CardModel cardFromMap = openStack.getCardList().get(openStack.getCardList().size()-1);
 
-      boolean valuesIsEight = cardValue == 8;
-      boolean sameValueFromRecent = cardFromMap.getSuite().equals(cardSuite);
+        boolean valuesIsEight = cardValue == 8;
+        boolean sameValueFromRecent = cardFromMap.getSuite().equals(cardSuite);
 
         return valuesIsEight || sameValueFromRecent;
     }
 
+    @Override
+    public void updateTable(PlayerTableModel table) {
+        //Some notifications here
+    }
 }

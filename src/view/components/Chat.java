@@ -13,7 +13,7 @@
  * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
-package view.Components;
+package view.components;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

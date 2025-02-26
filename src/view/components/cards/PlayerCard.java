@@ -12,21 +12,18 @@
  * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
-package view.Components.Cards;
+package view.components.cards;
 
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
+import model.CardModel;
 
 
 public class PlayerCard extends RegularCards {
 
-    /**
-     *
-     * @param suit 1-4 (Represents spades,hearts,diamonds,clovers)
-     * @param value 1-13 (represents ace to king)
-     */
-    public PlayerCard(String suit, int value) {
-        super(suit, value);
+
+    public PlayerCard(CardModel card) {
+        super(card);
 
         DropShadow glow = new DropShadow();
         glow.setRadius(20);
@@ -53,11 +50,7 @@ public class PlayerCard extends RegularCards {
         super.getCard().setOnMouseReleased(e ->{
 
             super.getCard().setOpacity(1);
-
-
         });
-
-
 
     }
 }

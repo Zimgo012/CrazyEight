@@ -16,11 +16,18 @@
 package model;
 
 
+import observers.CardObserver;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class CardModel {
 
-    boolean isCurrentPlayer;
-    int value;
-    String suite;
+    private boolean isCurrentPlayer;
+    private int value;
+    private String suite;
+    private List<CardObserver> observers = new ArrayList<>();
 
     public CardModel(String suite, int number) {
 
@@ -34,6 +41,26 @@ public class CardModel {
 
     public int getValue() {
         return this.value;
+    }
+
+    public void addObserver(CardObserver observer) {
+        observers.add(observer);
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+        notifyObservers();
+    }
+
+    public void setSuite(String suite) {
+        this.suite = suite;
+        notifyObservers();
+    }
+
+    private void notifyObservers() {
+        for (CardObserver observer : observers) {
+            observer.updateCard(this);
+        }
     }
 
 

@@ -12,11 +12,13 @@
  * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
-package view.Components.Cards;
+package view.components.cards;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import model.CardModel;
+import observers.CardObserver;
 
 /**
  * Class name: RegularCards
@@ -26,21 +28,16 @@ import javafx.scene.shape.Rectangle;
  * @since 1.8
  */
 
-public class RegularCards {
+public class RegularCards implements CardObserver {
 
     private Rectangle cardView;
-    /**
-     * Card Creator
-     * @param suit 1-4 (Represents spades,hearts,diamonds,clovers)
-     * @param value 1-13 (represents ace to king)
-     */
-    public RegularCards(String suit, int value) {
+    private CardModel model;
 
-        String imagePath = String.format("/com/zimgo/crazyeight/CardAssets2/%s/%d.png", suit, value);
-        Image cardPic = new Image(getClass().getResource(imagePath).toExternalForm());
+    public RegularCards(CardModel card) {
+    this.model = card;
+    card.addObserver(this);
+    updateCard(card);
 
-        cardView = new Rectangle(108, 154);
-        cardView.setFill(new ImagePattern(cardPic));
     }
 
     /**
@@ -51,5 +48,16 @@ public class RegularCards {
         return cardView;
     }
 
+    public void setRotation(int rotate){
+        cardView.setRotate(rotate);
+    }
 
+    @Override
+    public void updateCard(CardModel card) {
+        String imagePath = String.format("/com/zimgo/crazyeight/CardAssets2/%s/%d.png", card.getSuite(), card.getValue());
+        Image cardPic = new Image(getClass().getResource(imagePath).toExternalForm());
+
+        cardView = new Rectangle(108, 154);
+        cardView.setFill(new ImagePattern(cardPic));
+    }
 }

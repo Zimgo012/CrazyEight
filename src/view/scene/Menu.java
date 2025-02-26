@@ -13,11 +13,10 @@
  * Copyright © 2025 John Rycca Belcina. All rights reserved.
  */
 
-package view.Scene;
-import view.Area.PlayerTable;
-import view.Components.GameButtons;
-import view.Components.Notification;
-import view.Components.Popups.SettingPopUp;
+package view.scene;
+import view.components.GameButtons;
+import view.components.Notification;
+import view.components.popups.SettingPopUp;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -43,7 +42,6 @@ public class Menu {
     private Stage stage;
     private AnchorPane table;
     private StackPane chatBox;
-    private PlayerTable playerTable;
     private StackPane cardsStack;
     private Notification notification;
 

@@ -1,30 +1,27 @@
 package controller;
 
 import model.CardModel;
-import model.PlayerTableModel;
-import view.Area.PlayerTable;
-import view.Components.Cards.PlayerCard;
-import view.Components.Cards.RegularCards;
-
+import view.area.PlayerTable;
+import view.components.cards.PlayerCard;
+import view.components.cards.RegularCards;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CardController {
 
     PlayerTable playerTable;
-    PlayerTableModel player1;
+    CardModel card;
 
-    public CardController(PlayerTable pTable) {
-       playerTable = pTable;
+    public CardController(PlayerTable playerTable) {
+       this.playerTable = playerTable;
     }
 
     /**
      * Add cards to player's hand
      */
-    public void addCard(){
-        CardModel card = generateRandomCard();
-
-        RegularCards regCard = new PlayerCard(card.getSuite(), card.getValue());
+    public void addCardToTable(){
+        card = generateRandomCard();
+        RegularCards regCard = new PlayerCard(card);
 
         playerTable.addCardView(regCard,card);
     }
