@@ -14,6 +14,7 @@
  */
 package view.area.dealer;
 import controller.CardController;
+import controller.PlayerTableController;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -29,6 +30,7 @@ import javafx.scene.shape.Rectangle;
 public class CardsStackFaceDown {
     private CardController cardController;
     private StackPane stackPane;
+    private PlayerTableController playerTableController;
 
     public CardsStackFaceDown(){}
 
@@ -49,6 +51,7 @@ public class CardsStackFaceDown {
 
         stackPane.setOnMouseClicked(e->{
             cardController.addCardToTable();
+
         });
 
 

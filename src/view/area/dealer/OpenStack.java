@@ -19,6 +19,7 @@ import view.components.cards.RegularCards;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+import javax.smartcardio.Card;
 import java.util.*;
 
 /**
@@ -74,6 +75,10 @@ public class OpenStack {
 
     public List<CardModel> getCardList(){
         return cardModelList;
+    }
+
+    public CardModel getTopCard() {
+        return cardModelList.isEmpty() ? null : cardModelList.get(cardModelList.size() - 1);
     }
 
 }

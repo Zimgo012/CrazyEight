@@ -102,6 +102,10 @@ public class PlayerTableModel {
         return this.isForeign;
     }
 
+    public List<CardModel> getHand() {
+        return hand;
+    }
+
     /**
      * Prints list of player's cards
      */

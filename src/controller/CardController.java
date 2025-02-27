@@ -1,6 +1,7 @@
 package controller;
 
 import model.CardModel;
+import model.PlayerTableModel;
 import view.area.PlayerTable;
 import view.components.cards.PlayerCard;
 import view.components.cards.RegularCards;
@@ -9,32 +10,24 @@ import java.util.Map;
 
 public class CardController {
 
+    PlayerTableController playerTableController;
     PlayerTable playerTable;
-    CardModel card;
 
-    public CardController(PlayerTable playerTable) {
+
+    public CardController(PlayerTable playerTable, PlayerTableController playerTableController) {
        this.playerTable = playerTable;
+       this.playerTableController = playerTableController;
     }
 
     /**
      * Add cards to player's hand
      */
     public void addCardToTable(){
-        card = generateRandomCard();
-        RegularCards regCard = new PlayerCard(card);
+        CardModel newCard = generateRandomCard();  // Generate a new card
+        RegularCards regCard = new PlayerCard(newCard); //
 
-        playerTable.addCardView(regCard,card);
-    }
+        playerTableController.addCardToTable(newCard); //
 
-    //TODO: Clean this
-    public RegularCards randomCardView(){
-        card = generateRandomCard();
-        return new PlayerCard(card);
-    }
-
-    public CardModel randomCardModel(){
-        card = generateRandomCard();
-        return card;
     }
 
     /**

@@ -15,6 +15,7 @@
 package view.area;
 
 import controller.PlayerTableController;
+import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import model.CardModel;
 import model.PlayerTableModel;
@@ -28,26 +29,20 @@ import java.util.LinkedHashMap;
 public class PlayerTable implements PlayerTableObserver {
 
     private Pane currentUserTable;
-    private int cardSpacing = 0;
-    private int numOfCards = 0;
     private OpenStack openStack;
     private PlayerTableModel model;
     private PlayerTableController controller;
-    private LinkedHashMap<RegularCards, CardModel> cardMapping = new LinkedHashMap<>();
 
 
     public PlayerTable(PlayerTableModel model, OpenStack openStack) {
         this.model = model;
         this.openStack = openStack;
-        controller = new PlayerTableController(model,this);
+        controller = new PlayerTableController(model,this,openStack);
 
         setPane();
         model.addObserver(this);
     }
 
-    public Pane getCurrentUserTable() {
-        return currentUserTable;
-    }
 
     /**
      * To add a card on this section
@@ -55,19 +50,17 @@ public class PlayerTable implements PlayerTableObserver {
      */
     public void addCardView(RegularCards card, CardModel newCard) {
 
-        if(numOfCards != 13){
-            Rectangle cardNode = card.getCard();
-            cardNode.setLayoutX(cardSpacing);
-            cardSpacing += 50;
-            currentUserTable.getChildren().add(cardNode);
-            this.numOfCards++;
+        Rectangle cardNode = card.getCard();
+        int numOfCards = currentUserTable.getChildren().size();
+        if(numOfCards !=13) {
 
-            controller.addCardToTable(newCard);
-            cardMapping.put(card, newCard);
+            currentUserTable.getChildren().add(card.getCard());
+            updateCardPositions();
 
-            cardNode.setOnMouseClicked(e -> {
-                removeCard(card);
+            cardNode.setOnMouseClicked(e ->{
+            controller.removeCardToTable(newCard,card);
             });
+
         }
 
     }
@@ -75,26 +68,9 @@ public class PlayerTable implements PlayerTableObserver {
     /**
      * To remove a card on this section
      */
-    public void removeCard(RegularCards card){
-        CardModel cardFromMap= cardMapping.get(card);
-
-        if(!cardChecker(cardFromMap.getSuite(), cardFromMap.getValue())){
-            System.out.println("Card not same type");
-            return;
-        }
-
+    public void removeCard(RegularCards card, CardModel newCard) {
         currentUserTable.getChildren().remove(card.getCard());
-
-        this.cardSpacing -= 50;
-        this.numOfCards--;
-
-        double newSpacing = 0;
-        for (int i = 0; i < currentUserTable.getChildren().size(); i++) {
-            currentUserTable.getChildren().get(i).setLayoutX(newSpacing);
-            newSpacing += 50;
-        }
-        model.removeCard(cardFromMap);
-        cardMapping.remove(card);
+        updateCardPositions();
 
         //Reset UI Effects to no effects
         card.getCard().setLayoutX(0);
@@ -106,27 +82,55 @@ public class PlayerTable implements PlayerTableObserver {
         card.getCard().setOnMouseClicked(null);
         card.getCard().setRotate(Math.random() * 90 + (-45));
 
-        openStack.addCard(card,cardFromMap);
 
+        updateOpenStackPosition(card,newCard);
 
     }
 
-    private boolean cardChecker(String cardSuite,int cardValue){
-        CardModel cardFromMap = openStack.getCardList().get(openStack.getCardList().size()-1);
 
-        boolean valuesIsEight = cardValue == 8;
-        boolean sameValueFromRecent = cardFromMap.getSuite().equals(cardSuite);
 
-        return valuesIsEight || sameValueFromRecent;
-    }
     private void setPane(){
         currentUserTable = new Pane();
         currentUserTable.setMaxSize(1020.00, 260.00);
     }
+    public Pane getCurrentUserTable() {
+        return currentUserTable;
+    }
+
+    private void updateCardPositions() {
+        int numOfCards = currentUserTable.getChildren().size();
+        if (numOfCards == 0) return;
+
+        double cardWidth = 50;  // Adjust card width
+        double cardSpacing = 10; // Adjust spacing between cards
+        double totalRowWidth = (numOfCards * cardWidth) + ((numOfCards - 1) * cardSpacing);
+
+        double startX = (currentUserTable.getWidth() - totalRowWidth) / 2; // Center dynamically
+
+        double positionX = startX;
+        for (Node node : currentUserTable.getChildren()) {
+            if (node instanceof Rectangle) {
+                node.setTranslateX(positionX);
+                positionX += cardWidth + cardSpacing;
+            }
+        }
+    }
+
+    private void updateOpenStackPosition(RegularCards card,CardModel newCard) {
+        double openStackX = openStack.getCurrentOpenStack().getTranslateX();
+        double openStackY = openStack.getCurrentOpenStack().getTranslateY();
+
+        Rectangle cardNode = card.getCard();
+        cardNode.setTranslateX(openStackX);
+        cardNode.setTranslateY(openStackY);
+        cardNode.toFront(); // Ensures the top card is visible
+
+        openStack.addCard(card,newCard);
+    }
 
     @Override
     public void updateTable(PlayerTableModel table) {
-        //TODO: updates here
+        System.out.println(model.getHand());
     }
 
 }

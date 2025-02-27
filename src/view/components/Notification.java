@@ -33,6 +33,8 @@ import javafx.scene.text.Text;
  */
 public class Notification {
 
+    public String message;
+
     /**
      *  This represent notification banner
      * @return StackPane that represent the notification

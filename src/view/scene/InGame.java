@@ -15,18 +15,12 @@
 
 package view.scene;
 
-//import controller.CardController;
-import controller.CardController;
-import controller.PlayerTableController;
-import model.GameModel;
-import model.PlayerTableModel;
+import model.SingleGameModel;
 import view.area.*;
-//import view.Area.Deck.CardsStackFaceDown;
-//import view.Area.Deck.OpenStack;
-import view.area.dealer.CardsStackFaceDown;
 import view.area.dealer.OpenStack;
 import view.components.GameButtons;
 import view.components.Notification;
+import view.components.SuiteChooser;
 import view.components.popups.SettingPopUp;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -52,7 +46,7 @@ public class InGame {
     private AnchorPane table;
     private StackPane chatBox;
     private Notification notification;
-
+    private SuiteChooser suiteChooser;
 
     /**
      * Initialize Stage
@@ -86,9 +80,17 @@ public class InGame {
         SettingPopUp settingPopUp = new SettingPopUp();
         Pane settingsPane = settingPopUp.createSettingsPopup();
 
+        //Notification
         notification = new Notification();
         StackPane tempNotification = notification.getNotification();
 
+        //SuiteChooser
+        suiteChooser = new SuiteChooser();
+        StackPane suiteArea = suiteChooser.suiteChooser();
+        suiteArea.setVisible(false);
+        //Anchor for suite chooser
+        AnchorPane.setRightAnchor(suiteArea, 280.0);
+        AnchorPane.setBottomAnchor(suiteArea, 300.0);
         // Anchor setting for popup
         AnchorPane.setRightAnchor(settingsPane, 350.0);
         AnchorPane.setTopAnchor(settingsPane, 50.0);
@@ -104,6 +106,7 @@ public class InGame {
         //Adding to table
         table.getChildren().add(tempNotification);
         table.getChildren().add(settingsPane);
+        table.getChildren().add(suiteArea);
     }
 
     /**
@@ -119,12 +122,12 @@ public class InGame {
         table.getChildren().add(mainTable);
 
         // Use GameModel for game state
-        GameModel gameModel = new GameModel();
+        SingleGameModel singleGameModel = new SingleGameModel();
 
         // Now, gameModel contains all necessary models and controllers
-        List<PlayerTable> playerTables = gameModel.getPlayerTables();
-        OpenStack openStack = gameModel.getOpenStack();
-        StackPane deck = gameModel.getCardsStackFaceDown().getCardsStackFaceDown();
+        List<PlayerTable> playerTables = singleGameModel.getPlayerTables();
+        OpenStack openStack = singleGameModel.getOpenStack();
+        StackPane deck = singleGameModel.getCardsStackFaceDown().getCardsStackFaceDown();
         Pane OSNode = openStack.getCurrentOpenStack();
 
         // Position dealer's deck
@@ -165,19 +168,19 @@ public class InGame {
         Pane PT3 = playerTables.get(2).getCurrentUserTable();
         Pane PT4 = playerTables.get(3).getCurrentUserTable();
 
-        AnchorPane.setLeftAnchor(PT1, 280.0);
+        AnchorPane.setLeftAnchor(PT1, 550.0);
         AnchorPane.setBottomAnchor(PT1, 20.0);
 
         PT2.setRotate(90);
-        AnchorPane.setLeftAnchor(PT2, 10.0);
-        AnchorPane.setBottomAnchor(PT2, 400.0);
+        AnchorPane.setLeftAnchor(PT2, 40.0);
+        AnchorPane.setTopAnchor(PT2, 330.0);
 
         PT3.setRotate(-90);
-        AnchorPane.setRightAnchor(PT3, 10.0);
-        AnchorPane.setBottomAnchor(PT3, 400.0);
+        AnchorPane.setRightAnchor(PT3, 40.0);
+        AnchorPane.setBottomAnchor(PT3, 450.0);
 
-        AnchorPane.setRightAnchor(PT4, 490.0);
-        AnchorPane.setTopAnchor(PT4, 40.0);
+        AnchorPane.setLeftAnchor(PT4, 550.0);
+        AnchorPane.setTopAnchor(PT4, 20.0);
 
         table.getChildren().addAll(PT1, PT2, PT3, PT4);
     }
