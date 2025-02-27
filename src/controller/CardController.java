@@ -26,11 +26,22 @@ public class CardController {
         playerTable.addCardView(regCard,card);
     }
 
+    //TODO: Clean this
+    public RegularCards randomCardView(){
+        card = generateRandomCard();
+        return new PlayerCard(card);
+    }
+
+    public CardModel randomCardModel(){
+        card = generateRandomCard();
+        return card;
+    }
+
     /**
      * Generate Random cards
      * @return Card object
      */
-    private CardModel generateRandomCard(){
+    public CardModel generateRandomCard(){
         Map<Integer, String> cardsMap = new HashMap<Integer, String>() {{
             put(1, "Diamond");
             put(2, "Clubs");

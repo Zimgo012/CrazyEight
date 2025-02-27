@@ -96,6 +96,7 @@ public class PlayerTable implements PlayerTableObserver {
         model.removeCard(cardFromMap);
         cardMapping.remove(card);
 
+        //Reset UI Effects to no effects
         card.getCard().setLayoutX(0);
         card.getCard().setLayoutY(0);
         card.getCard().setOnMousePressed(null);
@@ -125,7 +126,7 @@ public class PlayerTable implements PlayerTableObserver {
 
     @Override
     public void updateTable(PlayerTableModel table) {
-        //Some notifications here
-
+        //TODO: updates here
     }
+
 }
