@@ -63,6 +63,11 @@ public class GameModel {
         }
         //Sets up one card to start the game
         randomInitialCard = cardController.generateRandomCard();
+
+        //Making sure card number is not 8
+        if(randomInitialCard.getValue() == 8) {
+            randomInitialCard.setValue(randomInitialCard.getValue() - 1);
+        }
         openStack.addCard(new RegularCards(randomInitialCard),randomInitialCard);
 
     }
