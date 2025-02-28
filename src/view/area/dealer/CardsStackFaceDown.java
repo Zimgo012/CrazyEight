@@ -14,12 +14,12 @@
  */
 package view.area.dealer;
 import controller.CardController;
-import controller.PlayerTableController;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import model.PlayerTableModel;
 
 /**
  * Class name: CardsStackFaceDown
@@ -30,15 +30,15 @@ import javafx.scene.shape.Rectangle;
 public class CardsStackFaceDown {
     private CardController cardController;
     private StackPane stackPane;
-    private PlayerTableController playerTableController;
+    private PlayerTableModel playerTableModel;
 
-    public CardsStackFaceDown(){}
 
     /**
      * Default Constructor
      */
-    public CardsStackFaceDown(CardController deckControl) {
-        cardController = deckControl;
+    public CardsStackFaceDown(CardController deckControl, PlayerTableModel playerTableModel) {
+        this.cardController = deckControl;
+        this.playerTableModel = playerTableModel;
     };
 
     /**
@@ -50,7 +50,12 @@ public class CardsStackFaceDown {
 
 
         stackPane.setOnMouseClicked(e->{
-            cardController.addCardToTable();
+            if(playerTableModel.isCurrentTurn()){
+
+                cardController.addCardToTable();
+            }else{
+                System.out.println("Not Your Current Turn");
+            }
 
         });
 

@@ -19,25 +19,30 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import model.CardModel;
 import model.PlayerTableModel;
+import model.SingleGameModel;
 import observers.PlayerTableObserver;
 import view.area.dealer.OpenStack;
 import javafx.scene.layout.Pane;
 import view.components.cards.RegularCards;
 
-import java.util.LinkedHashMap;
+import javax.smartcardio.Card;
+import java.util.*;
 
 public class PlayerTable implements PlayerTableObserver {
 
     private Pane currentUserTable;
     private OpenStack openStack;
     private PlayerTableModel model;
+    private SingleGameModel singleGameModel;
     private PlayerTableController controller;
+    private Map<CardModel,RegularCards> cardMap = new LinkedHashMap<>();
 
 
-    public PlayerTable(PlayerTableModel model, OpenStack openStack) {
+    public PlayerTable(PlayerTableModel model, OpenStack openStack, SingleGameModel gameModel) {
         this.model = model;
         this.openStack = openStack;
-        controller = new PlayerTableController(model,this,openStack);
+        this.singleGameModel = gameModel;
+        controller = new PlayerTableController(model,this,openStack,gameModel);
 
         setPane();
         model.addObserver(this);
@@ -49,26 +54,33 @@ public class PlayerTable implements PlayerTableObserver {
      * @param card that will be added on this section
      */
     public void addCardView(RegularCards card, CardModel newCard) {
-
         Rectangle cardNode = card.getCard();
         int numOfCards = currentUserTable.getChildren().size();
         if(numOfCards !=13) {
+
+            cardMap.put(newCard,card);
 
             currentUserTable.getChildren().add(card.getCard());
             updateCardPositions();
 
             cardNode.setOnMouseClicked(e ->{
-            controller.removeCardToTable(newCard,card);
+
+                if(model.isCurrentTurn()){
+                    if( controller.removeCardFromTable(newCard,card)){
+                        singleGameModel.nextTurn();
+                    }
+                }else{
+                    System.out.println("Not your turn");
+                }
             });
-
         }
-
     }
 
     /**
      * To remove a card on this section
      */
     public void removeCard(RegularCards card, CardModel newCard) {
+
         currentUserTable.getChildren().remove(card.getCard());
         updateCardPositions();
 
@@ -82,13 +94,16 @@ public class PlayerTable implements PlayerTableObserver {
         card.getCard().setOnMouseClicked(null);
         card.getCard().setRotate(Math.random() * 90 + (-45));
 
+        cardMap.remove(newCard);
 
         updateOpenStackPosition(card,newCard);
 
     }
 
 
-
+    public RegularCards getCardByModel(CardModel cardModel) {
+        return cardMap.get(cardModel);
+    }
     private void setPane(){
         currentUserTable = new Pane();
         currentUserTable.setMaxSize(1020.00, 260.00);
@@ -97,6 +112,7 @@ public class PlayerTable implements PlayerTableObserver {
         return currentUserTable;
     }
 
+    //Dynamically update cards positions
     private void updateCardPositions() {
         int numOfCards = currentUserTable.getChildren().size();
         if (numOfCards == 0) return;
@@ -115,7 +131,7 @@ public class PlayerTable implements PlayerTableObserver {
             }
         }
     }
-
+    //Randomize cards on used cards
     private void updateOpenStackPosition(RegularCards card,CardModel newCard) {
         double openStackX = openStack.getCurrentOpenStack().getTranslateX();
         double openStackY = openStack.getCurrentOpenStack().getTranslateY();

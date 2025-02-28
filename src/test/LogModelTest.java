@@ -3,6 +3,7 @@ package test;
 import model.CardModel;
 import model.LogModel;
 import model.PlayerTableModel;
+import model.SingleGameModel;
 import org.junit.jupiter.api.Test;
 
 
@@ -12,11 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LogModelTest {
 
        LogModel logModel = new LogModel();
+       SingleGameModel singleGameModel = new SingleGameModel();
 
     @Test
     void addLog(){
 
-        PlayerTableModel player1 = new PlayerTableModel();
+        PlayerTableModel player1 = new PlayerTableModel(singleGameModel);
 
         CardModel cardModel1 = new CardModel("Diamond", 4);
         player1.addCard(cardModel1);
@@ -31,7 +33,7 @@ class LogModelTest {
 
         System.out.println(logModel.getRecentLog());
 
-        PlayerTableModel player1 = new PlayerTableModel();
+        PlayerTableModel player1 = new PlayerTableModel(singleGameModel);
 
         CardModel cardModel1 = new CardModel("Diamond", 4);
         player1.addCard(cardModel1);

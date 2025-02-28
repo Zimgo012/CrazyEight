@@ -5,6 +5,7 @@ import model.PlayerTableModel;
 import view.area.PlayerTable;
 import model.SingleGameModel;
 import view.area.dealer.OpenStack;
+import view.components.cards.OpponentCard;
 import view.components.cards.PlayerCard;
 import view.components.cards.RegularCards;
 
@@ -18,10 +19,11 @@ public class PlayerTableController {
 
 
     public PlayerTableController(PlayerTableModel tableModel,
-                                 PlayerTable tableView,OpenStack openStack) {
+                                 PlayerTable tableView,OpenStack openStack,SingleGameModel gameModel) {
         this.tableModel = tableModel;
         this.tableView = tableView;
         this.openStack = openStack;
+        this.gameModel = gameModel;
         this.cardController = new CardController(tableView, this);
     }
 
@@ -31,17 +33,19 @@ public class PlayerTableController {
             tableModel.addCard(card);
             tableView.addCardView(new PlayerCard(card), card);
         }
+
     }
 
 
-    public void removeCardToTable(CardModel card, RegularCards regularCards) {
+    public boolean removeCardFromTable(CardModel card, RegularCards regularCards) {
 
-        if(cardChecker(card)) {
-
+        if (cardChecker(card)) {
             tableModel.removeCard(card);
-            tableView.removeCard(regularCards,card);
-        }else{
-            System.out.println("Card not match or eight!");
+            tableView.removeCard(regularCards, card);
+            return true;
+        } else {
+            System.out.println("Card does not match!");
+            return false;
         }
 
     }

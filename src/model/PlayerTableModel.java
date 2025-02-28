@@ -21,17 +21,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerTableModel {
+    private SingleGameModel singleGameModel;
     private String playerName;
     private List<CardModel> hand;
     private List<PlayerTableObserver> observers = new ArrayList<>();
-    private boolean isForeign;
+    private boolean isOpponent;
+    private boolean isAI;
+    private boolean isCurrentTurn;
+    private boolean hasDrawnThisTurn = false;
 
     /**
      * Create new deck for a player
      */
-    public PlayerTableModel() {
+    public PlayerTableModel(SingleGameModel singleGameModel) {
         this.hand = new ArrayList<>();
-
+        this.isAI = false;
+        isCurrentTurn = false;
+        this.singleGameModel = singleGameModel;
     }
 
     /**
@@ -95,11 +101,43 @@ public class PlayerTableModel {
     }
 
     public void setIsForeign(boolean isForeign) {
-        this.isForeign = isForeign;
+        this.isOpponent = isForeign;
+    }
+
+    public void setIsAI(boolean isAI) {
+        this.isAI = isAI;
+    }
+
+    public void setCurrentTurn(boolean isCurrentTurn) {
+        this.isCurrentTurn = isCurrentTurn;
+    }
+
+    public void setHasDrawnThisTurn(boolean hasDrawn) {
+        this.hasDrawnThisTurn = hasDrawn;
+    }
+
+    public boolean hasDrawnThisTurn() {
+        return hasDrawnThisTurn;
+    }
+
+    public boolean isCurrentTurn() {
+        return isCurrentTurn;
     }
 
     public boolean getIsForeign() {
-        return this.isForeign;
+        return this.isOpponent;
+    }
+
+    public boolean isAI() {
+        return this.isAI;
+    }
+
+    public SingleGameModel getSingleGameModel() {
+        return singleGameModel;
+    }
+
+    public void setSingleGameModel(SingleGameModel singleGameModel) {
+        this.singleGameModel = singleGameModel;
     }
 
     public List<CardModel> getHand() {

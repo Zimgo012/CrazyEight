@@ -2,6 +2,7 @@ package test;
 
 import model.CardModel;
 import model.PlayerTableModel;
+import model.SingleGameModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +16,11 @@ class PlayerTableModelTest {
         CardModel card1  = new CardModel("Diamond",2);
         CardModel card2  = new CardModel("Diamond",5);
         CardModel card3  = new CardModel("Diamond",8);
-
+        SingleGameModel singleGameModel = new SingleGameModel();
 
     @BeforeEach
     void initCard(){
-        playerTableModel = new PlayerTableModel();
+        playerTableModel = new PlayerTableModel(singleGameModel);
 
     }
 

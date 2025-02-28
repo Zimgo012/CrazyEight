@@ -26,6 +26,5 @@ public class OpponentCard extends RegularCards{
         super(card);
     }
 
-    //TODO : Flip cards
 
 }
