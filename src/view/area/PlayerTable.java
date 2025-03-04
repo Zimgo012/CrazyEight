@@ -23,6 +23,7 @@ import model.SingleGameModel;
 import observers.PlayerTableObserver;
 import view.area.dealer.OpenStack;
 import javafx.scene.layout.Pane;
+import view.components.cards.OpponentCard;
 import view.components.cards.RegularCards;
 
 import javax.smartcardio.Card;
@@ -81,6 +82,7 @@ public class PlayerTable implements PlayerTableObserver {
      */
     public void removeCard(RegularCards card, CardModel newCard) {
 
+
         currentUserTable.getChildren().remove(card.getCard());
         updateCardPositions();
 
@@ -94,8 +96,10 @@ public class PlayerTable implements PlayerTableObserver {
         card.getCard().setOnMouseClicked(null);
         card.getCard().setRotate(Math.random() * 90 + (-45));
 
+        if(card instanceof OpponentCard){
+            ((OpponentCard) card).revealCard();
+        }
         cardMap.remove(newCard);
-
         updateOpenStackPosition(card,newCard);
 
     }
@@ -146,6 +150,7 @@ public class PlayerTable implements PlayerTableObserver {
 
     @Override
     public void updateTable(PlayerTableModel table) {
+
         System.out.println(model.getHand());
     }
 

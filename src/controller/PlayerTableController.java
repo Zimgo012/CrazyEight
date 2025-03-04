@@ -29,24 +29,37 @@ public class PlayerTableController {
 
 
     public void addCardToTable(CardModel card) {
-        if (tableModel.getHand().size() < 13) {
-            tableModel.addCard(card);
-            tableView.addCardView(new PlayerCard(card), card);
-        }
 
+
+        if (tableModel.getHand().size() < 13) {
+            if(this.tableModel.getIsForeign()){
+                tableModel.addCard(card);
+                tableView.addCardView(new OpponentCard(card),card);
+            }else{
+                tableModel.addCard(card);
+                tableView.addCardView(new PlayerCard(card), card);
+            }
+        }
     }
 
 
     public boolean removeCardFromTable(CardModel card, RegularCards regularCards) {
 
-        if (cardChecker(card)) {
-            tableModel.removeCard(card);
-            tableView.removeCard(regularCards, card);
-            return true;
-        } else {
-            System.out.println("Card does not match!");
-            return false;
-        }
+            if (cardChecker(card)) {
+                tableModel.removeCard(card);
+
+                //Remove the facedown card if it's an opponent's card
+                if (regularCards instanceof OpponentCard) {
+                    tableView.removeCard(regularCards, card); // Remove the facedown version
+                    regularCards = new PlayerCard(card); // Create the face-up version
+                }
+
+                tableView.removeCard(regularCards, card);
+                return true;
+            } else {
+                System.out.println("Card does not match!");
+                return false;
+            }
 
     }
 

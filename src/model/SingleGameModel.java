@@ -25,7 +25,7 @@ public class SingleGameModel {
     //In-game Controls
     private int currentPlayerIndex = 0;
 
-
+    //Instatiate game model for single player
     public SingleGameModel() {
         setupGameState();
         distributeStartingCards();
@@ -66,7 +66,7 @@ public class SingleGameModel {
 
             CardController cardController = cardControllers.get(playerControllers.indexOf(playerController));
 
-            for (int i = 0; i < 5; i++) { // Each player gets 5 random cards
+            for (int i = 0; i < 12; i++) { // Each player gets 5 random cards
                cardController.addCardToTable();
             }
         }
@@ -84,12 +84,8 @@ public class SingleGameModel {
     //Starts the game
     public void startGame() {
         System.out.println("🎮 Game Started!");
-
-
         Platform.runLater(() -> nextTurn());
     }
-
-
     //Track whose turn
     public void nextTurn() {
         // Check if any player has zero cards
@@ -132,7 +128,7 @@ public class SingleGameModel {
 
                     System.out.println("🤖 AI is thinking...");
 
-                    // ✅ Scan AI's hand for a valid card
+                    // Scan AI's hand for a valid card
                     for (CardModel card : aiPlayer.getHand()) {
                         if (card.getSuite().equals(topCard.getSuite()) || card.getValue() == 8) {
                             System.out.println("🤖 AI plays: " + card.getSuite() + " " + card.getValue());
@@ -142,7 +138,7 @@ public class SingleGameModel {
                                 aiController.removeCardFromTable(card, matchingCard);
                                 playedCard = true;
 
-                                // ✅ Check if AI won before switching turns
+                                //Check if AI won before switching turns
                                 if (checkForWinner()) return;
 
                                 nextTurn();
@@ -151,14 +147,14 @@ public class SingleGameModel {
                         }
                     }
 
-                    // ✅ If AI's hand is already full (13 cards), it must pass
+                    //If AI's hand is already full (13 cards), it must pass
                     if (aiPlayer.getHand().size() >= 13) {
                         System.out.println("🤖 AI has no valid cards and cannot draw. Passing turn...");
                         nextTurn();
                         return;
                     }
 
-                    // ✅ AI draws cards with a delay until it finds a valid one
+                    // AI draws cards with a delay until it finds a valid one
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -166,14 +162,14 @@ public class SingleGameModel {
                                 if (aiPlayer.getHand().size() < 13) {
                                     System.out.println("🤖 AI draws a card...");
                                     aiCardController.addCardToTable();
-                                    handleAITurn(); // ✅ Recursively check after drawing
+                                    handleAITurn(); //Recursively check after drawing
                                 } else {
                                     System.out.println("🤖 AI hand is full. Passing turn...");
                                     nextTurn();
                                 }
                             });
                         }
-                    }, 1000); // ✅ 1-second delay per draw
+                    }, 1000); //One-second delay per draw
                 });
             }
         }, 1000); // ✅ Initial AI thinking delay

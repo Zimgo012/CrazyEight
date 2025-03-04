@@ -16,15 +16,20 @@
 package view.components.cards;
 import model.CardModel;
 
-public class OpponentCard extends RegularCards{
+public class OpponentCard extends RegularCards {
+    private boolean isFaceUp; // Flag to track when card should be revealed
 
-    /**
-     * Opponent Card Creator
-     *
-     */
     public OpponentCard(CardModel card) {
         super(card);
+        this.isFaceUp = false; // Initially, the card is face down
     }
 
+    public void revealCard() {
+        this.isFaceUp = true;
+        updateCard(getModel()); // Re-update the card to show its face
+    }
 
+    public boolean isFaceUp() {
+        return isFaceUp;
+    }
 }

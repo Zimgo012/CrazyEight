@@ -45,19 +45,31 @@ public class RegularCards implements CardObserver {
      * @return a Rectangle object that has card template
      */
     public Rectangle getCard() {
-        return cardView;
+        return this.cardView;
     }
 
     public void setRotation(int rotate){
-        cardView.setRotate(rotate);
+        this.cardView.setRotate(rotate);
+    }
+
+    public CardModel getModel(){
+        return this.model;
     }
 
     @Override
     public void updateCard(CardModel card) {
-        String imagePath = String.format("/com/zimgo/crazyeight/CardAssets2/%s/%d.png", card.getSuite(), card.getValue());
+        String imagePath;
+
+        if (this instanceof OpponentCard && !((OpponentCard) this).isFaceUp()) {
+            // Show face-down image if the opponent hasn't played the card
+            imagePath = "/com/zimgo/crazyeight/CardAssets2/OtherCards/3.png";
+        } else {
+            // Show face-up card when played
+            imagePath = String.format("/com/zimgo/crazyeight/CardAssets2/%s/%d.png", card.getSuite(), card.getValue());
+        }
         Image cardPic = new Image(getClass().getResource(imagePath).toExternalForm());
 
-        cardView = new Rectangle(108, 154);
-        cardView.setFill(new ImagePattern(cardPic));
+        this.cardView = new Rectangle(108, 154);
+        this.cardView.setFill(new ImagePattern(cardPic));
     }
 }
