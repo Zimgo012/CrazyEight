@@ -85,7 +85,16 @@ public class PlayerTableController {
             //if player plays four
             if(card.getValue() == 4){
                 gameModel.toggleIsPlayFour();
-                System.out.println(gameModel.isPlayFour());
+            }
+
+            //if player plays two
+            if(card.getValue() == 2){
+                gameModel.isPlayTwo(true);
+                gameModel.incrementTwoCard();
+            }else{
+                gameModel.isPlayTwoRelease(true);
+                gameModel.isPlayTwo(false);
+
             }
 
             if (regularCards instanceof OpponentCard) {
@@ -115,9 +124,6 @@ public class PlayerTableController {
 
         return valuesIsEight || sameValueFromRecent;
     }
-
-
-
 
 
 }

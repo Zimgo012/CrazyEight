@@ -33,7 +33,13 @@ public class SingleGameModel {
     //In-game Controls
     private int currentPlayerIndex = 0;
     private boolean reverseGameFlow = false;
+    //plays four
     private boolean isPlayFour = false;
+    //plays two
+    private int cardsCountForPlayTwo = 0;
+    private boolean isPlayTwo = false; // flag for stacking
+    private boolean isPlayTwoRelease = false;
+
 
     //Misc
     private DropShadow glow;
@@ -117,6 +123,7 @@ public class SingleGameModel {
         playerModels.get(currentPlayerIndex).setHasDrawnThisTurn(false);
         playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(null);
 
+        //Handle reverse
         if (!reverseGameFlow) {
             currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
         } else {
@@ -126,6 +133,13 @@ public class SingleGameModel {
         if (isPlayFour) {
             addFour();
             toggleIsPlayFour();
+        }
+
+        if(!isPlayTwo && isPlayTwoRelease) {
+            addTwo();
+            isPlayTwo(false);
+            isPlayTwoRelease(false);
+            cardsCountForPlayTwo = 0; // reset
         }
 
         playerModels.get(currentPlayerIndex).setCurrentTurn(true);
@@ -261,8 +275,16 @@ public class SingleGameModel {
         isPlayFour = !isPlayFour;
     }
 
-    public boolean isPlayFour() {
-        return isPlayFour;
+    public void isPlayTwoRelease(boolean isPlayTwoRelease) {
+        this.isPlayTwoRelease = isPlayTwoRelease;
+    }
+
+    public void incrementTwoCard(){
+        cardsCountForPlayTwo = cardsCountForPlayTwo + 2;
+    }
+
+    public void isPlayTwo(boolean isPlayTwo) {
+        this.isPlayTwo = isPlayTwo;
     }
 
     //Additional
@@ -274,7 +296,7 @@ public class SingleGameModel {
         glow.setColor(Color.ORANGE);
         return glow;
     }
-    //Adds four cards if four is draw
+    //Adds four cards if four is drawn
     private void addFour() {
 
         CardController cardController = cardControllers.get(playerControllers.indexOf(getCurrentPlayerController()));
@@ -321,13 +343,50 @@ public class SingleGameModel {
                 }
 
             }
-
-
         }
 
     }
 
+    private void addTwo() {
+        CardController cardController = cardControllers.get(playerControllers.indexOf(getCurrentPlayerController()));
 
+        int currentHandSize = getCurrentPlayer().getHand().size();
+
+
+        if (currentHandSize + cardsCountForPlayTwo < 12) {
+            //Loop how many stacked cards
+            for (int i = 0; i < cardsCountForPlayTwo; i++) {
+                cardController.addCardToTable();
+            }
+        } else{
+
+        }
+            if (!reverseGameFlow) {
+                //set previous player hand
+                currentPlayerIndex = (currentPlayerIndex - 1) % playerModels.size();
+                for (int i = 0; i < cardsCountForPlayTwo; i++) {
+                    if (currentPlayerIndex < 12) {
+                        cardController.addCardToTable();
+                        //Message here
+                    }
+                }
+                //set current player hand
+                currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
+            } else {
+                //set previous player hand
+                currentPlayerIndex = (currentPlayerIndex + 1 + playerModels.size()) % playerModels.size();
+                for (int i = 0; i < cardsCountForPlayTwo; i++) {
+                    if (currentPlayerIndex < 12) {
+                        cardController.addCardToTable();
+                        //Message here
+                    }
+                    //set current player hand
+                    currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
+                }
+
+        }
+
+    }
 
 
 }
