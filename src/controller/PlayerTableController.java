@@ -77,6 +77,9 @@ public class PlayerTableController {
         if (cardChecker(card)) {
             tableModel.removeCard(card);
 
+            if(card.getValue() == 1){
+                gameModel.toggleReverseGameFlow();
+            }
             if (regularCards instanceof OpponentCard) {
                 tableView.removeCard(regularCards, card);
                 regularCards = new PlayerCard(card);

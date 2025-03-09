@@ -32,7 +32,7 @@ public class SingleGameModel {
 
     //In-game Controls
     private int currentPlayerIndex = 0;
-
+    private boolean reverseGameFlow = false;
     //Misc
     private DropShadow glow;
 
@@ -112,7 +112,12 @@ public class SingleGameModel {
         playerModels.get(currentPlayerIndex).setHasDrawnThisTurn(false);
         playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(null);
 
-        currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
+        if(!reverseGameFlow){
+            currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
+        }else{
+            currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
+        }
+
         playerModels.get(currentPlayerIndex).setCurrentTurn(true);
         playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(getDropShadow());
 
@@ -235,6 +240,10 @@ public class SingleGameModel {
 
     public SuiteChooser getSuiteChooser() {
         return suiteChooser;
+    }
+
+    public void toggleReverseGameFlow() {
+        reverseGameFlow = !reverseGameFlow;
     }
 
     //Additional
