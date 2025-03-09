@@ -42,7 +42,6 @@ public class SingleGameModel {
     //plays queen
     private boolean skipTurn = false;
 
-    //check player deck
 
 
     //Misc
@@ -121,6 +120,13 @@ public class SingleGameModel {
         // Check if any player has zero cards
         if (checkForWinner()) {
             return; // Stop the game if a player has won
+        }
+
+        //generate random card to play for if all hands are full
+        if (checkAllHandsAreFull()) {
+            System.out.println("🔄 All hands are full! Resetting the open stack...");
+            randomInitialCard = cardControllers.get(0).generateRandomCard();
+            openStack.addCard(new RegularCards(randomInitialCard), randomInitialCard);
         }
 
         playerModels.get(currentPlayerIndex).setCurrentTurn(false);
@@ -433,5 +439,16 @@ public class SingleGameModel {
             }
         }
         return false;
+    }
+
+    //checks if all hands is full
+    private boolean checkAllHandsAreFull(){
+        for (PlayerTableModel playerModel : playerModels) {
+           if(playerModel.getHand().size() < 12){
+               return false;
+           }
+        }
+
+        return true;
     }
 }
