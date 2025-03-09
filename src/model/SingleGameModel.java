@@ -33,6 +33,8 @@ public class SingleGameModel {
     //In-game Controls
     private int currentPlayerIndex = 0;
     private boolean reverseGameFlow = false;
+    private boolean isPlayFour = false;
+
     //Misc
     private DropShadow glow;
 
@@ -55,14 +57,14 @@ public class SingleGameModel {
             PlayerTableModel playerModel = new PlayerTableModel(this);
             playerModels.add(playerModel);
 
-            if(i != 0){
+            if (i != 0) {
                 playerModel.setIsAI(true); //First player is human for single player.
                 playerModel.setIsForeign(true);
             }
             PlayerTable playerTable = new PlayerTable(playerModel, openStack, this);
             playerTables.add(playerTable);
 
-            PlayerTableController controller = new PlayerTableController(playerModel, playerTable,openStack,this);
+            PlayerTableController controller = new PlayerTableController(playerModel, playerTable, openStack, this);
             playerControllers.add(controller);
 
             CardController cardController = new CardController(playerTable, controller);
@@ -71,36 +73,39 @@ public class SingleGameModel {
 
         }
 
-        cardsStackFaceDown = new CardsStackFaceDown(cardControllers.get(0),playerModels.get(currentPlayerIndex));
+        cardsStackFaceDown = new CardsStackFaceDown(cardControllers.get(0), playerModels.get(currentPlayerIndex));
         playerModels.get(0).setCurrentTurn(true);
 
     }
+
     //Distributes random card at the start of the game
     private void distributeStartingCards() {
         for (PlayerTableController playerController : playerControllers) {
 
             CardController cardController = cardControllers.get(playerControllers.indexOf(playerController));
 
-            for (int i = 0; i < 5; i++) { // Each player gets 5 random cards
-               cardController.addCardToTable();
+            for (int i = 0; i < 5; i++) { // Each player gets 5 random cards at start
+                cardController.addCardToTable();
             }
         }
         //Sets up one card to start the game
         randomInitialCard = cardControllers.get(0).generateRandomCard();
 
         //Making sure card number is not 8
-        if(randomInitialCard.getValue() == 8) {
+        if (randomInitialCard.getValue() == 8) {
             randomInitialCard.setValue(randomInitialCard.getValue() - 1);
         }
 
-        openStack.addCard(new RegularCards(randomInitialCard),randomInitialCard);
+        openStack.addCard(new RegularCards(randomInitialCard), randomInitialCard);
 
     }
+
     //Starts the game
     public void startGame() {
         System.out.println("🎮 Game Started!");
         Platform.runLater(() -> nextTurn());
     }
+
     //Track whose turn
     public void nextTurn() {
         // Check if any player has zero cards
@@ -112,10 +117,15 @@ public class SingleGameModel {
         playerModels.get(currentPlayerIndex).setHasDrawnThisTurn(false);
         playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(null);
 
-        if(!reverseGameFlow){
+        if (!reverseGameFlow) {
             currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
-        }else{
+        } else {
             currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
+        }
+
+        if (isPlayFour) {
+            addFour();
+            toggleIsPlayFour();
         }
 
         playerModels.get(currentPlayerIndex).setCurrentTurn(true);
@@ -130,7 +140,7 @@ public class SingleGameModel {
                 public void run() {
                     Platform.runLater(() -> handleAITurn());
                 }
-            }, 1000); // ✅ AI moves after 1-second delay
+            }, 1000);
         } else {
             System.out.println("🧑‍💻 Waiting for player " + currentPlayerIndex + " to play...");
         }
@@ -171,7 +181,7 @@ public class SingleGameModel {
                     }
 
                     //If AI's hand is already full (13 cards), it must pass
-                    if (aiPlayer.getHand().size() >= 13) {
+                    if (aiPlayer.getHand().size() >= 12) {
                         System.out.println("🤖 AI has no valid cards and cannot draw. Passing turn...");
                         nextTurn();
                         return;
@@ -182,7 +192,7 @@ public class SingleGameModel {
                         @Override
                         public void run() {
                             Platform.runLater(() -> {
-                                if (aiPlayer.getHand().size() < 13) {
+                                if (aiPlayer.getHand().size() < 12) {
                                     System.out.println("🤖 AI draws a card...");
                                     aiCardController.addCardToTable();
                                     handleAITurn(); //Recursively check after drawing
@@ -192,10 +202,10 @@ public class SingleGameModel {
                                 }
                             });
                         }
-                    }, 1000); //One-second delay per draw
+                    }, 500); //One-second delay per draw
                 });
             }
-        }, 1000); // ✅ Initial AI thinking delay
+        }, 500); // ✅ Initial AI thinking delay
     }
 
     private boolean checkForWinner() {
@@ -214,6 +224,7 @@ public class SingleGameModel {
     public PlayerTableModel getCurrentPlayer() {
         return playerModels.get(currentPlayerIndex);
     }
+
     public PlayerTableController getCurrentPlayerController() {
         return playerControllers.get(currentPlayerIndex);
     }
@@ -246,14 +257,77 @@ public class SingleGameModel {
         reverseGameFlow = !reverseGameFlow;
     }
 
+    public void toggleIsPlayFour() {
+        isPlayFour = !isPlayFour;
+    }
+
+    public boolean isPlayFour() {
+        return isPlayFour;
+    }
+
     //Additional
     public DropShadow getDropShadow() {
-        if(glow == null) {
+        if (glow == null) {
             glow = new DropShadow();
         }
         glow.setRadius(50);
         glow.setColor(Color.ORANGE);
         return glow;
     }
+    //Adds four cards if four is draw
+    private void addFour() {
+
+        CardController cardController = cardControllers.get(playerControllers.indexOf(getCurrentPlayerController()));
+
+        int currentHandSize = getCurrentPlayer().getHand().size();
+        int cardToDistribute = 4;
+        int remainingCards = 0;
+
+
+        if (currentHandSize + cardToDistribute < 12) {
+            //Loop 4 times
+            for (int i = 0; i < cardToDistribute; i++) {
+                cardController.addCardToTable();
+            }
+        } else {
+            int cardsThatFit = 12 -  currentHandSize; //12-4
+            remainingCards = cardToDistribute - cardsThatFit;
+
+            for (int i = 0; i < cardsThatFit; i++) {
+                cardController.addCardToTable();
+            }
+
+            if (!reverseGameFlow) {
+                //set previous player hand
+                currentPlayerIndex = (currentPlayerIndex - 1) % playerModels.size();
+                for (int i = 0; i < remainingCards; i++) {
+                    if (currentPlayerIndex < 12) {
+                        cardController.addCardToTable();
+                        //Message here
+                    }
+                }
+                //set current player hand
+                currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
+            } else {
+                //set previous player hand
+                currentPlayerIndex = (currentPlayerIndex + 1 + playerModels.size()) % playerModels.size();
+                for (int i = 0; i < remainingCards; i++) {
+                    if (currentPlayerIndex < 12) {
+                        cardController.addCardToTable();
+                        //Message here
+                    }
+                    //set current player hand
+                    currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
+                }
+
+            }
+
+
+        }
+
+    }
+
+
+
 
 }

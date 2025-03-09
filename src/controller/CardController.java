@@ -22,6 +22,7 @@ public class CardController {
      * Add cards to player's hand
      */
     public void addCardToTable(){
+
         CardModel newCard = generateRandomCard();  // Generate a new card
         RegularCards regCard = new PlayerCard(newCard); //
 

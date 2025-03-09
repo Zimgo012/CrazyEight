@@ -32,7 +32,7 @@ public class PlayerTableController {
     public void addCardToTable(CardModel card) {
 
 
-        if (tableModel.getHand().size() < 13) {
+        if (tableModel.getHand().size() < 12) {
             if(this.tableModel.getIsForeign()){
                 tableModel.addCard(card);
                 tableView.addCardView(new OpponentCard(card),card);
@@ -77,9 +77,17 @@ public class PlayerTableController {
         if (cardChecker(card)) {
             tableModel.removeCard(card);
 
+            //if player plays ace
             if(card.getValue() == 1){
                 gameModel.toggleReverseGameFlow();
             }
+
+            //if player plays four
+            if(card.getValue() == 4){
+                gameModel.toggleIsPlayFour();
+                System.out.println(gameModel.isPlayFour());
+            }
+
             if (regularCards instanceof OpponentCard) {
                 tableView.removeCard(regularCards, card);
                 regularCards = new PlayerCard(card);

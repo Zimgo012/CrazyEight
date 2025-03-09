@@ -178,7 +178,7 @@ public class InGame {
 
         PT4.setRotate(-90);
         AnchorPane.setRightAnchor(PT4, 40.0);
-        AnchorPane.setBottomAnchor(PT4, 450.0);
+        AnchorPane.setBottomAnchor(PT4, 430.0);
 
         AnchorPane.setLeftAnchor(PT3, 630.0);
         AnchorPane.setTopAnchor(PT3, 20.0);
