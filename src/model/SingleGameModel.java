@@ -42,6 +42,9 @@ public class SingleGameModel {
     //plays queen
     private boolean skipTurn = false;
 
+    //check player deck
+
+
     //Misc
     private DropShadow glow;
 
@@ -127,7 +130,7 @@ public class SingleGameModel {
         //Handle reverse
         if(skipTurn) {
             addQueen();
-            skipTurn = false;
+
         }else{
             if (!reverseGameFlow) {
                 currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
@@ -164,6 +167,21 @@ public class SingleGameModel {
             }, 1000);
         } else {
             System.out.println("🧑‍💻 Waiting for player " + currentPlayerIndex + " to play...");
+
+            if (!hasPlayableCard(getCurrentPlayer())) {
+                System.out.println("No playable cards. Player " + currentPlayerIndex + " must draw a card...");
+
+                CardController cardController = cardControllers.get(playerControllers.indexOf(getCurrentPlayerController()));
+
+                if (getCurrentPlayer().getHand().size() < 12) {
+                    cardController.addCardToTable(); // Draw a card
+                    System.out.println("🃏 Player " + currentPlayerIndex + " drew a card.");
+                }
+
+                if (!hasPlayableCard(getCurrentPlayer())) {
+                    nextTurn();
+                }
+            }
         }
     }
 
@@ -370,9 +388,8 @@ public class SingleGameModel {
             for (int i = 0; i < cardsCountForPlayTwo; i++) {
                 cardController.addCardToTable();
             }
-        } else{
+        } else {
 
-        }
             if (!reverseGameFlow) {
                 //set previous player hand
                 currentPlayerIndex = (currentPlayerIndex - 1) % playerModels.size();
@@ -395,16 +412,26 @@ public class SingleGameModel {
                     //set current player hand
                     currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
                 }
-
+            }
         }
-
     }
 
     private void addQueen(){
         if (!reverseGameFlow) {
             currentPlayerIndex = (currentPlayerIndex + 2) % playerModels.size();
+            toggleSkipTurn();
         } else {
             currentPlayerIndex = (currentPlayerIndex - 2 + playerModels.size()) % playerModels.size();
+            toggleSkipTurn();
         }
+    }
+
+    private boolean hasPlayableCard(PlayerTableModel player) {
+        for (CardModel card : player.getHand()) {
+            if (card.getSuite().equals(openStack.getTopCard().getSuite()) || card.getValue() == 8) {
+                return true;
+            }
+        }
+        return false;
     }
 }

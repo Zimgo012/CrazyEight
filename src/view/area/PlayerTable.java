@@ -151,6 +151,7 @@ public class PlayerTable implements PlayerTableObserver {
     public void updateTable(PlayerTableModel table) {
 
         System.out.println(model.getHand());
+
     }
 
 }
