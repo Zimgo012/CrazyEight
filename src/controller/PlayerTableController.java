@@ -94,7 +94,10 @@ public class PlayerTableController {
             }else{
                 gameModel.isPlayTwoRelease(true);
                 gameModel.isPlayTwo(false);
+            }
 
+            if(card.getValue() == 12){
+                gameModel.toggleSkipTurn();
             }
 
             if (regularCards instanceof OpponentCard) {

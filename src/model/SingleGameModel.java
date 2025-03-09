@@ -39,7 +39,8 @@ public class SingleGameModel {
     private int cardsCountForPlayTwo = 0;
     private boolean isPlayTwo = false; // flag for stacking
     private boolean isPlayTwoRelease = false;
-
+    //plays queen
+    private boolean skipTurn = false;
 
     //Misc
     private DropShadow glow;
@@ -124,10 +125,16 @@ public class SingleGameModel {
         playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(null);
 
         //Handle reverse
-        if (!reverseGameFlow) {
-            currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
-        } else {
-            currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
+        if(skipTurn) {
+            addQueen();
+            skipTurn = false;
+        }else{
+            if (!reverseGameFlow) {
+                currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
+            } else {
+                currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
+            }
+
         }
 
         if (isPlayFour) {
@@ -287,6 +294,10 @@ public class SingleGameModel {
         this.isPlayTwo = isPlayTwo;
     }
 
+    public void toggleSkipTurn(){
+        skipTurn = !skipTurn;
+    }
+
     //Additional
     public DropShadow getDropShadow() {
         if (glow == null) {
@@ -347,6 +358,7 @@ public class SingleGameModel {
 
     }
 
+    //Add two cards that increment if players keep getting card 2. ex. (2+2+2) 6
     private void addTwo() {
         CardController cardController = cardControllers.get(playerControllers.indexOf(getCurrentPlayerController()));
 
@@ -388,5 +400,11 @@ public class SingleGameModel {
 
     }
 
-
+    private void addQueen(){
+        if (!reverseGameFlow) {
+            currentPlayerIndex = (currentPlayerIndex + 2) % playerModels.size();
+        } else {
+            currentPlayerIndex = (currentPlayerIndex - 2 + playerModels.size()) % playerModels.size();
+        }
+    }
 }
