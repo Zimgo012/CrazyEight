@@ -47,6 +47,7 @@ public class InGame {
     private StackPane chatBox;
     private Notification notification;
     private SuiteChooser suiteChooser;
+    private SingleGameModel singleGameModel;
 
     /**
      * Initialize Stage
@@ -85,9 +86,9 @@ public class InGame {
         StackPane tempNotification = notification.getNotification();
 
         //SuiteChooser
-        suiteChooser = new SuiteChooser();
-        StackPane suiteArea = suiteChooser.suiteChooser();
-        suiteArea.setVisible(false);
+        suiteChooser = singleGameModel.getSuiteChooser();
+        StackPane suiteArea = singleGameModel.getSuiteChooser().generateSuiteChooser();
+
         //Anchor for suite chooser
         AnchorPane.setRightAnchor(suiteArea, 280.0);
         AnchorPane.setBottomAnchor(suiteArea, 300.0);
@@ -122,7 +123,7 @@ public class InGame {
         table.getChildren().add(mainTable);
 
         // Use GameModel for game state
-        SingleGameModel singleGameModel = new SingleGameModel();
+         singleGameModel = new SingleGameModel();
 
         // Now, gameModel contains all necessary models and controllers
         List<PlayerTable> playerTables = singleGameModel.getPlayerTables();
@@ -175,12 +176,12 @@ public class InGame {
         AnchorPane.setLeftAnchor(PT2, 40.0);
         AnchorPane.setTopAnchor(PT2, 330.0);
 
-        PT3.setRotate(-90);
-        AnchorPane.setRightAnchor(PT3, 40.0);
-        AnchorPane.setBottomAnchor(PT3, 450.0);
+        PT4.setRotate(-90);
+        AnchorPane.setRightAnchor(PT4, 40.0);
+        AnchorPane.setBottomAnchor(PT4, 450.0);
 
-        AnchorPane.setLeftAnchor(PT4, 550.0);
-        AnchorPane.setTopAnchor(PT4, 20.0);
+        AnchorPane.setLeftAnchor(PT3, 550.0);
+        AnchorPane.setTopAnchor(PT3, 20.0);
 
         table.getChildren().addAll(PT1, PT2, PT3, PT4);
     }

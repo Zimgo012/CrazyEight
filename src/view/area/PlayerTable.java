@@ -26,7 +26,6 @@ import javafx.scene.layout.Pane;
 import view.components.cards.OpponentCard;
 import view.components.cards.RegularCards;
 
-import javax.smartcardio.Card;
 import java.util.*;
 
 public class PlayerTable implements PlayerTableObserver {

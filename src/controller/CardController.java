@@ -1,7 +1,6 @@
 package controller;
 
 import model.CardModel;
-import model.PlayerTableModel;
 import view.area.PlayerTable;
 import view.components.cards.PlayerCard;
 import view.components.cards.RegularCards;

@@ -2,13 +2,19 @@ package model;
 
 import controller.CardController;
 import controller.PlayerTableController;
+import controller.SuiteChooserController;
 import javafx.application.Platform;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 import view.area.PlayerTable;
 import view.area.dealer.OpenStack;
 import view.area.dealer.CardsStackFaceDown;
+import view.components.SuiteChooser;
 import view.components.cards.RegularCards;
 
+
 import java.util.*;
+import java.util.List;
 
 public class SingleGameModel {
     //Players
@@ -21,11 +27,16 @@ public class SingleGameModel {
     private OpenStack openStack;
     private CardsStackFaceDown cardsStackFaceDown;
     private CardModel randomInitialCard;
+    private SuiteChooserController suiteChooserController;
+    private SuiteChooser suiteChooser;
 
     //In-game Controls
     private int currentPlayerIndex = 0;
 
-    //Instatiate game model for single player
+    //Misc
+    private DropShadow glow;
+
+    //Instantiate game model for single player
     public SingleGameModel() {
         setupGameState();
         distributeStartingCards();
@@ -35,6 +46,9 @@ public class SingleGameModel {
     //Setup Game State
     private void setupGameState() {
         openStack = new OpenStack();
+        suiteChooser = new SuiteChooser();
+        suiteChooserController = new SuiteChooserController(this, suiteChooser);
+
 
         // Create players and controllers
         for (int i = 0; i < 4; i++) {
@@ -54,6 +68,7 @@ public class SingleGameModel {
             CardController cardController = new CardController(playerTable, controller);
             cardControllers.add(cardController);
 
+
         }
 
         cardsStackFaceDown = new CardsStackFaceDown(cardControllers.get(0),playerModels.get(currentPlayerIndex));
@@ -66,7 +81,7 @@ public class SingleGameModel {
 
             CardController cardController = cardControllers.get(playerControllers.indexOf(playerController));
 
-            for (int i = 0; i < 12; i++) { // Each player gets 5 random cards
+            for (int i = 0; i < 5; i++) { // Each player gets 5 random cards
                cardController.addCardToTable();
             }
         }
@@ -95,9 +110,11 @@ public class SingleGameModel {
 
         playerModels.get(currentPlayerIndex).setCurrentTurn(false);
         playerModels.get(currentPlayerIndex).setHasDrawnThisTurn(false);
+        playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(null);
 
         currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
         playerModels.get(currentPlayerIndex).setCurrentTurn(true);
+        playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(getDropShadow());
 
         System.out.println("➡️ Turn switched to player: " + currentPlayerIndex);
 
@@ -116,6 +133,7 @@ public class SingleGameModel {
 
     private void handleAITurn() {
         new Timer().schedule(new TimerTask() {
+
             @Override
             public void run() {
                 Platform.runLater(() -> {
@@ -175,10 +193,6 @@ public class SingleGameModel {
         }, 1000); // ✅ Initial AI thinking delay
     }
 
-    public PlayerTableModel getCurrentPlayer() {
-        return playerModels.get(currentPlayerIndex);
-    }
-
     private boolean checkForWinner() {
         for (PlayerTableModel player : playerModels) {
             if (player.getHand().isEmpty()) {
@@ -191,6 +205,14 @@ public class SingleGameModel {
 
 
     // Getters for game state access
+
+    public PlayerTableModel getCurrentPlayer() {
+        return playerModels.get(currentPlayerIndex);
+    }
+    public PlayerTableController getCurrentPlayerController() {
+        return playerControllers.get(currentPlayerIndex);
+    }
+
     public List<PlayerTableModel> getPlayerModels() {
         return playerModels;
     }
@@ -205,6 +227,24 @@ public class SingleGameModel {
 
     public CardsStackFaceDown getCardsStackFaceDown() {
         return cardsStackFaceDown;
+    }
+
+    public SuiteChooserController getSuiteChooserController() {
+        return suiteChooserController;
+    }
+
+    public SuiteChooser getSuiteChooser() {
+        return suiteChooser;
+    }
+
+    //Additional
+    public DropShadow getDropShadow() {
+        if(glow == null) {
+            glow = new DropShadow();
+        }
+        glow.setRadius(50);
+        glow.setColor(Color.ORANGE);
+        return glow;
     }
 
 }

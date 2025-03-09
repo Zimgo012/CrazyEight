@@ -18,6 +18,7 @@ public class PlayerTableController {
     private OpenStack openStack;
 
 
+
     public PlayerTableController(PlayerTableModel tableModel,
                                  PlayerTable tableView,OpenStack openStack,SingleGameModel gameModel) {
         this.tableModel = tableModel;
@@ -42,26 +43,58 @@ public class PlayerTableController {
         }
     }
 
-
     public boolean removeCardFromTable(CardModel card, RegularCards regularCards) {
 
-            if (cardChecker(card)) {
-                tableModel.removeCard(card);
+        SuiteChooserController chooserController = gameModel.getSuiteChooserController();
 
-                //Remove the facedown card if it's an opponent's card
-                if (regularCards instanceof OpponentCard) {
-                    tableView.removeCard(regularCards, card); // Remove the facedown version
-                    regularCards = new PlayerCard(card); // Create the face-up version
+
+        if (card.getValue() == 8 && regularCards instanceof PlayerCard && !chooserController.isSuiteWasChosen()){
+            chooserController.prepareSuiteSelection(card, regularCards);
+            return false; // waiting for suite selection
+        }
+
+
+        if (chooserController.isSuiteWasChosen()) {
+            CardModel pendingCard = chooserController.getPendingCard();
+            RegularCards pendingRegularCard = chooserController.getPendingRegularCard();
+
+            if (pendingCard != null && pendingRegularCard != null) {
+                tableModel.removeCard(pendingCard);
+
+                if (pendingRegularCard instanceof OpponentCard) {
+                    tableView.removeCard(pendingRegularCard, pendingCard);
+                    pendingRegularCard = new PlayerCard(pendingCard);
                 }
 
-                tableView.removeCard(regularCards, card);
+                tableView.removeCard(pendingRegularCard, pendingCard);
+                chooserController.clearPendingSelection();
+
                 return true;
-            } else {
-                System.out.println("Card does not match!");
-                return false;
+            }
+        }
+
+
+        if (cardChecker(card)) {
+            tableModel.removeCard(card);
+
+            if (regularCards instanceof OpponentCard) {
+                tableView.removeCard(regularCards, card);
+                regularCards = new PlayerCard(card);
             }
 
+            tableView.removeCard(regularCards, card);
+            chooserController.clearPendingSelection();
+
+            return true;
+        }
+
+        chooserController.clearPendingSelection();
+        System.out.println("Card does not match!");
+        return false;
+
+
     }
+
 
     private boolean cardChecker(CardModel card) {
         CardModel prevCard = openStack.getTopCard();
