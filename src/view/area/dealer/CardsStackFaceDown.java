@@ -70,17 +70,17 @@ public class CardsStackFaceDown {
         stackPane = new StackPane();
 
         Rectangle cardStackFaceDown = new Rectangle();
-        cardStackFaceDown = new Rectangle(108, 154);
+        cardStackFaceDown = new Rectangle(90, 120);
         Rectangle cardStackFaceDown1 = new Rectangle();
-        cardStackFaceDown1 = new Rectangle(108, 154);
+        cardStackFaceDown1 = new Rectangle(90, 120);
         Rectangle cardStackFaceDown2 = new Rectangle();
-        cardStackFaceDown2 = new Rectangle(108, 154);
+        cardStackFaceDown2 = new Rectangle(90, 120);
         Rectangle cardStackFaceDown3 = new Rectangle();
-        cardStackFaceDown3 = new Rectangle(108, 154);
+        cardStackFaceDown3 = new Rectangle(90, 120);
         Rectangle cardStackFaceDown4 = new Rectangle();
-        cardStackFaceDown4 = new Rectangle(108, 154);
+        cardStackFaceDown4 = new Rectangle(90, 120);
         Rectangle cardStackFaceDown5 = new Rectangle();
-        cardStackFaceDown5 = new Rectangle(108, 154);
+        cardStackFaceDown5 = new Rectangle(90, 120);
 
         StackPane.setMargin(cardStackFaceDown1, new Insets(0, 0, 0, 10)); // 50px from the left
         StackPane.setMargin(cardStackFaceDown2, new Insets(0, 0, 0, 20)); // 100px from the left

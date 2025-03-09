@@ -152,10 +152,10 @@ public class InGame {
         Button settingButton = GameButtons.SettingButton();
 
 
-        AnchorPane.setRightAnchor(quitButton, 60.0);
-        AnchorPane.setBottomAnchor(quitButton, 90.0);
-        AnchorPane.setRightAnchor(settingButton, 45.0);
-        AnchorPane.setBottomAnchor(settingButton, 30.0);
+        AnchorPane.setRightAnchor(quitButton, 140.0);
+        AnchorPane.setBottomAnchor(quitButton, 60.0);
+        AnchorPane.setRightAnchor(settingButton, 130.0);
+        AnchorPane.setBottomAnchor(settingButton, 20.0);
 
         table.getChildren().addAll(quitButton, settingButton);
     }
@@ -169,18 +169,18 @@ public class InGame {
         Pane PT3 = playerTables.get(2).getCurrentUserTable();
         Pane PT4 = playerTables.get(3).getCurrentUserTable();
 
-        AnchorPane.setLeftAnchor(PT1, 550.0);
+        AnchorPane.setLeftAnchor(PT1, 630.0);
         AnchorPane.setBottomAnchor(PT1, 20.0);
 
         PT2.setRotate(90);
         AnchorPane.setLeftAnchor(PT2, 40.0);
-        AnchorPane.setTopAnchor(PT2, 330.0);
+        AnchorPane.setTopAnchor(PT2, 375.0);
 
         PT4.setRotate(-90);
         AnchorPane.setRightAnchor(PT4, 40.0);
         AnchorPane.setBottomAnchor(PT4, 450.0);
 
-        AnchorPane.setLeftAnchor(PT3, 550.0);
+        AnchorPane.setLeftAnchor(PT3, 630.0);
         AnchorPane.setTopAnchor(PT3, 20.0);
 
         table.getChildren().addAll(PT1, PT2, PT3, PT4);

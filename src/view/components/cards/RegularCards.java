@@ -69,7 +69,7 @@ public class RegularCards implements CardObserver {
         }
         Image cardPic = new Image(getClass().getResource(imagePath).toExternalForm());
 
-        this.cardView = new Rectangle(108, 154);
+        this.cardView = new Rectangle(90, 120);
         this.cardView.setFill(new ImagePattern(cardPic));
     }
 }

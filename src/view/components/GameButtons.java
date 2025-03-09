@@ -78,10 +78,10 @@ public class GameButtons {
         ImageView imageViewActive = new ImageView(quitActive);
 
         //Setting
-        imageViewPassive.setFitWidth(quitPassive.getWidth() * 0.3);
-        imageViewPassive.setFitHeight(quitPassive.getHeight() * 0.3);
-        imageViewActive.setFitWidth(quitActive.getWidth() * 0.3);
-        imageViewActive.setFitHeight(quitActive.getHeight() * 0.3);
+        imageViewPassive.setFitWidth(quitPassive.getWidth() * 0.2);
+        imageViewPassive.setFitHeight(quitPassive.getHeight() * 0.2);
+        imageViewActive.setFitWidth(quitActive.getWidth() * 0.2);
+        imageViewActive.setFitHeight(quitActive.getHeight() * 0.2);
 
         Button quitButton = new Button();
         quitButton.setGraphic(imageViewPassive);
@@ -141,7 +141,7 @@ public class GameButtons {
         Image createActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_create2.png").toExternalForm());
         ImageView imageViewActive = new ImageView(createActive);
 
-        //Setting
+        //Create
         imageViewPassive.setFitWidth(createPassive.getWidth() * 0.4);
         imageViewPassive.setFitHeight(createPassive.getHeight() * 0.4);
         imageViewActive.setFitWidth(createActive.getWidth() * 0.4);
@@ -172,10 +172,10 @@ public class GameButtons {
         ImageView imageViewActive = new ImageView(settingActive);
 
         //Setting
-        imageViewPassive.setFitWidth(settingPassive.getWidth() * 0.3);
-        imageViewPassive.setFitHeight(settingPassive.getHeight() * 0.3);
-        imageViewActive.setFitWidth(settingActive.getWidth() * 0.3);
-        imageViewActive.setFitHeight(settingActive.getHeight() * 0.3);
+        imageViewPassive.setFitWidth(settingPassive.getWidth() * 0.2);
+        imageViewPassive.setFitHeight(settingPassive.getHeight() * 0.2);
+        imageViewActive.setFitWidth(settingActive.getWidth() * 0.2);
+        imageViewActive.setFitHeight(settingActive.getHeight() * 0.2);
 
         Button settingButton = new Button();
         settingButton.setGraphic(imageViewPassive);
