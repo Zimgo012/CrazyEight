@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import model.MusicManager;
 import view.scene.InGame;
 import view.scene.Menu;
 import javafx.application.Platform;
@@ -29,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import view.components.popups.SettingPopUp;
+import view.scene.SplashScreen;
 
 public class GameButtons {
 
@@ -84,7 +86,7 @@ public class GameButtons {
         });
 
         startButton.setOnMouseClicked(e -> {
-            new InGame(stage);
+            new SplashScreen(stage, () -> new InGame(stage));
         });
 
         return startButton;
@@ -425,9 +427,11 @@ public class GameButtons {
             if(isMusicOn){
                 isMusicOn = false;
                 musicSetButton.setGraphic(imageViewOFF);
+                MusicManager.getInstance().toggleMute();
             }else if(!isMusicOn){
                 isMusicOn = true;
                 musicSetButton.setGraphic(imageViewON);
+                MusicManager.getInstance().toggleMute();
             }
         });
 
