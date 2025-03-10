@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import view.area.PlayerTable;
 import view.area.dealer.OpenStack;
 import view.area.dealer.CardsStackFaceDown;
+import view.components.Log;
 import view.components.SuiteChooser;
 import view.components.cards.RegularCards;
 
@@ -42,10 +43,10 @@ public class SingleGameModel {
     //plays queen
     private boolean skipTurn = false;
 
-
-
     //Misc
     private DropShadow glow;
+    private LogModel logModel = new LogModel();
+    private Log logView = new Log(logModel, this);
 
     //Instantiate game model for single player
     public SingleGameModel() {
@@ -194,6 +195,8 @@ public class SingleGameModel {
                     for (CardModel card : aiPlayer.getHand()) {
                         if (card.getSuite().equals(topCard.getSuite()) || card.getValue() == 8) {
                             System.out.println("🤖 AI plays: " + card.getSuite() + " " + card.getValue());
+                            logModel.addString("AI plays: " + card.getSuite() + " " + card.getValue());
+                            logView.refreshLog();
 
                             RegularCards matchingCard = aiTable.getCardByModel(card);
                             if (matchingCard != null) {
@@ -231,10 +234,10 @@ public class SingleGameModel {
                                 }
                             });
                         }
-                    }, 500); //One-second delay per draw
+                    }, 750); //One-second delay per draw
                 });
             }
-        }, 500); // ✅ Initial AI thinking delay
+        }, 750); // ✅ Initial AI thinking delay
     }
 
     private boolean checkForWinner() {
@@ -306,7 +309,15 @@ public class SingleGameModel {
         skipTurn = !skipTurn;
     }
 
-    //Additional
+    public LogModel getLogModel(){
+        return logModel;
+    }
+
+    public Log getLogView(){
+        return logView;
+    }
+
+    // Additional
     public DropShadow getDropShadow() {
         if (glow == null) {
             glow = new DropShadow();

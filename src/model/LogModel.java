@@ -16,16 +16,16 @@
 package model;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class LogModel {
 
 
-    List<String> logList;
+    private ObservableList<String> logList;
 
     public LogModel() {
-        logList = new ArrayList<>();
+        logList = FXCollections.observableArrayList();
     }
 
     public void addString(String string) {
@@ -40,7 +40,9 @@ public class LogModel {
         return this.logList.get(this.logList.size()-1);
     }
 
-    public List<String> getLogList() {
+
+
+    public ObservableList<String> getLogList() {
         return logList;
     }
 
