@@ -16,6 +16,9 @@
 package view.components;
 
 
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import model.SingleGameModel;
 import view.components.popups.SettingPopUp;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -25,6 +28,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class name: Notification
  * Purpose: This class represent notification banner that pop outs if there is notification
@@ -33,15 +39,24 @@ import javafx.scene.text.Text;
  */
 public class Notification {
 
-    public String message;
+    private String message;
+    private StackPane notification = null;
+    private SingleGameModel model;
+    Text text = new Text();
 
-    /**
-     *  This represent notification banner
-     * @return StackPane that represent the notification
-     */
-    public  StackPane getNotification(){
 
-        StackPane notification = new StackPane();
+    public Notification(SingleGameModel model) {
+        this.model = model;
+        if(notification == null){
+            notification = new StackPane();
+        }
+
+        notification.setVisible(false);
+    }
+
+
+    public StackPane outputNotification(){
+
         Rectangle background = new Rectangle(550, 70);
 
         Image image = new Image(SettingPopUp.class.getResource("/com/zimgo/crazyeight/notificationBanner.png").toExternalForm());
@@ -49,7 +64,6 @@ public class Notification {
 
         background.setFill(backgroundDes);
 
-        Text text = new Text(" Invalid move! You cannot play this card!");
         text.setFont(new Font("Arial", 20));
         text.setFill(Color.BLACK);
 
@@ -60,7 +74,18 @@ public class Notification {
 
 
         return notification;
+    }
+
+    public void promptNotification(String message){
+        text.setText(message);
+        notification.setVisible(true);
+
+        //Temporary. will add animation effects later!
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(event -> notification.setVisible(false));
+        pause.play();
 
     }
-}
 
+
+}

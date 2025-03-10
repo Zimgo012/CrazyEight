@@ -10,6 +10,7 @@ import view.area.PlayerTable;
 import view.area.dealer.OpenStack;
 import view.area.dealer.CardsStackFaceDown;
 import view.components.Log;
+import view.components.Notification;
 import view.components.SuiteChooser;
 import view.components.cards.RegularCards;
 
@@ -45,8 +46,11 @@ public class SingleGameModel {
 
     //Misc
     private DropShadow glow;
+
     private LogModel logModel = new LogModel();
     private Log logView = new Log(logModel, this);
+    private Notification notification;
+
 
     //Instantiate game model for single player
     public SingleGameModel() {
@@ -60,6 +64,7 @@ public class SingleGameModel {
         openStack = new OpenStack();
         suiteChooser = new SuiteChooser();
         suiteChooserController = new SuiteChooserController(this, suiteChooser);
+        notification = new Notification(this);
 
 
         // Create players and controllers
@@ -244,15 +249,14 @@ public class SingleGameModel {
         for (PlayerTableModel player : playerModels) {
             if (player.getHand().isEmpty()) {
                 System.out.println("Player " + playerModels.indexOf(player) + " WINS! Game Over!");
+                getNotification().promptNotification("Player " + playerModels.indexOf(player) + " WINS! Game Over!");
                 return true; //A winner is found, game stops
             }
         }
         return false; //Continue game if no winner
     }
 
-
     // Getters for game state access
-
     public PlayerTableModel getCurrentPlayer() {
         return playerModels.get(currentPlayerIndex);
     }
@@ -309,6 +313,7 @@ public class SingleGameModel {
         skipTurn = !skipTurn;
     }
 
+
     public LogModel getLogModel(){
         return logModel;
     }
@@ -318,6 +323,13 @@ public class SingleGameModel {
     }
 
     // Additional
+
+    public Notification getNotification() {
+        return notification;
+    }
+
+    //Additional
+
     public DropShadow getDropShadow() {
         if (glow == null) {
             glow = new DropShadow();
@@ -377,8 +389,8 @@ public class SingleGameModel {
 
     }
 
-//    Add two cards that increment if players keep getting card 2. ex. (2+2+2) 6
-private void addTwo() {
+    //Add two cards that increment if players keep getting card 2. ex. (2+2+2) 6
+    private void addTwo() {
     int nextPlayerIndex = reverseGameFlow
             ? (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size()
             : (currentPlayerIndex + 1) % playerModels.size();
