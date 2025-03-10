@@ -34,11 +34,12 @@ import javafx.scene.text.Font;
  */
 public class ChatArea {
 
-    /**
-     * Creates a section of chat
-     * @return the stackPane of this section
-     */
-    public StackPane getChatArea(){
+    private Log log;
+
+    public ChatArea(){
+
+    }
+    public StackPane getChatArea(Log log){
 
         StackPane chatBox = new StackPane();
 
@@ -50,7 +51,7 @@ public class ChatArea {
         AnchorPane anchorPane = new AnchorPane();
 
 
-        ScrollPane logScrollPane = Log.logScrollPane();
+        ScrollPane logScrollPane = log.generateLog();
         VBox vBox = new VBox();
         vBox.getChildren().add(logScrollPane);
 

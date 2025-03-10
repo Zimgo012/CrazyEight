@@ -75,7 +75,7 @@ public class InGame {
      */
     private void setupOtherComp(){
         ChatArea chatArea = new ChatArea();
-        chatBox = chatArea.getChatArea();
+        chatBox = chatArea.getChatArea(singleGameModel.getLogView());
         table.getChildren().add(chatBox);
 
         SettingPopUp settingPopUp = new SettingPopUp();
