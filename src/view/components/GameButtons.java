@@ -15,6 +15,12 @@
 
 package view.components;
 
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import model.MusicManager;
 import view.scene.InGame;
 import view.scene.Menu;
 import javafx.application.Platform;
@@ -24,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import view.components.popups.SettingPopUp;
+import view.scene.SplashScreen;
 
 public class GameButtons {
 
@@ -33,268 +40,332 @@ public class GameButtons {
     //Todo: configure this Music setter later
     public static boolean isMusicOn = true;
 
+    private static Button joinButton;
+    private static Text joinText;
+    private static Text startText;
+    private static Text quitText;
+    private static Text createText;
+    private static Text settingText;
+    private static Text sendText;
+    private static Text exitText;
 
 
-    public static Button StartButton(Stage stage){
 
-        Image startPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_start.png").toExternalForm());
+    public static Button StartButton(Stage stage) {
+        Image startPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(startPassive);
 
-        Image startActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_start2.png").toExternalForm());
+        Image startActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base2.png").toExternalForm());
         ImageView imageViewActive = new ImageView(startActive);
 
-        //Setting
-        imageViewPassive.setFitWidth(startPassive.getWidth() * 0.5);
-        imageViewPassive.setFitHeight(startPassive.getHeight() * 0.5);
-        imageViewActive.setFitWidth(startActive.getWidth() * 0.5);
-        imageViewActive.setFitHeight(startActive.getHeight() * 0.5);
+        double scaleFactor = 0.5;
+        imageViewPassive.setFitWidth(startPassive.getWidth() * scaleFactor);
+        imageViewPassive.setFitHeight(startPassive.getHeight() * scaleFactor);
+        imageViewActive.setFitWidth(startActive.getWidth() * scaleFactor);
+        imageViewActive.setFitHeight(startActive.getHeight() * scaleFactor);
+
+        startText = new Text(isEnglish ? "Start" : "Simula");
+        startText.setFill(Color.BLACK);
+        startText.setFont(Font.font("Monospaced", FontWeight.BOLD, 32));
+
+        StackPane stack = new StackPane(imageViewPassive, startText);
+        stack.setStyle("-fx-alignment: center;");
 
         Button startButton = new Button();
-        startButton.setGraphic(imageViewPassive);
+        startButton.setGraphic(stack);
         startButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; ");
 
-        startButton.setOnMouseEntered(e ->{
-            startButton.setGraphic(imageViewActive);
+        startButton.setOnMouseEntered(e -> {
+            stack.getChildren().set(0, imageViewActive);
+            startText.setFill(Color.YELLOW);
         });
 
-        startButton.setOnMouseExited(e ->{
-            startButton.setGraphic(imageViewPassive);
-
+        startButton.setOnMouseExited(e -> {
+            stack.getChildren().set(0, imageViewPassive);
+            startText.setFill(Color.BLACK);
         });
 
-        
-        startButton.setOnMouseClicked(e->{
-        new InGame(stage);
+        startButton.setOnMouseClicked(e -> {
+            new SplashScreen(stage, () -> new InGame(stage));
         });
 
         return startButton;
     }
 
-    public static Button QuitButton(Stage stage){
-        Image quitPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_quit.png").toExternalForm());
+    public static Button QuitButton(Stage stage) {
+        Image quitPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(quitPassive);
 
-        Image quitActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_quit2.png").toExternalForm());
+        Image quitActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base2.png").toExternalForm());
         ImageView imageViewActive = new ImageView(quitActive);
 
-        //Setting
-        imageViewPassive.setFitWidth(quitPassive.getWidth() * 0.2);
-        imageViewPassive.setFitHeight(quitPassive.getHeight() * 0.2);
-        imageViewActive.setFitWidth(quitActive.getWidth() * 0.2);
-        imageViewActive.setFitHeight(quitActive.getHeight() * 0.2);
+
+        double scaleFactor = 0.2;
+        imageViewPassive.setFitWidth(quitPassive.getWidth() * scaleFactor);
+        imageViewPassive.setFitHeight(quitPassive.getHeight() * scaleFactor);
+        imageViewActive.setFitWidth(quitActive.getWidth() * scaleFactor);
+        imageViewActive.setFitHeight(quitActive.getHeight() * scaleFactor);
+
+
+        quitText = new Text(isEnglish ? "Quit" : "Umalis");
+        quitText.setFill(Color.BLACK);
+        quitText.setFont(Font.font("Monospaced", FontWeight.BOLD, 25));
+
+
+        StackPane stack = new StackPane(imageViewPassive, quitText);
+        stack.setStyle("-fx-alignment: center;");
 
         Button quitButton = new Button();
-        quitButton.setGraphic(imageViewPassive);
-        quitButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; ");
+        quitButton.setGraphic(stack);
+        quitButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
-        quitButton.setOnMouseEntered(e ->{
-            quitButton.setGraphic(imageViewActive);
+        quitButton.setOnMouseEntered(e -> {
+            stack.getChildren().set(0, imageViewActive);
+            quitText.setFill(Color.YELLOW);
         });
 
-        quitButton.setOnMouseExited(e ->{
-            quitButton.setGraphic(imageViewPassive);
-
+        quitButton.setOnMouseExited(e -> {
+            stack.getChildren().set(0, imageViewPassive);
+            quitText.setFill(Color.BLACK);
         });
 
-        quitButton.setOnMouseClicked(e ->{
+        quitButton.setOnMouseClicked(e -> {
             new Menu(stage);
         });
-
 
         return quitButton;
     }
 
     public static Button JoinButton(){
-        Image joinPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_join.png").toExternalForm());
+        Image joinPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(joinPassive);
 
-        Image joinActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_join2.png").toExternalForm());
+        Image joinActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base2.png").toExternalForm());
         ImageView imageViewActive = new ImageView(joinActive);
 
-        //Setting
-        imageViewPassive.setFitWidth(joinPassive.getWidth() * 0.4);
-        imageViewPassive.setFitHeight(joinPassive.getHeight() * 0.4);
-        imageViewActive.setFitWidth(joinActive.getWidth() * 0.4);
-        imageViewActive.setFitHeight(joinActive.getHeight() * 0.4);
 
-        Button joinButton = new Button();
-        joinButton.setGraphic(imageViewPassive);
-        joinButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; ");
+        double scaleFactor = 0.4;
+        imageViewPassive.setFitWidth(joinPassive.getWidth() * scaleFactor);
+        imageViewPassive.setFitHeight(joinPassive.getHeight() * scaleFactor);
+        imageViewActive.setFitWidth(joinActive.getWidth() * scaleFactor);
+        imageViewActive.setFitHeight(joinActive.getHeight() * scaleFactor);
 
-        joinButton.setOnMouseEntered(e ->{
-            joinButton.setGraphic(imageViewActive);
+
+        joinText = new Text(isEnglish ? "Join" : "Sali");
+        joinText.setFill(Color.BLACK);
+        joinText.setFont(Font.font("Monospaced", FontWeight.BOLD, 32));
+
+        StackPane stack = new StackPane(imageViewPassive, joinText);
+        stack.setStyle("-fx-alignment: center;");
+
+        joinButton = new Button();
+        joinButton.setGraphic(stack);
+        joinButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+
+        joinButton.setOnMouseEntered(e -> {
+            stack.getChildren().set(0, imageViewActive); // Change image
+            joinText.setFill(Color.YELLOW);
         });
 
-        joinButton.setOnMouseExited(e ->{
-            joinButton.setGraphic(imageViewPassive);
-
+        joinButton.setOnMouseExited(e -> {
+            stack.getChildren().set(0, imageViewPassive); // Restore image
+            joinText.setFill(Color.BLACK);
         });
-
 
         return joinButton;
     }
 
-    public static Button CreateButton(){
-        Image createPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_create.png").toExternalForm());
+    public static Button CreateButton() {
+        Image createPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(createPassive);
 
-        Image createActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_create2.png").toExternalForm());
+        Image createActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base2.png").toExternalForm());
         ImageView imageViewActive = new ImageView(createActive);
 
-        //Create
-        imageViewPassive.setFitWidth(createPassive.getWidth() * 0.4);
-        imageViewPassive.setFitHeight(createPassive.getHeight() * 0.4);
-        imageViewActive.setFitWidth(createActive.getWidth() * 0.4);
-        imageViewActive.setFitHeight(createActive.getHeight() * 0.4);
+
+        double scaleFactor = 0.4;
+        imageViewPassive.setFitWidth(createPassive.getWidth() * scaleFactor);
+        imageViewPassive.setFitHeight(createPassive.getHeight() * scaleFactor);
+        imageViewActive.setFitWidth(createActive.getWidth() * scaleFactor);
+        imageViewActive.setFitHeight(createActive.getHeight() * scaleFactor);
+
+
+        createText = new Text(isEnglish ? "Create" : "Gumawa");
+        createText.setFill(Color.BLACK);
+        createText.setFont(Font.font("Monospaced", FontWeight.BOLD, 32));
+
+
+        StackPane stack = new StackPane(imageViewPassive, createText);
+        stack.setStyle("-fx-alignment: center;");
 
         Button createButton = new Button();
-        createButton.setGraphic(imageViewPassive);
-        createButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; ");
+        createButton.setGraphic(stack);
+        createButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
-        createButton.setOnMouseEntered(e ->{
-            createButton.setGraphic(imageViewActive);
+        createButton.setOnMouseEntered(e -> {
+            stack.getChildren().set(0, imageViewActive);
+            createText.setFill(Color.YELLOW);
         });
 
-        createButton.setOnMouseExited(e ->{
-            createButton.setGraphic(imageViewPassive);
-
+        createButton.setOnMouseExited(e -> {
+            stack.getChildren().set(0, imageViewPassive);
+            createText.setFill(Color.BLACK);
         });
-
 
         return createButton;
     }
 
-    public static Button SettingButton(){
-        Image settingPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_setting.png").toExternalForm());
+    public static Button SettingButton() {
+        Image settingPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(settingPassive);
 
-        Image settingActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_setting2.png").toExternalForm());
+        Image settingActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base2.png").toExternalForm());
         ImageView imageViewActive = new ImageView(settingActive);
 
-        //Setting
-        imageViewPassive.setFitWidth(settingPassive.getWidth() * 0.2);
-        imageViewPassive.setFitHeight(settingPassive.getHeight() * 0.2);
-        imageViewActive.setFitWidth(settingActive.getWidth() * 0.2);
-        imageViewActive.setFitHeight(settingActive.getHeight() * 0.2);
+
+        double scaleFactor = 0.2;
+        imageViewPassive.setFitWidth(settingPassive.getWidth() * scaleFactor);
+        imageViewPassive.setFitHeight(settingPassive.getHeight() * scaleFactor);
+        imageViewActive.setFitWidth(settingActive.getWidth() * scaleFactor);
+        imageViewActive.setFitHeight(settingActive.getHeight() * scaleFactor);
+
+
+        settingText = new Text(isEnglish ? "Settings" : "Itakda");
+        settingText.setFill(Color.BLACK);
+        settingText.setFont(Font.font("Monospaced", FontWeight.BOLD, 18));
+
+
+        StackPane stack = new StackPane(imageViewPassive, settingText);
+        stack.setStyle("-fx-alignment: center;");
 
         Button settingButton = new Button();
-        settingButton.setGraphic(imageViewPassive);
-        settingButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; ");
+        settingButton.setGraphic(stack);
+        settingButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
-        settingButton.setOnMouseEntered(e ->{
-            settingButton.setGraphic(imageViewActive);
+        settingButton.setOnMouseEntered(e -> {
+            stack.getChildren().set(0, imageViewActive);
+            settingText.setFill(Color.YELLOW);
         });
 
-        settingButton.setOnMouseExited(e ->{
-            settingButton.setGraphic(imageViewPassive);
+        settingButton.setOnMouseExited(e -> {
+            stack.getChildren().set(0, imageViewPassive);
+            settingText.setFill(Color.BLACK);
         });
 
         settingButton.setOnMouseClicked(e -> {
             SettingPopUp.toggleSettingsPopup();
-
         });
-
 
         return settingButton;
     }
 
-    public static Button SendButton(){
-        Image sendPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_send.png").toExternalForm());
+    public static Button SendButton() {
+        Image sendPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/sendBase1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(sendPassive);
 
-        Image sendActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_send2.png").toExternalForm());
+        Image sendActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/sendBase2.png").toExternalForm());
         ImageView imageViewActive = new ImageView(sendActive);
 
-        //Setting
-        imageViewPassive.setFitWidth(sendPassive.getWidth() * 0.3);
-        imageViewPassive.setFitHeight(sendPassive.getHeight() * 0.3);
-        imageViewActive.setFitWidth(sendActive.getWidth() * 0.3);
-        imageViewActive.setFitHeight(sendActive.getHeight() * 0.3);
+
+        double scaleFactor = 0.4;
+        imageViewPassive.setFitWidth(sendPassive.getWidth() * scaleFactor);
+        imageViewPassive.setFitHeight(sendPassive.getHeight() * scaleFactor);
+        imageViewActive.setFitWidth(sendActive.getWidth() * scaleFactor);
+        imageViewActive.setFitHeight(sendActive.getHeight() * scaleFactor);
+
+
+        sendText = new Text(isEnglish ? "Send" : "Dala");
+        sendText.setFill(Color.BLACK);
+        sendText.setFont(Font.font("Monospaced", FontWeight.BOLD, 10));
+
+
+        StackPane stack = new StackPane(imageViewPassive, sendText);
+        stack.setStyle("-fx-alignment: center;");
 
         Button sendButton = new Button();
-        sendButton.setGraphic(imageViewPassive);
-        sendButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; ");
+        sendButton.setGraphic(stack);
+        sendButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
-        sendButton.setOnMouseEntered(e ->{
-            sendButton.setGraphic(imageViewActive);
+        sendButton.setOnMouseEntered(e -> {
+            stack.getChildren().set(0, imageViewActive);
+            sendText.setFill(Color.YELLOW);
         });
 
-        sendButton.setOnMouseExited(e ->{
-            sendButton.setGraphic(imageViewPassive);
-
+        sendButton.setOnMouseExited(e -> {
+            stack.getChildren().set(0, imageViewPassive);
+            sendText.setFill(Color.BLACK);
         });
-
 
         return sendButton;
     }
 
     public static Button ExitButton(){
-        Image exitGamePassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_exitgame.png").toExternalForm());
-        ImageView imageViewPassive = new ImageView(exitGamePassive);
+            Image exitGamePassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
+            ImageView imageViewPassive = new ImageView(exitGamePassive);
 
-        Image exitgameActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_exitgame2.png").toExternalForm());
-        ImageView imageViewActive = new ImageView(exitgameActive);
-
-        //Setting
-        imageViewPassive.setFitWidth(exitGamePassive.getWidth() * 0.3);
-        imageViewPassive.setFitHeight(exitGamePassive.getHeight() * 0.3);
-        imageViewActive.setFitWidth(exitgameActive.getWidth() * 0.3);
-        imageViewActive.setFitHeight(exitgameActive.getHeight() * 0.3);
-
-        Button exitGameButton = new Button();
-        exitGameButton.setGraphic(imageViewPassive);
-        exitGameButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; ");
-
-        exitGameButton.setOnMouseEntered(e ->{
-            exitGameButton.setGraphic(imageViewActive);
-        });
-
-        exitGameButton.setOnMouseExited(e ->{
-            exitGameButton.setGraphic(imageViewPassive);
-
-        });
-
-        exitGameButton.setOnMouseClicked(e ->{
-            Platform.exit();
-        });
+            Image exitGameActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base2.png").toExternalForm());
+            ImageView imageViewActive = new ImageView(exitGameActive);
 
 
-        return exitGameButton;
+            double scaleFactor = 0.3;
+            imageViewPassive.setFitWidth(exitGamePassive.getWidth() * scaleFactor);
+            imageViewPassive.setFitHeight(exitGamePassive.getHeight() * scaleFactor);
+            imageViewActive.setFitWidth(exitGameActive.getWidth() * scaleFactor);
+            imageViewActive.setFitHeight(exitGameActive.getHeight() * scaleFactor);
+
+
+            exitText = new Text(isEnglish ? "Exit" : "Lumabas");
+            exitText.setFill(Color.BLACK);
+            exitText.setFont(Font.font("Monospaced", FontWeight.BOLD, 24));
+
+
+            StackPane stack = new StackPane(imageViewPassive, exitText);
+            stack.setStyle("-fx-alignment: center;");
+
+            Button exitGameButton = new Button();
+            exitGameButton.setGraphic(stack);
+            exitGameButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+
+
+            exitGameButton.setOnMouseEntered(e -> {
+                stack.getChildren().set(0, imageViewActive);
+                exitText.setFill(Color.YELLOW);
+            });
+
+            exitGameButton.setOnMouseExited(e -> {
+                stack.getChildren().set(0, imageViewPassive);
+                exitText.setFill(Color.BLACK);
+            });
+
+
+            exitGameButton.setOnMouseClicked(e -> {
+                Platform.exit();
+            });
+
+            return exitGameButton;
     }
 
-    public static Button LanguageButton(){
-
-
-
+    public static Button LanguageButton() {
         Image langPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_lang.png").toExternalForm());
         ImageView imageViewEnglish = new ImageView(langPassive);
 
         Image langActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_lang2.png").toExternalForm());
         ImageView imageViewTagalog = new ImageView(langActive);
 
-        //Setting
         imageViewEnglish.setFitWidth(langPassive.getWidth() * 0.5);
         imageViewEnglish.setFitHeight(langPassive.getHeight() * 0.5);
         imageViewTagalog.setFitWidth(langActive.getWidth() * 0.5);
         imageViewTagalog.setFitHeight(langActive.getHeight() * 0.5);
 
         Button langButton = new Button();
-        langButton.setGraphic(imageViewEnglish);
-
+        langButton.setGraphic(isEnglish ? imageViewEnglish : imageViewTagalog);
         langButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; ");
 
-        //ToDo: change this later
-
-        langButton.setOnMouseClicked(e ->{
-            if(isEnglish){
-                isEnglish = false;
-                langButton.setGraphic(imageViewTagalog);
-            }else if(!isEnglish){
-                isEnglish = true;
-                langButton.setGraphic(imageViewEnglish);
-            }
+        langButton.setOnMouseClicked(e -> {
+            isEnglish = !isEnglish; // ✅ Toggle language
+            langButton.setGraphic(isEnglish ? imageViewEnglish : imageViewTagalog);
+            updateLanguage();
         });
-
 
         return langButton;
     }
@@ -335,8 +406,6 @@ public class GameButtons {
 
     public static Button MusicSetButton(){
 
-
-
         Image musicSetPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_musicSet.png").toExternalForm());
         ImageView imageViewON = new ImageView(musicSetPassive);
 
@@ -358,14 +427,27 @@ public class GameButtons {
             if(isMusicOn){
                 isMusicOn = false;
                 musicSetButton.setGraphic(imageViewOFF);
+                MusicManager.getInstance().toggleMute();
             }else if(!isMusicOn){
                 isMusicOn = true;
                 musicSetButton.setGraphic(imageViewON);
+                MusicManager.getInstance().toggleMute();
             }
         });
 
 
         return musicSetButton;
+    }
+
+
+    public static void updateLanguage() {
+        if (joinText != null) joinText.setText(isEnglish ? "Join" : "Sali");
+        if (startText != null) startText.setText(isEnglish ? "Start" : "Simula");
+        if (quitText != null) quitText.setText(isEnglish ? "Quit" : "Umalis");
+        if (createText != null) createText.setText(isEnglish ? "Create" : "Gumawa");
+        if (settingText != null) settingText.setText(isEnglish ? "Settings" : "Itakda");
+        if (sendText != null) sendText.setText(isEnglish ? "Send" : "Dala");
+        if (exitText != null) exitText.setText(isEnglish ? "Exit" : "Lumabas");
     }
 
 }

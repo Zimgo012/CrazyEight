@@ -154,7 +154,7 @@ public class InGame {
 
         AnchorPane.setRightAnchor(quitButton, 40.0);
         AnchorPane.setBottomAnchor(quitButton, 50.0);
-        AnchorPane.setRightAnchor(settingButton, 30.0);
+        AnchorPane.setRightAnchor(settingButton, 40.0);
         AnchorPane.setBottomAnchor(settingButton, 10.0);
 
         table.getChildren().addAll(quitButton, settingButton);
