@@ -82,8 +82,8 @@ public class InGame {
         Pane settingsPane = settingPopUp.createSettingsPopup();
 
         //Notification
-        notification = new Notification();
-        StackPane tempNotification = notification.getNotification();
+        notification = singleGameModel.getNotification();
+        StackPane tempNotification = notification.outputNotification();
 
         //SuiteChooser
         suiteChooser = singleGameModel.getSuiteChooser();

@@ -71,6 +71,8 @@ public class PlayerTable implements PlayerTableObserver {
                     }
                 }else{
                     System.out.println("Not your turn");
+                    singleGameModel.getNotification().promptNotification("Not your turn");
+
                 }
             });
         }
@@ -102,7 +104,6 @@ public class PlayerTable implements PlayerTableObserver {
         updateOpenStackPosition(card,newCard);
 
     }
-
 
     public RegularCards getCardByModel(CardModel cardModel) {
         return cardMap.get(cardModel);

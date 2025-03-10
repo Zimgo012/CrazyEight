@@ -41,7 +41,6 @@ public class PlayerTableController {
                 tableView.addCardView(new PlayerCard(card), card);
             }
         }
-
         checkIfTurnShouldBePassed();
     }
 
@@ -116,6 +115,7 @@ public class PlayerTableController {
 
         chooserController.clearPendingSelection();
         System.out.println("Card does not match!");
+        gameModel.getNotification().promptNotification("Card does not match!");
         return false;
 
 
@@ -128,6 +128,7 @@ public class PlayerTableController {
 
             if (!hasPlayableCard) {
                 System.out.println("🔄 No playable cards! Passing turn...");
+                gameModel.getNotification().promptNotification("You cannot draw more and you dont have cards to play! Passing move ");
                 gameModel.nextTurn();
             }
         }
