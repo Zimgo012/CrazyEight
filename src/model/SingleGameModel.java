@@ -160,7 +160,6 @@ public class SingleGameModel {
 
         playerModels.get(currentPlayerIndex).setCurrentTurn(true);
         playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(getDropShadow());
-
         System.out.println("➡️ Turn switched to player: " + currentPlayerIndex);
 
         if (playerModels.get(currentPlayerIndex).isAI()) {
@@ -173,21 +172,6 @@ public class SingleGameModel {
             }, 1000);
         } else {
             System.out.println("🧑‍💻 Waiting for player " + currentPlayerIndex + " to play...");
-
-            if (!hasPlayableCard(getCurrentPlayer())) {
-                System.out.println("No playable cards. Player " + currentPlayerIndex + " must draw a card...");
-
-                CardController cardController = cardControllers.get(playerControllers.indexOf(getCurrentPlayerController()));
-
-                if (getCurrentPlayer().getHand().size() < 12) {
-                    cardController.addCardToTable(); // Draw a card
-                    System.out.println("🃏 Player " + currentPlayerIndex + " drew a card.");
-                }
-
-                if (!hasPlayableCard(getCurrentPlayer())) {
-                    nextTurn();
-                }
-            }
         }
     }
 
@@ -382,45 +366,23 @@ public class SingleGameModel {
 
     }
 
-    //Add two cards that increment if players keep getting card 2. ex. (2+2+2) 6
-    private void addTwo() {
-        CardController cardController = cardControllers.get(playerControllers.indexOf(getCurrentPlayerController()));
+//    Add two cards that increment if players keep getting card 2. ex. (2+2+2) 6
+private void addTwo() {
+    int nextPlayerIndex = reverseGameFlow
+            ? (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size()
+            : (currentPlayerIndex + 1) % playerModels.size();
 
-        int currentHandSize = getCurrentPlayer().getHand().size();
+    CardController cardController = cardControllers.get(nextPlayerIndex);
+    PlayerTableModel nextPlayer = playerModels.get(nextPlayerIndex);
 
-
-        if (currentHandSize + cardsCountForPlayTwo < 12) {
-            //Loop how many stacked cards
-            for (int i = 0; i < cardsCountForPlayTwo; i++) {
-                cardController.addCardToTable();
-            }
-        } else {
-
-            if (!reverseGameFlow) {
-                //set previous player hand
-                currentPlayerIndex = (currentPlayerIndex - 1) % playerModels.size();
-                for (int i = 0; i < cardsCountForPlayTwo; i++) {
-                    if (currentPlayerIndex < 12) {
-                        cardController.addCardToTable();
-                        //Message here
-                    }
-                }
-                //set current player hand
-                currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
-            } else {
-                //set previous player hand
-                currentPlayerIndex = (currentPlayerIndex + 1 + playerModels.size()) % playerModels.size();
-                for (int i = 0; i < cardsCountForPlayTwo; i++) {
-                    if (currentPlayerIndex < 12) {
-                        cardController.addCardToTable();
-                        //Message here
-                    }
-                    //set current player hand
-                    currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
-                }
-            }
-        }
+    // Ensure the next player gets all stacked +2 cards
+    for (int i = 0; i < cardsCountForPlayTwo; i++) {
+        cardController.addCardToTable();
     }
+
+    // Reset playTwo stack
+    cardsCountForPlayTwo = 0;
+}
 
     private void addQueen(){
         if (!reverseGameFlow) {
@@ -432,14 +394,6 @@ public class SingleGameModel {
         }
     }
 
-    private boolean hasPlayableCard(PlayerTableModel player) {
-        for (CardModel card : player.getHand()) {
-            if (card.getSuite().equals(openStack.getTopCard().getSuite()) || card.getValue() == 8) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     //checks if all hands is full
     private boolean checkAllHandsAreFull(){

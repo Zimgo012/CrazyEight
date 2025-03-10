@@ -41,6 +41,8 @@ public class PlayerTableController {
                 tableView.addCardView(new PlayerCard(card), card);
             }
         }
+
+        checkIfTurnShouldBePassed();
     }
 
     public boolean removeCardFromTable(CardModel card, RegularCards regularCards) {
@@ -105,6 +107,7 @@ public class PlayerTableController {
                 regularCards = new PlayerCard(card);
             }
 
+
             tableView.removeCard(regularCards, card);
             chooserController.clearPendingSelection();
 
@@ -118,6 +121,17 @@ public class PlayerTableController {
 
     }
 
+    private void checkIfTurnShouldBePassed() {
+        if (!tableModel.isAI() && tableModel.getHand().size() >= 12) {
+            boolean hasPlayableCard = tableModel.getHand().stream()
+                    .anyMatch(card -> card.getSuite().equals(openStack.getTopCard().getSuite()) || card.getValue() == 8);
+
+            if (!hasPlayableCard) {
+                System.out.println("🔄 No playable cards! Passing turn...");
+                gameModel.nextTurn();
+            }
+        }
+    }
 
     private boolean cardChecker(CardModel card) {
         CardModel prevCard = openStack.getTopCard();
