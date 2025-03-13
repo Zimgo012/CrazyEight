@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import model.MusicManager;
+import model.SingleGameModel;
 import view.scene.InGame;
 import view.scene.Menu;
 import javafx.application.Platform;
@@ -92,7 +93,7 @@ public class GameButtons {
         return startButton;
     }
 
-    public static Button QuitButton(Stage stage) {
+    public static Button QuitButton(Stage stage, SingleGameModel gameModel) {
         Image quitPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(quitPassive);
 
@@ -130,6 +131,7 @@ public class GameButtons {
         });
 
         quitButton.setOnMouseClicked(e -> {
+           gameModel.stopGame();
             new Menu(stage);
         });
 
@@ -406,10 +408,10 @@ public class GameButtons {
 
     public static Button MusicSetButton(){
 
-        Image musicSetPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_musicSet.png").toExternalForm());
+        Image musicSetPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_musicSet2.png").toExternalForm());
         ImageView imageViewON = new ImageView(musicSetPassive);
 
-        Image musicSetActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_musicSet2.png").toExternalForm());
+        Image musicSetActive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_musicSet.png").toExternalForm());
         ImageView imageViewOFF = new ImageView(musicSetActive);
 
         //Setting

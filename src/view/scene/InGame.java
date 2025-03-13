@@ -148,7 +148,7 @@ public class InGame {
      * Set ups Buttons
      */
     private void setupButtons(){
-        Button quitButton = GameButtons.QuitButton(stage);
+        Button quitButton = GameButtons.QuitButton(stage,singleGameModel);
         Button settingButton = GameButtons.SettingButton();
 
 

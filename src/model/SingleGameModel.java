@@ -35,6 +35,9 @@ public class SingleGameModel {
     //In-game Controls
     private int currentPlayerIndex = 0;
     private boolean reverseGameFlow = false;
+    private Thread aiThread;
+    private boolean gameRunning = true;
+
     //plays four
     private boolean isPlayFour = false;
     //plays two
@@ -123,33 +126,32 @@ public class SingleGameModel {
 
     //Track whose turn
     public void nextTurn() {
-        // Check if any player has zero cards
+        if (!gameRunning) return; // Stop if game is ending
+
+        // Check if any player has won
         if (checkForWinner()) {
-            return; // Stop the game if a player has won
+            return;
         }
 
-        //generate random card to play for if all hands are full
+        // Reset open stack if all hands are full
         if (checkAllHandsAreFull()) {
             System.out.println("🔄 All hands are full! Resetting the open stack...");
             randomInitialCard = cardControllers.get(0).generateRandomCard();
             openStack.addCard(new RegularCards(randomInitialCard), randomInitialCard);
         }
 
+        // Update previous player's state
         playerModels.get(currentPlayerIndex).setCurrentTurn(false);
         playerModels.get(currentPlayerIndex).setHasDrawnThisTurn(false);
         playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(null);
 
-        //Handle reverse
-        if(skipTurn) {
+        // Handle game rules like reverse or skip
+        if (skipTurn) {
             addQueen();
-
-        }else{
-            if (!reverseGameFlow) {
-                currentPlayerIndex = (currentPlayerIndex + 1) % playerModels.size();
-            } else {
-                currentPlayerIndex = (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size();
-            }
-
+        } else {
+            currentPlayerIndex = reverseGameFlow
+                    ? (currentPlayerIndex - 1 + playerModels.size()) % playerModels.size()
+                    : (currentPlayerIndex + 1) % playerModels.size();
         }
 
         if (isPlayFour) {
@@ -157,36 +159,37 @@ public class SingleGameModel {
             toggleIsPlayFour();
         }
 
-        if(!isPlayTwo && isPlayTwoRelease) {
+        if (!isPlayTwo && isPlayTwoRelease) {
             addTwo();
             isPlayTwo(false);
             isPlayTwoRelease(false);
-            cardsCountForPlayTwo = 0; // reset
+            cardsCountForPlayTwo = 0; // Reset playTwo count
         }
 
+        // Update current player's turn state
         playerModels.get(currentPlayerIndex).setCurrentTurn(true);
         playerTables.get(currentPlayerIndex).getCurrentUserTable().setEffect(getDropShadow());
         System.out.println("➡️ Turn switched to player: " + currentPlayerIndex);
 
+        // If it's an AI player's turn, start AI logic in a new thread
         if (playerModels.get(currentPlayerIndex).isAI()) {
-            System.out.println("🤖 AI Player " + currentPlayerIndex + " is taking a turn...");
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> handleAITurn());
-                }
-            }, 1000);
+            System.out.println("🤖 AI Player " + currentPlayerIndex + " is thinking...");
+            handleAITurn();
         } else {
             System.out.println("🧑‍💻 Waiting for player " + currentPlayerIndex + " to play...");
         }
     }
 
-    private void handleAITurn() {
-        new Timer().schedule(new TimerTask() {
 
-            @Override
-            public void run() {
+    private void handleAITurn() {
+        if (!gameRunning) return; // Stop AI if game is stopped
+
+        aiThread = new Thread(() -> {
+            try {
+                Thread.sleep(1000); // AI thinking delay
                 Platform.runLater(() -> {
+                    if (!gameRunning) return; // Stop if quitting
+
                     PlayerTableModel aiPlayer = getCurrentPlayer();
                     PlayerTable aiTable = playerTables.get(currentPlayerIndex);
                     PlayerTableController aiController = playerControllers.get(currentPlayerIndex);
@@ -196,7 +199,6 @@ public class SingleGameModel {
 
                     System.out.println("🤖 AI is thinking...");
 
-                    // Scan AI's hand for a valid card
                     for (CardModel card : aiPlayer.getHand()) {
                         if (card.getSuite().equals(topCard.getSuite()) || card.getValue() == 8) {
                             System.out.println("🤖 AI plays: " + card.getSuite() + " " + card.getValue());
@@ -208,53 +210,71 @@ public class SingleGameModel {
                                 aiController.removeCardFromTable(card, matchingCard);
                                 playedCard = true;
 
-                                //Check if AI won before switching turns
                                 if (checkForWinner()) return;
-
                                 nextTurn();
                                 return;
                             }
                         }
                     }
 
-                    //If AI's hand is already full (13 cards), it must pass
                     if (aiPlayer.getHand().size() >= 12) {
                         System.out.println("🤖 AI has no valid cards and cannot draw. Passing turn...");
                         nextTurn();
                         return;
                     }
 
-                    // AI draws cards with a delay until it finds a valid one
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
+                    // AI draws a card and rechecks its hand
+                    aiThread = new Thread(() -> {
+                        try {
+                            Thread.sleep(1000); // AI draws a card delay
                             Platform.runLater(() -> {
+                                if (!gameRunning) return;
+
                                 if (aiPlayer.getHand().size() < 12) {
                                     System.out.println("🤖 AI draws a card...");
                                     aiCardController.addCardToTable();
-                                    handleAITurn(); //Recursively check after drawing
+                                    handleAITurn(); // Continue AI logic
                                 } else {
                                     System.out.println("🤖 AI hand is full. Passing turn...");
                                     nextTurn();
                                 }
                             });
-                        }
-                    }, 750); //One-second delay per draw
+                        } catch (InterruptedException ignored) {}
+                    });
+                    aiThread.setDaemon(true);
+                    aiThread.start();
+
                 });
-            }
-        }, 750); // ✅ Initial AI thinking delay
+            } catch (InterruptedException ignored) {}
+        });
+
+        aiThread.setDaemon(true);
+        aiThread.start();
     }
+
 
     private boolean checkForWinner() {
         for (PlayerTableModel player : playerModels) {
             if (player.getHand().isEmpty()) {
                 System.out.println("Player " + playerModels.indexOf(player) + " WINS! Game Over!");
                 getNotification().promptNotification("Player " + playerModels.indexOf(player) + " WINS! Game Over!");
+                stopGame();
                 return true; //A winner is found, game stops
             }
         }
         return false; //Continue game if no winner
     }
+
+    public void stopGame() {
+        gameRunning = false; // Stop AI and game turns
+
+        if (aiThread != null) {
+            aiThread.interrupt(); // Stop AI processing
+        }
+
+        System.out.println("⛔ Game Stopped!");
+    }
+
 
     // Getters for game state access
     public PlayerTableModel getCurrentPlayer() {
