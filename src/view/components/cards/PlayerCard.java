@@ -22,6 +22,17 @@ import model.CardModel;
 public class PlayerCard extends RegularCards {
 
 
+    /**
+     * Creates a visual representation of a card that reacts to user interaction such as mouse hover,
+     * press, and release events.
+     *
+     * The PlayerCard enhances the base card's visual behavior with effects:
+     * - Adds a yellow glowing effect and elevation when the card is hovered over.
+     * - Reduces opacity when the card is pressed.
+     * - Restores its original settings when released or when the mouse exits.
+     *
+     * @param card the model representing the card, including its suite and value, to be used in the visual representation
+     */
     public PlayerCard(CardModel card) {
         super(card);
 

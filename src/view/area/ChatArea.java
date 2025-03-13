@@ -27,10 +27,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 /**
- * Class name: ChatArea
- * Purpose: A Chat Area UI is the section of a messaging application where users can send and receive messages.
- * @author John Rycca Belcina
- * @since 1.8
+ * The ChatArea class is responsible for creating and organizing the user interface elements
+ * for the chat feature in the application. It includes a background, components for viewing
+ * chat logs, a text field for message input, and a send button.
  */
 public class ChatArea {
 
@@ -39,6 +38,13 @@ public class ChatArea {
     public ChatArea(){
 
     }
+    /**
+     * Creates and returns a chat area UI component comprised of a background,
+     * scrollable sections for chat and log displays, a text input field, and a send button.
+     *
+     * @param log the Log instance used to generate the log display component within the chat area
+     * @return a StackPane containing all the components of the chat area
+     */
     public StackPane getChatArea(Log log){
 
         StackPane chatBox = new StackPane();

@@ -29,12 +29,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
- * Class name: Menu
- * Purpose:
- * - Main scene to let user pick some options.
- * - First scene to pop after starting the game
- * @author John Rycca Belcina
- * @since 1.8
+ * The Menu class represents the user interface for the main menu of the "Crazy Eight" application.
+ * It is responsible for setting up and managing various components such as the background, buttons,
+ * settings, and chat interface.
  */
 
 public class Menu {
@@ -46,8 +43,11 @@ public class Menu {
     private Notification notification;
 
     /**
-     * Initialize stage
-     * @param stage stage
+     * Constructs a new instance of the Menu class.
+     * Initializes the user interface components for the menu.
+     *
+     * @param stage the primary stage of the application, onto which the menu components
+     * will be added. The stage is the main window of the JavaFX application.
      */
     public Menu(Stage stage) {
         this.stage = stage;
@@ -55,7 +55,16 @@ public class Menu {
     }
 
     /**
-     * Initialize UI
+     * Initializes the menu components by setting up the background, buttons,
+     * additional components, and the scene layout. This method is responsible
+     * for assembling the graphical interface of the main menu.
+     *
+     * The method performs the following:
+     * - Creates an AnchorPane as the base container for the menu.
+     * - Calls `setupBackground()` to set the visual background for the menu.
+     * - Calls `setupButtons()` to configure and place interactive buttons.
+     * - Calls `setupOtherComp()` to add additional UI components, such as settings popups.
+     * - Calls `setupScene()` to finalize the scene layout and display the menu on the application stage.
      */
     private void initMenu(){
         table = new AnchorPane();

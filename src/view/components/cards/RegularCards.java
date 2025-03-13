@@ -21,13 +21,11 @@ import model.CardModel;
 import observers.CardObserver;
 
 /**
- * Class name: RegularCards
- * Purpose:
- * - Parent class for cards. Represents card UI in game
- * @author John Rycca Belcina
- * @since 1.8
+ * Represents a regular card in a card game, observing changes in the card model
+ * and updating its visual representation accordingly. The class provides methods
+ * for retrieving and rotating the card's view, as well as implementing the
+ * {@code CardObserver} interface for reactive updates.
  */
-
 public class RegularCards implements CardObserver {
 
     private Rectangle cardView;
@@ -48,14 +46,31 @@ public class RegularCards implements CardObserver {
         return this.cardView;
     }
 
+    /**
+     * Sets the rotation of the card view to the specified angle.
+     *
+     * @param rotate the rotation angle in degrees to set for the card view.
+     */
     public void setRotation(int rotate){
         this.cardView.setRotate(rotate);
     }
 
+    /**
+     * Retrieves the card model associated with the current instance.
+     *
+     * @return the {@code CardModel} object representing the card's data and state.
+     */
     public CardModel getModel(){
         return this.model;
     }
 
+    /**
+     * Updates the visual representation of the card based on its current state and model.
+     * The method updates the appearance of the card to reflect whether it is face up or face down,
+     * and sets the appropriate image based on the card's suite and value for face-up cards.
+     *
+     * @param card the {@code CardModel} object representing the data and state of the card to update.
+     */
     @Override
     public void updateCard(CardModel card) {
         String imagePath;

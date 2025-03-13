@@ -36,11 +36,14 @@ import javafx.scene.text.Text;
 public class MessageBubble {
 
     /**
-     * Bubble for the current player using the game
-     * @param message message from the user
-     * @param playerName name of the player
-     * @param position position of the bubble
-     * @return Vbox for bubble
+     * Creates a message bubble for the current player in the chat interface.
+     * The bubble includes the player's name and message, styled with specific
+     * fonts, colors, and alignments.
+     *
+     * @param message the text of the message to be displayed in the bubble
+     * @param playerName the name of the player who sent the message
+     * @param position the alignment position of the message bubble in the parent container
+     * @return a VBox containing the styled message bubble for the current player
      */
     public static VBox currentPlayerMessageBubble(String message, String playerName, Pos position){
 

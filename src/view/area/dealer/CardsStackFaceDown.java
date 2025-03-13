@@ -22,10 +22,12 @@ import javafx.scene.shape.Rectangle;
 import model.PlayerTableModel;
 
 /**
- * Class name: CardsStackFaceDown
- * Purpose: Represents section of unused card (where we want to draw from, Facing down).
- * @author John Rycca Belcina
- * @since 1.8
+ * CardsStackFaceDown is a class responsible for managing and visually representing
+ * a stack of unused cards in a game. The cards in this stack are represented as
+ * being faced down and are displayed as a stacked group of card images.
+ * The class interacts with a CardController and PlayerTableModel to manage
+ * the behavior of the card stack and its integration with the player's table
+ * during their turn in the game.
  */
 public class CardsStackFaceDown {
     private CardController cardController;
@@ -34,7 +36,10 @@ public class CardsStackFaceDown {
 
 
     /**
-     * Default Constructor
+     * Constructs a CardsStackFaceDown object to manage a stack of cards facing down.
+     *
+     * @param deckControl the CardController instance responsible for managing card-related logic
+     * @param playerTableModel the PlayerTableModel instance representing the player's table state
      */
     public CardsStackFaceDown(CardController deckControl, PlayerTableModel playerTableModel) {
         this.cardController = deckControl;
@@ -42,8 +47,15 @@ public class CardsStackFaceDown {
     };
 
     /**
-     * Method that can is used to represent unused cards
-     * @return an area filled with unused cards (facing down)
+     * Retrieves the stack pane containing the face-down stack of cards.
+     *
+     * This method sets up the visual representation of the cards stack
+     * and adds functionality for handling mouse click events. If the
+     * player's turn is active, clicking the stack triggers the addition
+     * of a card to the player's table. Otherwise, it logs a message indicating
+     * it is not the player's turn.
+     *
+     * @return a StackPane object representing the face-down stack of cards.
      */
     public StackPane getCardsStackFaceDown (){
         setupDeck();
@@ -64,7 +76,23 @@ public class CardsStackFaceDown {
     }
 
     /**
-     * Setup stack of cards facing down
+     * Sets up the deck by initializing and configuring a visual representation of a stack
+     * of cards facing down. This method creates multiple rectangular elements to represent
+     * cards, each styled and positioned within a StackPane to give a stacked effect.
+     *
+     * Functionality:
+     * - Creates six rectangles of fixed dimensions (90x120) to represent card shapes.
+     * - Applies an image pattern to all rectangles to visually simulate the back side of the cards.
+     * - Adjusts the horizontal margins of each rectangle in the stack to achieve an offset effect,
+     *   i.e., each subsequent card is visually shifted to simulate a stack.
+     * - Adds all rectangles as children to a StackPane for layering.
+     *
+     * Key Points:
+     * - The image used for the card pattern is loaded from a predefined resource path.
+     * - Margins are set incrementally to create a visual representation of depth in the stack.
+     * - The StackPane object is the container and graphical container for all the card components.
+     *
+     * This method is typically invoked internally to initialize or reset the graphical representation of the card stack.
      */
     private void setupDeck(){
         stackPane = new StackPane();

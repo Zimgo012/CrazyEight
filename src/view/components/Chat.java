@@ -23,14 +23,20 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 /**
- * Class name: Chat
- * Purpose: Contains chat
- * @author John Rycca Belcina
- * @since 1.8
+ * The Chat class provides functionality for creating a ScrollPane-based chat user interface.
+ * This chat UI displays messages from multiple players in the form of chat bubbles with
+ * player-specific styling and alignment.
  */
 
 public class Chat {
 
+    /**
+     * Creates and configures a ScrollPane for displaying chat messages. The ScrollPane includes
+     * a VBox containing message bubbles for different players, styled and aligned based on player identity.
+     * The chat area supports dynamically adding messages with predefined styling and alignment.
+     *
+     * @return a ScrollPane containing the chat interface with styled message bubbles
+     */
     public static ScrollPane chatScrollPane(){
 
         ScrollPane chat = new ScrollPane();

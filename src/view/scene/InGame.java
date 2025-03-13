@@ -34,11 +34,10 @@ import java.util.List;
 
 
 /**
- * Class name: InGame
- * Purpose:
- * - In game scene for to play the game
- * @author John Rycca Belcina
- * @since 1.8
+ * The InGame class represents the main game scene for the Crazy Eight game.
+ * It manages the initialization and setup of all game components, user interface (UI),
+ * and player interactions. This class works closely with the game model and other
+ * supporting classes to render the game state and enable user interaction.
  */
 public class InGame {
 
@@ -50,8 +49,9 @@ public class InGame {
     private SingleGameModel singleGameModel;
 
     /**
-     * Initialize Stage
-     * @param stage stage
+     * Constructs an instance of the InGame class, initializing the game user interface.
+     *
+     * @param stage the primary stage of the application, used for managing the game scene
      */
     public InGame(Stage stage){
         this.stage = stage;
@@ -59,7 +59,19 @@ public class InGame {
     }
 
     /**
-     * Initialize UI
+     * Initializes the game by setting up the user interface components, game board,
+     * buttons, additional components, and the game scene.
+     *
+     * This method prepares all necessary elements for the gameplay, combining various
+     * setup methods to create a functional and visually complete game interface.
+     *
+     * Steps involved in initialization:
+     * 1. Sets up the game board, including the main table, player areas, and game components
+     *    like decks and open stacks.
+     * 2. Adds buttons such as the quit and settings buttons to the interface.
+     * 3. Sets up supplementary components including the chat box, notification banners,
+     *    settings, and suite chooser.
+     * 4. Configures the main scene using the base layout to display all the components.
      */
     private void initGame(){
         table = new AnchorPane();
@@ -71,7 +83,17 @@ public class InGame {
     }
 
     /**
-     * Set ups other components
+     * Configures and initializes additional user interface components for the game, including
+     * the chat interface, settings popup, notification system, and suite chooser. These elements
+     * are added to the main display area and their positions are set using anchor points.
+     *
+     * The method performs the following steps:
+     * 1. Creates and adds the chat area, which includes chat and log displays, to the main table.
+     * 2. Creates and positions the settings popup pane in the UI.
+     * 3. Retrieves and integrates the notification system, setting its position in the UI.
+     * 4. Retrieves and positions the suite chooser component on the main table.
+     * 5. Adds all the created components (chat area, settings popup, notification, suite chooser)
+     *    to the main container.
      */
     private void setupOtherComp(){
         ChatArea chatArea = new ChatArea();
@@ -111,7 +133,20 @@ public class InGame {
     }
 
     /**
-     * Set ups game board
+     * Sets up the game board layout and components for the Crazy Eight game.
+     *
+     * This method initializes and arranges the graphical elements that form the game board,
+     * such as the background, player tables, dealer deck, and open card stack.
+     *
+     * The following steps are performed:
+     * - Creates and configures an AnchorPane as the base layout for the game board.
+     * - Sets up the main table background with dimensions and a tablecloth image.
+     * - Initializes the game model, including player tables, open stack, and dealer stack.
+     * - Positions the dealer's deck and open stack components on the game board using
+     *   specific coordinates.
+     * - Adds the dealer's deck and open stack to the game board layout.
+     * - Calls the `positionPlayerTables` method to place player areas on the game board
+     *   based on the list of `PlayerTable` objects retrieved from the game model.
      */
     private void setupGameBoard(){
         table = new AnchorPane();
@@ -145,7 +180,18 @@ public class InGame {
     }
 
     /**
-     * Set ups Buttons
+     * Configures and adds the quit and settings buttons to the game interface.
+     *
+     * This method creates the quit and settings buttons using predefined methods from
+     * the GameButtons class and positions them within the user interface using the
+     * AnchorPane layout. The buttons are then added to the main table.
+     *
+     * The following actions are performed:
+     * - Creates the quit button using GameButtons.QuitButton and passes required parameters.
+     * - Creates the settings button using GameButtons.SettingButton.
+     * - Positions the quit button at the bottom-right of the screen with specific anchor values.
+     * - Positions the settings button below the quit button with specific anchor values.
+     * - Adds both buttons to the main table container.
      */
     private void setupButtons(){
         Button quitButton = GameButtons.QuitButton(stage,singleGameModel);
@@ -161,7 +207,11 @@ public class InGame {
     }
 
     /**
-     * Sets up tables
+     * Positions the player tables on the game board and adjusts their rotation and anchor points
+     * according to the predefined layout.
+     *
+     * @param playerTables the list of PlayerTable objects representing the tables
+     *                     of players in the game to be positioned on the board
      */
     private void positionPlayerTables(List<PlayerTable> playerTables) {
         Pane PT1 = playerTables.get(0).getCurrentUserTable();
@@ -187,7 +237,14 @@ public class InGame {
     }
 
     /**
-     * Sets up Scene
+     * Configures and sets up the main scene for the Crazy Eight game interface.
+     *
+     * This method initializes the base layout of the application by positioning
+     * the game table in the center and the chat box on the right side of the screen.
+     * It then creates a Scene object with the specified dimensions (1600x900),
+     * assigns it to the primary stage, and sets the title of the application window.
+     * The method also disables the resizable property of the stage and displays
+     * the window to the user.
      */
     private void setupScene(){
         // Base

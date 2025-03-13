@@ -1,3 +1,17 @@
+/**
+ * Student Name: JOHN RYCCA BELCINA
+ * Student Number: 041128039
+ * Course: CST 8221 – JAP, Lab Section: 300/303
+ * Professor: Cormier, Daniel | Singh, Ramanjeet
+ * Date: 2025-02-09
+ * Compiler: IntelliJ IDEA
+ * Purpose:
+ * This project involves developing a software version of the Crazy Eights card game using a standard deck of playing cards.
+ * The game will follow the first three variation rules listed on Wikipedia, along with additional custom rules.
+ * Understanding these variations is essential for proper implementation.
+ * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
+ * Copyright © 2025 John Rycca Belcina. All rights reserved.
+ */
 package model;
 
 import controller.CardController;
@@ -18,6 +32,11 @@ import view.components.cards.RegularCards;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Represents the game model for a single-player card game.
+ * The game model manages players, AI players, in-game controls,
+ * card distribution, and gameplay mechanics.
+ */
 public class SingleGameModel {
     //Players
     private List<PlayerTableModel> playerModels = new ArrayList<>();
@@ -55,6 +74,17 @@ public class SingleGameModel {
     private Notification notification;
 
 
+    /**
+     * Constructor for the SingleGameModel class.
+     * This initializes a game model specifically designed for a single-player mode.
+     *
+     * The constructor performs the following core operations:
+     * 1. Initializes the game state, including setup of the player models, tables, controllers,
+     *    card stack, and other necessary game components by invoking the setupGameState() method.
+     * 2. Distributes starting cards randomly to all players at the beginning of the game using
+     *    the distributeStartingCards() method.
+     * 3. Begins the gameplay by calling the startGame() method.
+     */
     //Instantiate game model for single player
     public SingleGameModel() {
         setupGameState();
@@ -62,6 +92,23 @@ public class SingleGameModel {
         startGame();
     }
 
+    /**
+     * Initializes and sets up the game state for a single-player game session.
+     *
+     * This method performs the following operations:
+     * 1. Creates and initializes a new `OpenStack` to manage the cards that are played.
+     * 2. Initializes the `SuiteChooser` for choosing card suits during gameplay.
+     * 3. Initializes the `SuiteChooserController` to handle logic related to suit selection.
+     * 4. Creates a `Notification` instance for game updates and player notifications.
+     * 5. Sets up player models, player tables, and their corresponding controllers:
+     *    - Four players are created, where the first player is controlled by a human,
+     *      and the rest are marked as AI and foreign.
+     *    - For each player, a `PlayerTableModel`, `PlayerTable`, `PlayerTableController`,
+     *      and `CardController` are instantiated and added to their respective collections.
+     * 6. Initializes the stack of cards face-down (`CardsStackFaceDown`), associating it
+     *    with the first player who starts the game.
+     * 7. Sets the first player as the current turn holder, ensuring gameplay begins with them.
+     */
     //Setup Game State
     private void setupGameState() {
         openStack = new OpenStack();
@@ -96,6 +143,17 @@ public class SingleGameModel {
 
     }
 
+    /**
+     * Distributes starting cards to all players at the beginning of the game and initializes
+     * the open stack with a starting card.
+     *
+     * The method performs the following operations:
+     * 1. Iterates through each player controller and associates it with a corresponding card controller.
+     * 2. Distributes 5 random cards to each player by invoking the addCardToTable method on the card controller.
+     * 3. Sets up a random initial card to begin the game using the generateRandomCard method of the first card controller.
+     * 4. If the randomly generated initial card has a value of 8, adjusts it by decreasing its value by 1.
+     * 5. Adds the adjusted initial card to the open stack as a starting card.
+     */
     //Distributes random card at the start of the game
     private void distributeStartingCards() {
         for (PlayerTableController playerController : playerControllers) {
@@ -118,12 +176,50 @@ public class SingleGameModel {
 
     }
 
+    /**
+     * Initiates and starts the gameplay by signaling the beginning of the game.
+     *
+     * This method performs the following operations:
+     * 1. Prints a confirmation message to indicate the game has started.
+     * 2. Schedules the first turn of the gameplay to begin using the `nextTurn()` method.
+     *
+     * It is typically invoked after the game state has been initialized and the
+     * necessary cards have been distributed to players. This method ensures that
+     * gameplay progresses seamlessly from the initial state.
+     */
     //Starts the game
     public void startGame() {
         System.out.println("🎮 Game Started!");
         Platform.runLater(() -> nextTurn());
     }
 
+    /**
+     * Handles the transition to the next player's turn in the game, updating the game state based on
+     * specific game rules and conditions.
+     *
+     * This method performs the following core operations:
+     * 1. Ensures the game is still running. If the game has ended, further turn processing is halted.
+     * 2. Checks if a player has won the game. If so, the game is concluded.
+     * 3. Resets the open stack if all players' hands are full, generating a random initial card and
+     *    adding it to the open stack for continued gameplay.
+     * 4. Updates the previous player's state by:
+     *    - Marking the player's turn as ended.
+     *    - Resetting the flag indicating whether the player has drawn a card during their turn.
+     *    - Clearing any active effect on the player's table.
+     * 5. Handles special game rules, including:
+     *    - Skipping turns for certain rules.
+     *    - Reversing game flow for directional rules.
+     *    - Executing effects like playing consecutive "four" or "two" cards.
+     * 6. Adjusts the current player index to align with game flow, ensuring the turn moves to the correct player.
+     * 7. Updates the current player's state to reflect their active turn and applies any visual effects
+     *    (e.g., drop shadow) to indicate their turn status.
+     * 8. Determines whether the current player is an AI or a human:
+     *    - If it's an AI player, initiates AI-specific logic asynchronously.
+     *    - For human players, waits for the player's manual interaction.
+     *
+     * This method orchestrates turn transitions while accommodating game-specific effects and rules,
+     * ensuring smooth gameplay progression.
+     */
     //Track whose turn
     public void nextTurn() {
         if (!gameRunning) return; // Stop if game is ending
@@ -181,6 +277,32 @@ public class SingleGameModel {
     }
 
 
+    /**
+     * Executes the AI player's turn during the game.
+     *
+     * This method controls the AI logic and actions in the game flow.
+     * The AI's turn follows these steps:
+     *
+     * 1. The AI will pause briefly (simulating a "thinking" delay) before making a move.
+     * 2. Once active, the AI evaluates its hand and compares its cards to the game's open stack.
+     *    - If a card in the AI's hand matches the suite of the top card on the open stack,
+     *      or if the card is a wildcard (e.g., value 8), the AI will play that card.
+     *    - The played card will be logged, removed from the AI player's table, and processed in the game.
+     *    - If playing the card results in a winning condition, the game will end.
+     * 3. If the AI cannot play a card and its hand size is less than the maximum limit (12 cards),
+     *    it will draw a new card to its hand from the stack.
+     *    - The drawing process involves a delay to simulate gameplay pacing.
+     *    - After drawing, the AI reevaluates its hand and may decide to play a card.
+     * 4. If the AI's hand is full (12 cards) and it cannot play a card, it will pass its turn
+     *    to the next player.
+     * 5. The current player's turn is transitioned using the `nextTurn()` method once
+     *    the AI's move is completed or skipped.
+     *
+     * Note:
+     * - The AI's decisions are made asynchronously on a separate thread, ensuring that
+     *   the game runs smoothly without freezing or delaying other components.
+     * - The AI logic will not execute if the game is not running or if the player terminates the game.
+     */
     private void handleAITurn() {
         if (!gameRunning) return; // Stop AI if game is stopped
 
@@ -253,6 +375,12 @@ public class SingleGameModel {
     }
 
 
+    /**
+     * Checks if there is a winner in the game by determining if any player's hand is empty.
+     * If a player wins, displays a notification, stops the game, and returns true.
+     *
+     * @return true if a player has won the game and the gameplay should stop, false otherwise
+     */
     private boolean checkForWinner() {
         for (PlayerTableModel player : playerModels) {
             if (player.getHand().isEmpty()) {
@@ -265,6 +393,17 @@ public class SingleGameModel {
         return false; //Continue game if no winner
     }
 
+    /**
+     * Stops the ongoing single-player game and terminates any active AI processes.
+     *
+     * This method performs the following actions:
+     * 1. Sets the game state to not running by setting the `gameRunning` flag to false.
+     * 2. Interrupts the AI thread if it is actively running, ensuring AI processing is stopped.
+     * 3. Logs a message indicating the game has been stopped.
+     *
+     * It is typically invoked when the player decides to end the game prematurely
+     * or when the game needs to be concluded programmatically.
+     */
     public void stopGame() {
         gameRunning = false; // Stop AI and game turns
 
@@ -276,80 +415,174 @@ public class SingleGameModel {
     }
 
 
+    /**
+     * Retrieves the PlayerTableModel instance representing the current player
+     * based on the current player index in the player models list.
+     *
+     * @return the PlayerTableModel of the current player.
+     */
     // Getters for game state access
     public PlayerTableModel getCurrentPlayer() {
         return playerModels.get(currentPlayerIndex);
     }
 
+    /**
+     * Retrieves the controller for the current player based on the current player index.
+     *
+     * @return the PlayerTableController instance corresponding to the current player
+     */
     public PlayerTableController getCurrentPlayerController() {
         return playerControllers.get(currentPlayerIndex);
     }
 
+    /**
+     * Retrieves the list of PlayerTableModel objects.
+     *
+     * @return a list containing PlayerTableModel objects.
+     */
     public List<PlayerTableModel> getPlayerModels() {
         return playerModels;
     }
 
+    /**
+     * Retrieves the list of player tables.
+     *
+     * @return a list of PlayerTable objects representing the player tables.
+     */
     public List<PlayerTable> getPlayerTables() {
         return playerTables;
     }
 
+    /**
+     * Retrieves the instance of OpenStack.
+     *
+     * @return the OpenStack instance associated with this object.
+     */
     public OpenStack getOpenStack() {
         return openStack;
     }
 
+    /**
+     * Retrieves the stack of cards that are placed face down.
+     *
+     * @return an instance of CardsStackFaceDown representing the stack of face-down cards.
+     */
     public CardsStackFaceDown getCardsStackFaceDown() {
         return cardsStackFaceDown;
     }
 
+    /**
+     * Retrieves the SuiteChooserController instance.
+     *
+     * @return the SuiteChooserController instance associated with this class.
+     */
     public SuiteChooserController getSuiteChooserController() {
         return suiteChooserController;
     }
 
+    /**
+     * Retrieves the suite chooser instance.
+     *
+     * @return the SuiteChooser instance associated with this class
+     */
     public SuiteChooser getSuiteChooser() {
         return suiteChooser;
     }
 
+    /**
+     * Toggles the state of the reverse game flow.
+     * This method switches the value of the reverseGameFlow flag
+     * between true and false, effectively enabling or disabling
+     * reverse game flow behavior.
+     */
     public void toggleReverseGameFlow() {
         reverseGameFlow = !reverseGameFlow;
     }
 
+    /**
+     * Toggles the value of the isPlayFour variable.
+     * If isPlayFour is currently true, it will be set to false.
+     * If isPlayFour is currently false, it will be set to true.
+     */
     public void toggleIsPlayFour() {
         isPlayFour = !isPlayFour;
     }
 
+    /**
+     * Sets the value indicating whether PlayTwoRelease is enabled.
+     *
+     * @param isPlayTwoRelease the boolean value to set for PlayTwoRelease
+     */
     public void isPlayTwoRelease(boolean isPlayTwoRelease) {
         this.isPlayTwoRelease = isPlayTwoRelease;
     }
 
+    /**
+     * Increments the value of cardsCountForPlayTwo by 2.
+     * This method is used to update the count of cards
+     * designated for the "play two" functionality or scenario.
+     */
     public void incrementTwoCard(){
         cardsCountForPlayTwo = cardsCountForPlayTwo + 2;
     }
 
+    /**
+     * Sets the state of whether the play is enabled for a second player or not.
+     *
+     * @param isPlayTwo A boolean value indicating if the play for the second player is enabled (true) or disabled (false).
+     */
     public void isPlayTwo(boolean isPlayTwo) {
         this.isPlayTwo = isPlayTwo;
     }
 
+    /**
+     * Toggles the state of the skipTurn variable.
+     * If skipTurn is currently true, this method sets it to false.
+     * If skipTurn is currently false, this method sets it to true.
+     */
     public void toggleSkipTurn(){
         skipTurn = !skipTurn;
     }
 
 
+    /**
+     * Retrieves the current instance of the LogModel.
+     *
+     * @return the LogModel instance associated with this object.
+     */
     public LogModel getLogModel(){
         return logModel;
     }
 
+    /**
+     * Retrieves the current instance of the log view.
+     *
+     * @return the Log object representing the current log view
+     */
     public Log getLogView(){
         return logView;
     }
 
     // Additional
 
+    /**
+     * Retrieves the current notification instance.
+     *
+     * @return the current Notification object
+     */
     public Notification getNotification() {
         return notification;
     }
 
     //Additional
 
+    /**
+     * Retrieves a DropShadow effect with pre-configured properties.
+     * If the DropShadow is not already initialized, it initializes it, sets its radius to 50,
+     * and color to orange.
+     *
+     * @return a DropShadow instance with a radius of 50 and an orange color.
+     */
     public DropShadow getDropShadow() {
         if (glow == null) {
             glow = new DropShadow();
@@ -358,6 +591,27 @@ public class SingleGameModel {
         glow.setColor(Color.ORANGE);
         return glow;
     }
+    /**
+     * Adds four cards to the current player's hand when a draw-four card is played.
+     * If the player's hand cannot accommodate all four cards without exceeding the
+     * maximum limit of 12 cards, the remaining cards are distributed to the adjacent
+     * player's hand based on the game flow direction.
+     *
+     * This method considers the following scenarios:
+     * 1. If the current player's hand can safely accommodate all four cards
+     *    without exceeding the maximum limit, all cards are added to their hand.
+     * 2. If adding four cards exceeds the maximum hand limit of the current player,
+     *    the overflow cards are distributed to the adjacent player's hand based
+     *    on the direction of game flow.
+     *
+     * The game flow direction is determined by the `reverseGameFlow` flag:
+     * - If `reverseGameFlow` is false, the overflow cards are distributed to the
+     *   previous player.
+     * - If `reverseGameFlow` is true, the overflow cards are distributed to the
+     *   next player.
+     *
+     * The method ensures that no player's hand exceeds the maximum size of 12 cards.
+     */
     //Adds four cards if four is drawn
     private void addFour() {
 
@@ -409,6 +663,14 @@ public class SingleGameModel {
 
     }
 
+    /**
+     * Adds two cards for the next player. If sequential +2 cards are played,
+     * the count of cards continues to increment until the stack is reset.
+     *
+     * This method determines the next player based on the current game flow direction
+     * and assigns the accumulated count of +2 cards to that player. After processing,
+     * the play two stack is reset to zero.
+     */
     //Add two cards that increment if players keep getting card 2. ex. (2+2+2) 6
     private void addTwo() {
     int nextPlayerIndex = reverseGameFlow
@@ -427,6 +689,13 @@ public class SingleGameModel {
     cardsCountForPlayTwo = 0;
 }
 
+    /**
+     * Updates the current player index and manages the flow of the game
+     * by adjusting the turn order depending on the direction of gameplay.
+     * If the game flow is not reversed, the current player index is incremented
+     * accordingly. In a reversed game flow, the index is decremented.
+     * The method also toggles the skip turn status to ensure proper turn management.
+     */
     private void addQueen(){
         if (!reverseGameFlow) {
             currentPlayerIndex = (currentPlayerIndex + 2) % playerModels.size();
@@ -438,6 +707,11 @@ public class SingleGameModel {
     }
 
 
+    /**
+     * Checks if all player hands are full by verifying if each player's hand contains a specific number of cards.
+     *
+     * @return true if all player hands have 12 cards, false otherwise.
+     */
     //checks if all hands is full
     private boolean checkAllHandsAreFull(){
         for (PlayerTableModel playerModel : playerModels) {

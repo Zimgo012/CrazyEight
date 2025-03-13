@@ -1,3 +1,17 @@
+/**
+ * Student Name: JOHN RYCCA BELCINA
+ * Student Number: 041128039
+ * Course: CST 8221 – JAP, Lab Section: 300/303
+ * Professor: Cormier, Daniel | Singh, Ramanjeet
+ * Date: 2025-02-09
+ * Compiler: IntelliJ IDEA
+ * Purpose:
+ * This project involves developing a software version of the Crazy Eights card game using a standard deck of playing cards.
+ * The game will follow the first three variation rules listed on Wikipedia, along with additional custom rules.
+ * Understanding these variations is essential for proper implementation.
+ * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
+ * Copyright © 2025 John Rycca Belcina. All rights reserved.
+ */
 package view.components;
 
 import javafx.scene.effect.DropShadow;
@@ -8,6 +22,13 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import view.components.popups.SettingPopUp;
 
+/**
+ * The SuiteChooser class is responsible for creating and managing
+ * a graphical user interface component that allows users to select
+ * a card suit (Diamond, Clubs, Heart, Spade).
+ * It provides a visual representation of the suits with interactive
+ * effects.
+ */
 public class SuiteChooser {
 
     private StackPane suites = null;
@@ -16,10 +37,28 @@ public class SuiteChooser {
     Rectangle heartB = new Rectangle(69, 60);
     Rectangle spadeB = new Rectangle(69, 60);
 
+    /**
+     * Constructor for the SuiteChooser class.
+     *
+     * This method initializes a new instance of the SuiteChooser class, which is
+     * used to represent and manage the suite selection functionality in the
+     * application. It sets up any necessary internal structures or references
+     * required for managing suit-related visual elements or interactions.
+     */
     public SuiteChooser() {
 
     }
 
+    /**
+     * Generates and configures a suite chooser component for selecting card suites in the application.
+     * The suite chooser is represented as a StackPane, containing four clickable shapes (diamond,
+     * clubs, heart, spade) with associated visual effects and event handlers for interaction.
+     *
+     * The component includes specific icons for each card suite, custom styles for layout and
+     * appearance, and mouse hover effects such as a glow.
+     *
+     * @return a configured StackPane representing the suite chooser component
+     */
     public StackPane generateSuiteChooser(){
 
         if(suites == null){
@@ -99,22 +138,60 @@ public class SuiteChooser {
         return suites;
     }
 
+    /**
+     * Retrieves the StackPane that represents the suite chooser.
+     *
+     * This method provides access to the suite chooser component, which
+     * allows users to select a card suite (e.g., Diamond, Clubs, Hearts, Spade)
+     * in a card game application. It may include visual elements and interaction
+     * handlers for managing suite selection.
+     *
+     * @return the StackPane representing the suite chooser component
+     */
     public StackPane getSuites() {
         return suites;
     }
 
+    /**
+     * Retrieves the rectangle representing the "Diamond" shape in the suite chooser component.
+     * This method provides access to the visual element associated with the "Diamond" suite
+     * for interaction or configuration purposes.
+     *
+     * @return the rectangle corresponding to the "Diamond" suite within the suite chooser
+     */
     public Rectangle getDiamondB() {
         return diamondB;
     }
 
+    /**
+     * Retrieves the rectangle representing the "Clubs" shape in the suite chooser component.
+     * This method provides access to the visual element associated with the "Clubs" suite
+     * for interaction or configuration purposes.
+     *
+     * @return the rectangle corresponding to the "Clubs" suite within the suite chooser
+     */
     public Rectangle getClubsB() {
         return clubsB;
     }
 
+    /**
+     * Retrieves the rectangle representing the "Heart" shape in the suite chooser component.
+     * This method provides access to the visual element associated with the "Heart" suite
+     * for interaction or configuration purposes.
+     *
+     * @return the rectangle corresponding to the "Heart" suite within the suite chooser
+     */
     public Rectangle getHeartB() {
         return heartB;
     }
 
+    /**
+     * Retrieves the rectangle representing the "Spade" shape in the suite chooser component.
+     * This method provides access to the visual element associated with the "Spade" suite
+     * for interaction or configuration purposes.
+     *
+     * @return the rectangle corresponding to the "Spade" suite within the suite chooser
+     */
     public Rectangle getSpadeB() {
         return spadeB;
     }

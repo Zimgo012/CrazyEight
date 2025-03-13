@@ -32,10 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class name: Notification
- * Purpose: This class represent notification banner that pop outs if there is notification
- * @author John Rycca Belcina
- * @since 1.8
+ * The Notification class is responsible for creating and displaying notifications
+ * within a JavaFX application. Notifications are displayed in a visual format
+ * with a background image and a message.
  */
 public class Notification {
 
@@ -45,6 +44,13 @@ public class Notification {
     Text text = new Text();
 
 
+    /**
+     * Constructs a Notification object with the provided SingleGameModel instance.
+     * Initializes the notification StackPane if it has not been initialized.
+     * The notification is set to be invisible upon creation.
+     *
+     * @param model the SingleGameModel instance used for the notification.
+     */
     public Notification(SingleGameModel model) {
         this.model = model;
         if(notification == null){
@@ -55,6 +61,14 @@ public class Notification {
     }
 
 
+    /**
+     * Creates and returns a StackPane representing a notification banner,
+     * styled with a background image and text message. The notification
+     * has predefined dimensions and transparency settings.
+     *
+     * @return a StackPane containing the notification banner,
+     *         with background and text elements added.
+     */
     public StackPane outputNotification(){
 
         Rectangle background = new Rectangle(550, 70);
@@ -76,6 +90,12 @@ public class Notification {
         return notification;
     }
 
+    /**
+     * Displays a notification with the provided message and makes it temporarily visible
+     * for a duration of one second. After the duration ends, the notification is automatically hidden.
+     *
+     * @param message the message to be displayed on the notification.
+     */
     public void promptNotification(String message){
         text.setText(message);
         notification.setVisible(true);

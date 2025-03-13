@@ -1,3 +1,17 @@
+/**
+ * Student Name: JOHN RYCCA BELCINA
+ * Student Number: 041128039
+ * Course: CST 8221 – JAP, Lab Section: 300/303
+ * Professor: Cormier, Daniel | Singh, Ramanjeet
+ * Date: 2025-02-09
+ * Compiler: IntelliJ IDEA
+ * Purpose:
+ * This project involves developing a software version of the Crazy Eights card game using a standard deck of playing cards.
+ * The game will follow the first three variation rules listed on Wikipedia, along with additional custom rules.
+ * Understanding these variations is essential for proper implementation.
+ * This project is a mandatory requirement for passing the Algonquin CST 8221 – JAP course.
+ * Copyright © 2025 John Rycca Belcina. All rights reserved.
+ */
 package view.scene;
 
 import javafx.animation.KeyFrame;
@@ -12,10 +26,22 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * The SplashScreen class is responsible for displaying a splash screen
+ * with a progress bar when the application starts. It provides a user-friendly
+ * loading interface before transitioning to the main application or game.
+ */
 public class SplashScreen {
     private Stage stage;
     private Runnable onFinish; // Callback to start the main game
 
+    /**
+     * Constructs a new SplashScreen object responsible for displaying a splash screen
+     * with a progress bar and transitioning to the main application after completion.
+     *
+     * @param stage the primary stage for displaying the splash screen
+     * @param onFinish a callback to be executed after the splash screen completes
+     */
     public SplashScreen(Stage stage, Runnable onFinish) {
         this.stage = stage;
         this.onFinish = onFinish;
@@ -24,6 +50,19 @@ public class SplashScreen {
 
 
 
+    /**
+     * Displays the splash screen with a progress bar and a styled background.
+     * The splash screen is shown when the application starts and transitions
+     * to the main application upon completion.
+     *
+     * The background consists of a tablecloth image applied to a rectangle,
+     * and a progress bar is layered on top. A timeline animates the progress
+     * bar to provide visual feedback during the loading process. Once the
+     * animation is complete, a callback is triggered to start the main application.
+     *
+     * This method sets the scene, applies the splash screen layout, and starts
+     * the animation to update the progress bar incrementally.
+     */
     private void showSplash(){
 
         ProgressBar progressBar = new ProgressBar(0);

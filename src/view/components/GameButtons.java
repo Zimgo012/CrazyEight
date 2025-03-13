@@ -33,12 +33,18 @@ import javafx.stage.Stage;
 import view.components.popups.SettingPopUp;
 import view.scene.SplashScreen;
 
+/**
+ * The GameButtons class is responsible for creating and managing various buttons
+ * used throughout the game. It provides static methods for creating and retrieving
+ * different types of buttons, as well as methods to handle language and music settings.
+ * This class also contains utility methods for updating the game's language.
+ */
 public class GameButtons {
 
-    //Todo: configure this language setter later
+
     public static boolean isEnglish = true;
 
-    //Todo: configure this Music setter later
+
     public static boolean isMusicOn = true;
 
     private static Button joinButton;
@@ -52,6 +58,14 @@ public class GameButtons {
 
 
 
+    /**
+     * Creates a "Start" button with customized images, text, and behaviors for a game interface.
+     * The button includes hover effects for visual feedback and an action to transition to the game
+     * when clicked.
+     *
+     * @param stage the primary stage of the application, used for transitioning to the game scene
+     * @return a configured Button object representing the "Start" button
+     */
     public static Button StartButton(Stage stage) {
         Image startPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(startPassive);
@@ -93,6 +107,15 @@ public class GameButtons {
         return startButton;
     }
 
+    /**
+     * Creates a "Quit" button with customized images, text, and behaviors for a game interface.
+     * The button includes hover effects for visual feedback and an action to end the game and return
+     * to the main menu when clicked.
+     *
+     * @param stage the primary stage of the application, used for transitioning to the menu scene
+     * @param gameModel an instance of SingleGameModel to manage the current game's lifecycle
+     * @return a configured Button object representing the "Quit" button
+     */
     public static Button QuitButton(Stage stage, SingleGameModel gameModel) {
         Image quitPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(quitPassive);
@@ -138,6 +161,12 @@ public class GameButtons {
         return quitButton;
     }
 
+    /**
+     * Creates a "Join" button with customized images, text, and behaviors for a game interface.
+     * The button includes hover effects, changing its appearance and text color when hovered over.
+     *
+     * @return a configured Button object representing the "Join" button
+     */
     public static Button JoinButton(){
         Image joinPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(joinPassive);
@@ -177,6 +206,12 @@ public class GameButtons {
         return joinButton;
     }
 
+    /**
+     * Creates a "Create" button with customized images, text, and hover effects for a game interface.
+     * The button changes its appearance and text color when the mouse enters or exits its boundaries.
+     *
+     * @return a configured Button object representing the "Create" button
+     */
     public static Button CreateButton() {
         Image createPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(createPassive);
@@ -217,6 +252,13 @@ public class GameButtons {
         return createButton;
     }
 
+    /**
+     * Creates a "Settings" button with customized images, text, and hover effects for a game interface.
+     * The button changes its appearance and text color when the mouse enters or exits its boundaries.
+     * It toggles the visibility of the settings popup when clicked.
+     *
+     * @return a configured Button object representing the "Settings" button
+     */
     public static Button SettingButton() {
         Image settingPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(settingPassive);
@@ -261,6 +303,12 @@ public class GameButtons {
         return settingButton;
     }
 
+    /**
+     * Creates a "Send" button with customized images, text, and hover effects for a game interface.
+     * The button changes its appearance and text color when the mouse enters or exits its boundaries.
+     *
+     * @return a configured Button object representing the "Send" button
+     */
     public static Button SendButton() {
         Image sendPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/sendBase1.png").toExternalForm());
         ImageView imageViewPassive = new ImageView(sendPassive);
@@ -301,6 +349,13 @@ public class GameButtons {
         return sendButton;
     }
 
+    /**
+     * Creates an "Exit" button for a game interface. The button includes hover effects,
+     * changing its appearance and text color when hovered over or clicked.
+     * When clicked, the application exits.
+     *
+     * @return a configured Button object representing the "Exit" button
+     */
     public static Button ExitButton(){
             Image exitGamePassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/base1.png").toExternalForm());
             ImageView imageViewPassive = new ImageView(exitGamePassive);
@@ -347,6 +402,13 @@ public class GameButtons {
             return exitGameButton;
     }
 
+    /**
+     * Creates a language toggle button that allows the user to switch between
+     * two languages. The button visually represents the current language
+     * with different images and updates associated text elements when the language toggles.
+     *
+     * @return a configured Button object that toggles application language
+     */
     public static Button LanguageButton() {
         Image langPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_lang.png").toExternalForm());
         ImageView imageViewEnglish = new ImageView(langPassive);
@@ -372,6 +434,12 @@ public class GameButtons {
         return langButton;
     }
 
+    /**
+     * Creates a "Close" button with customized hover effects for a game interface.
+     * The button changes its appearance when the mouse enters or exits its boundaries.
+     *
+     * @return a configured Button object representing the "Close" button
+     */
     public static Button CloseButton(){
 
 
@@ -406,6 +474,16 @@ public class GameButtons {
         return closeButton;
     }
 
+    /**
+     * Creates a button for toggling the music state in the game interface. The button displays
+     * different images based on whether the music is currently enabled or muted. Clicking the
+     * button toggles the music state and updates the button's appearance accordingly.
+     *
+     * The button is styled with a transparent background and no padding. It uses
+     * preloaded images for on and off states, scaled to 50% of their original dimensions.
+     *
+     * @return a configured Button object for toggling the music state
+     */
     public static Button MusicSetButton(){
 
         Image musicSetPassive = new Image(GameButtons.class.getResource("/com/zimgo/crazyeight/ButtonTemplate/btn_musicSet2.png").toExternalForm());
@@ -442,6 +520,23 @@ public class GameButtons {
     }
 
 
+    /**
+     * Updates the displayed text of various UI elements based on the current language setting.
+     * The language is toggled between English and another language (e.g., Tagalog)
+     * controlled by the `isEnglish` boolean field.
+     *
+     * If a UI text element is not null, its displayed text will be updated
+     * according to the language preference. The affected elements include:
+     * - Join button text
+     * - Start button text
+     * - Quit button text
+     * - Create button text
+     * - Settings button text
+     * - Send button text
+     * - Exit button text
+     *
+     * This method is called when the application language preference changes.
+     */
     public static void updateLanguage() {
         if (joinText != null) joinText.setText(isEnglish ? "Join" : "Sali");
         if (startText != null) startText.setText(isEnglish ? "Start" : "Simula");
